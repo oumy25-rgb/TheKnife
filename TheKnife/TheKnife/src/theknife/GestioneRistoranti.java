@@ -7,6 +7,7 @@ package theknife;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import resources.GestioneFile;
 import resources.GestioneMenu;
 import resources.Piatto;
@@ -153,7 +154,7 @@ public class GestioneRistoranti {
             System.out.println("Ristorante non trovato.");
         }
     }
-    
+   
     private void caricaRistoranti() {
         ArrayList<String> datiRistoranti = gf.leggiDaFile("src/dati/ristoranti.csv");
         for (String linea : datiRistoranti) {
@@ -168,6 +169,8 @@ public class GestioneRistoranti {
             ristoranti.add(r); // Aggiungi il ristorante alla lista
         }
     }
+ 
+    
     
 }
 
