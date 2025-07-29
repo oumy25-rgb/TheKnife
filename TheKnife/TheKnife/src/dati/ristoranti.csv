@@ -1,37 +1,37 @@
-Name,Address,City,Nation,Price,Cuisine,Longitude,Latitude,delivery,reservation,stars
-"Steirereck im Stadtpark","Am Heumarkt 2a, Vienna, 1030, Austria",Vienna, Austria,"20","Creative, Contemporary",16.3815669,48.2043967,true,true,3
-Amador,"Grinzinger Straße 86, Vienna, 1190, Austria",Vienna, Austria,"40","Creative, Contemporary",16.3586534,48.2539745,false,true,3
-"Jungsik New York","2 Harrison St., New York, 10013, USA",New York, USA,80,"Korean, Contemporary",-74.0091114,40.7187256,false,true,2
-"Per Se","10 Columbus Circle, New York, 10019, USA",New York, USA,90,"Contemporary, French",-73.9825882,40.7680545,true,false,2
-"Le Bernardin","155 W. 51st St., New York, 10019, USA",New York, USA,80,Seafood,-73.98223,40.76177,true,false,3
-Masa,"10 Columbus Circle, New York, 10019, USA",New York, USA,120,"Japanese, Sushi",-73.98234,40.76819,true,false,2
-"The Inn at Little Washington","309 Middle St., Washington, 22747, USA",Washington, USA,40,"American, French",-78.1595348,38.7134767,false,false,1
-Smyth,"177 N. Ada St., Chicago, 60607, USA",Chicago, USA,100,"Contemporary, Creative",-87.6606324,41.8850485,false,true,3
-Alinea,"1723 N. Halsted St., Chicago, 60614, USA",Chicago, USA,90,"Creative, Modern Cuisine",-87.648174,41.9132737,true,true,2
-Sorn,"56 Soi Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok, 10110, Thailand",Bangkok, Thailand,"60","Southern Thai",100.5684937,13.7231336,false,false,1
-Azurmendi,"Legina Auzoa, Larrabetzu, 48195, Spain",Larrabetzu, Spain,"30",Creative,-2.81454,43.26065,true,false,2
-Aponiente,"Francisco Cossi Ochoa, El Puerto de Santa María, 11500, Spain",El Puerto de Santa María, Spain,"40","Creative, Innovative",-6.2164435,36.6033273,true,true,3
-Noor,"Pablo Ruiz Picasso 8, Córdoba, 14014, Spain",Córdoba, Spain,"150",Creative,-4.7585272,37.8899393,true,false,1
-"Cenador de Amós","Plaza del Sol, Villaverde de Pontones, 39793, Spain",Villaverde de Pontones, Spain,"30","Modern Cuisine",-3.6988243,43.4124884,true,false,2
-"Quique Dacosta","Rascassa 1, Dénia, 03700, Spain",Dénia, Spain,"60",Creative,0.0852209,38.8537884,true,false,3
-Atrio,"Plaza San Mateo 1, Cáceres, 10003, Spain",Cáceres, Spain,"20",Creative,-6.3713456,39.4730183,true,true,3
-"Casa Marcial","La Salgar, Arriondas, 33549, Spain",Arriondas, Spain,"200","Creative, Asturian",-5.1931556,43.4184082,false,true,3
-"El Celler de Can Roca","Can Sunyer 48, Girona, 17007, Spain",Girona, Spain,"25",Creative,2.807927,41.9932026,false,true,2
-"Reua Thai","Dorpstraat 45b, Nuth, 6361EK, Netherlands",Nuth, Netherlands,"10",Thai,5.8838304,50.9191536,false,false,2
-"Restobar Vista","Holland Amerikakade 104, Rotterdam, 3072 MC, Netherlands",Rotterdam, Netherlands,"15","Modern French",4.4883515,51.9069713,false,true,3
-"Alma Bistro","Ginnekenstraat 88, Breda, 4811 JJ, Netherlands",Breda, Netherlands,"35","Modern French",4.7771145,51.5838108,false,true,3
-"'t Spiehuis","Biltseweg 45, Soest, 3763 LD, Netherlands",Soest, Netherlands,"80","Classic French",5.2461355,52.1720601,false,true,3
-"Akelaŕe","Paseo del Padre Orcolaga 56, Donostia / San Sebastián, 20008, Spain",Donostia / San Sebastián, Spain,"60","Creative, Traditional Cuisine",-2.0731493,43.3027805,false,false,2
-"Martín Berasategui","Loidi 4, Lasarte - Oria, 20160, Spain",Lasarte - Oria, Spain,"85",Creative,-2.0157211,43.2669352,true,false,3
-Lasarte,"Mallorca 259, Barcelona, 08008, Spain",Barcelona, Spain,"100",Creative,2.1622018,41.3936278,false,false,3
-ABaC,"Avenida del Tibidabo 1, Barcelona, 08022, Spain",Barcelona, Spain,"150",Creative,2.1367664,41.4103822,true,false,2
-Disfrutar,"Villarroel 163, Barcelona, 08036, Spain",Barcelona, Spain,"200",Creative,2.1530369,41.3879756,false,true,3
-Arzak,"Avenida Alcalde José Elosegi 273, Donostia / San Sebastián, 20015, Spain",Donostia / San Sebastián, Spain,"100","Creative, Traditional Cuisine",-1.9490932,43.3214016,false,true,3
-"Cocina Hermanos Torres","Taquígraf Serra 20, Barcelona, 08029, Spain",Barcelona, Spain,"45",Creative,2.1400168,41.3865273,true,true,3
-Reale,"contrada Santa Liberata, località Casadonna, Castel di Sangro, 67031, Italy",Castel di Sangro, Italy,"100","Modern Cuisine, Creative",14.094554,41.7800349,true,false,2
-"Da Vittorio","via Cantalupa 17, Brusaporto, 24060, Italy",Brusaporto, Italy,"80","Italian Contemporary",9.7692511,45.6756778,true,true,3
-"Osteria Francescana","via Stella 22, Modena, 41121, Italy",Modena, Italy,"90",Creative,10.9215518,44.6448099,false,true,3
-"Dal Pescatore","località Runate 15, Runate, 46013, Italy",Runate, Italy,"150","Italian Contemporary",10.3565788,45.1712728,true,false,2
-"Piazza Duomo","vicolo dell'Arco 1, angolo piazza Risorgimento 4, Alba, 12051, Italy",Alba, Italy,"100","Creative, Seasonal Cuisine",8.0359341,44.7005555,false,false,3
-"Schloss Schauenstein","Schlossgass 77, Fürstenau, 7414, Switzerland",Fürstenau, Switzerland,"25","Creative, Country cooking",9.4462648,46.7211969,true,false,3
-"Sven Wassmer Memories","Bernhard-Simon-Strasse 2, Bad Ragaz, 7310, Switzerland",Bad Ragaz, Switzerland,"150","Creative, Farm to table",9.5037741,47.0002941,false,true,3
+Name,Address,City,Nation,Price,Cuisine,Longitude,Latitude,delivery,reservation
+"Steirereck im Stadtpark","Am Heumarkt 2a, Vienna, 1030, Austria",Vienna, Austria,"20","Creative, Contemporary",16.3815669,48.2043967,true,true
+Amador,"Grinzinger Straße 86, Vienna, 1190, Austria",Vienna, Austria,"40","Creative, Contemporary",16.3586534,48.2539745,false,true
+"Jungsik New York","2 Harrison St., New York, 10013, USA",New York, USA,80,"Korean, Contemporary",-74.0091114,40.7187256,false,true
+"Per Se","10 Columbus Circle, New York, 10019, USA",New York, USA,90,"Contemporary, French",-73.9825882,40.7680545,true,false
+"Le Bernardin","155 W. 51st St., New York, 10019, USA",New York, USA,80,Seafood,-73.98223,40.76177,true,false
+Masa,"10 Columbus Circle, New York, 10019, USA",New York, USA,120,"Japanese, Sushi",-73.98234,40.76819,true,false
+"The Inn at Little Washington","309 Middle St., Washington, 22747, USA",Washington, USA,40,"American, French",-78.1595348,38.7134767,false,false
+Smyth,"177 N. Ada St., Chicago, 60607, USA",Chicago, USA,100,"Contemporary, Creative",-87.6606324,41.8850485,false,true
+Alinea,"1723 N. Halsted St., Chicago, 60614, USA",Chicago, USA,90,"Creative, Modern Cuisine",-87.648174,41.9132737,true,true
+Sorn,"56 Soi Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok, 10110, Thailand",Bangkok, Thailand,"60","Southern Thai",100.5684937,13.7231336,false,false
+Azurmendi,"Legina Auzoa, Larrabetzu, 48195, Spain",Larrabetzu, Spain,"30",Creative,-2.81454,43.26065,true,false
+Aponiente,"Francisco Cossi Ochoa, El Puerto de Santa María, 11500, Spain",El Puerto de Santa María, Spain,"40","Creative, Innovative",-6.2164435,36.6033273,true,true
+Noor,"Pablo Ruiz Picasso 8, Córdoba, 14014, Spain",Córdoba, Spain,"150",Creative,-4.7585272,37.8899393,true,false
+"Cenador de Amós","Plaza del Sol, Villaverde de Pontones, 39793, Spain",Villaverde de Pontones, Spain,"30","Modern Cuisine",-3.6988243,43.4124884,true,false
+"Quique Dacosta","Rascassa 1, Dénia, 03700, Spain",Dénia, Spain,"60",Creative,0.0852209,38.8537884,true,false
+Atrio,"Plaza San Mateo 1, Cáceres, 10003, Spain",Cáceres, Spain,"20",Creative,-6.3713456,39.4730183,true,true
+"Casa Marcial","La Salgar, Arriondas, 33549, Spain",Arriondas, Spain,"200","Creative, Asturian",-5.1931556,43.4184082,false,true
+"El Celler de Can Roca","Can Sunyer 48, Girona, 17007, Spain",Girona, Spain,"25",Creative,2.807927,41.9932026,false,true
+"Reua Thai","Dorpstraat 45b, Nuth, 6361EK, Netherlands",Nuth, Netherlands,"10",Thai,5.8838304,50.9191536,false,false
+"Restobar Vista","Holland Amerikakade 104, Rotterdam, 3072 MC, Netherlands",Rotterdam, Netherlands,"15","Modern French",4.4883515,51.9069713,false,true
+"Alma Bistro","Ginnekenstraat 88, Breda, 4811 JJ, Netherlands",Breda, Netherlands,"35","Modern French",4.7771145,51.5838108,false,true
+"'t Spiehuis","Biltseweg 45, Soest, 3763 LD, Netherlands",Soest, Netherlands,"80","Classic French",5.2461355,52.1720601,false,true
+"Akelaŕe","Paseo del Padre Orcolaga 56, Donostia / San Sebastián, 20008, Spain",Donostia / San Sebastián, Spain,"60","Creative, Traditional Cuisine",-2.0731493,43.3027805,false,false
+"Martín Berasategui","Loidi 4, Lasarte - Oria, 20160, Spain",Lasarte - Oria, Spain,"85",Creative,-2.0157211,43.2669352,true,false
+Lasarte,"Mallorca 259, Barcelona, 08008, Spain",Barcelona, Spain,"100",Creative,2.1622018,41.3936278,false,false
+ABaC,"Avenida del Tibidabo 1, Barcelona, 08022, Spain",Barcelona, Spain,"150",Creative,2.1367664,41.4103822,true,false
+Disfrutar,"Villarroel 163, Barcelona, 08036, Spain",Barcelona, Spain,"200",Creative,2.1530369,41.3879756,false,true
+Arzak,"Avenida Alcalde José Elosegi 273, Donostia / San Sebastián, 20015, Spain",Donostia / San Sebastián, Spain,"100","Creative, Traditional Cuisine",-1.9490932,43.3214016,false,true
+"Cocina Hermanos Torres","Taquígraf Serra 20, Barcelona, 08029, Spain",Barcelona, Spain,"45",Creative,2.1400168,41.3865273,true,true
+Reale,"contrada Santa Liberata, località Casadonna, Castel di Sangro, 67031, Italy",Castel di Sangro, Italy,"100","Modern Cuisine, Creative",14.094554,41.7800349,true,false
+"Da Vittorio","via Cantalupa 17, Brusaporto, 24060, Italy",Brusaporto, Italy,"80","Italian Contemporary",9.7692511,45.6756778,true,true
+"Osteria Francescana","via Stella 22, Modena, 41121, Italy",Modena, Italy,"90",Creative,10.9215518,44.6448099,false,true
+"Dal Pescatore","località Runate 15, Runate, 46013, Italy",Runate, Italy,"150","Italian Contemporary",10.3565788,45.1712728,true,false
+"Piazza Duomo","vicolo dell'Arco 1, angolo piazza Risorgimento 4, Alba, 12051, Italy",Alba, Italy,"100","Creative, Seasonal Cuisine",8.0359341,44.7005555,false,false
+"Schloss Schauenstein","Schlossgass 77, Fürstenau, 7414, Switzerland",Fürstenau, Switzerland,"25","Creative, Country cooking",9.4462648,46.7211969,true,false
+"Sven Wassmer Memories","Bernhard-Simon-Strasse 2, Bad Ragaz, 7310, Switzerland",Bad Ragaz, Switzerland,"150","Creative, Farm to table",9.5037741,47.0002941,false,true

@@ -5,6 +5,7 @@
 package theknife;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import resources.GestioneFile;
 
@@ -23,6 +24,7 @@ public class TheKnife {
 
     public static void main(String[] args) {
         // TODO code application logic here
+    	boolean controllo = false; //variabile usata per fare controlli sugli input
         Scanner scanner = new Scanner(System.in);
         GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
@@ -44,7 +46,6 @@ public class TheKnife {
 
                 switch (scelta) {
                     case 1:
-                    	boolean controllo = false;
                         // Registrazione utente
                         System.out.println("Inserisci il tuo nome:");
                         String nome = scanner.nextLine();
@@ -93,31 +94,49 @@ public class TheKnife {
                             System.out.println("Inserisci il prezzo medio del ristorante (es. €25.25):");
                             String prezzoRistorante = scanner.nextLine().replace("€", "").trim(); // Rimuovi simboli e spazi
                             
-                            System.out.println("Inserisci opzione di servizio delivery (true/false) : ");
-                            boolean delivery = scanner.nextBoolean();
-                            
-                            System.out.println("Inserisci opzione di prenotazione online (true/false) : ");
-                            boolean prenotazione = scanner.nextBoolean();
-                            
-                           
-                            int stars;
+                            boolean delivery = false;
                             
                             do {
                             	controllo=false;
-	                            System.out.println("Inserisci numero di stelle Michelin (da 1 a 3) : ");
-	                            stars  = scanner.nextInt();
+                            	System.out.println("Inserisci opzione di servizio delivery (true/false) : ");
 	                            
-	                            if(stars<=3 && stars>=1)
-	                            	controllo=true;
-	                            else
-	                            	System.out.println("Hai inserito un valore non valido, riprova.");
+	                            try {
+	                            	
+	                            	delivery = scanner.nextBoolean();
+	                            	controllo = true;
 	                            
-                            }while(!controllo );
+	                            }catch(InputMismatchException e) { //se l'input non è true o false viene lanciata
+	                        		
+	                        		System.out.println("Hai inserito un valore non valido, riprova.");
+	                        		scanner.nextLine(); // pulisce il buffer
+	                        	}
                             
-                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio, prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, delivery, prenotazione, stars, new ArrayList<Recensione>());
+                            }while(!controllo);
+                            	
+                            boolean prenotazione = false;
+                            
+                            do {
+                            	controllo=false;
+                            	
+                            	System.out.println("Inserisci opzione di prenotazione online (true/false) : ");
+                            	
+                            	try {
+                            		
+                            		prenotazione = scanner.nextBoolean();
+                            		controllo = true;
+                            		
+                            	}catch(InputMismatchException e) {
+                            		
+                            		System.out.println("Hai inserito un valore non valido, riprova.");
+                            		scanner.nextLine(); // pulisce il buffer
+                            	}
+                            	
+                            }while(!controllo);
+                            
+                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio, prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, delivery, prenotazione,new ArrayList<Recensione>());
 
                             gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
-                            Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,2,new ArrayList<>());
+                            Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,new ArrayList<>());
 
                             // Salvataggio dell'associazione
                             gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), ristoranteAssociato);
@@ -166,61 +185,284 @@ public class TheKnife {
 
 
                     case 3:
-                        // Funzione di ricerca ristoranti
-                        System.out.println("Inserisci il tipo di cucina (lascia vuoto per ignorare):");
-                        String tipoCucina = scanner.nextLine();
-                        System.out.println("Inserisci la città (lascia vuoto per ignorare):");
-                        String locazione = scanner.nextLine();
-                        double fasciaPrezzoMax = Double.MAX_VALUE;
-                        double fasciaPrezzoMin = 0.0;
-                        boolean delivery = false;
-                        boolean prenotazioneOnline = false;
-                        int stelleMin = 0;
-                        System.out.println("Inserisci fascia di prezzo minima:");
-                        try {
-                            fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
-                        } catch (NumberFormatException e) {
-                            fasciaPrezzoMin = 0.0;
-                        }
-                        System.out.println("Inserisci fascia di prezzo massima:");
-                        try{
-                        fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
-                        } catch (NumberFormatException e) {
-                            fasciaPrezzoMax = Double.MAX_VALUE;
-                        }
-                        System.out.println("Richiedi servizio di delivery? (true/false):");
-                        try{
-                        delivery = Boolean.parseBoolean(scanner.nextLine());
-                        } catch (Exception e) {
-                            delivery=true;
-                        }
-                        System.out.println("Richiedi prenotazione online? (true/false):");
-                        try{
-                        prenotazioneOnline = Boolean.parseBoolean(scanner.nextLine());
-                        } catch (Exception e) {
-                            prenotazioneOnline=true;
-                        }
-                        System.out.println("Inserisci il numero minimo di stelle:");
-                        try{
-                        stelleMin = Integer.parseInt(scanner.nextLine());
-                        } catch (Exception e) {
-                            stelleMin=1;
-                        }
-                        ArrayList<Ristorante> risultati = gestioneRistoranti.cercaRistoranti(tipoCucina, locazione, fasciaPrezzoMin, fasciaPrezzoMax, delivery, prenotazioneOnline, stelleMin);
-                        System.out.println("FINE RICERCA...");
-                        if (risultati.isEmpty()) {
-                            System.out.println("Nessun ristorante trovato con i criteri indicati.");
-                        } else {
-                            System.out.println("Ristoranti trovati:");
-                            for (Ristorante r : risultati) {
-                                System.out.println("- " + r.getName() + ", Cucina: " + r.getCuisine() + ", Prezzo: " + r.getPrice() + ", Stelle: " + String.format("%.2f", r.getMediaStelle()));
-                            }
-                        }
-                        break;
+         
+                    	int sceltaCriterio = 0;
+                    	String tipo,citta;
+                    	ArrayList<Ristorante> listaRistorantiTrovati = null;
+                    	
+                    	System.out.println("Seleziona i criteri di ricerca dei ristoranti: ");
+                    	System.out.println("1) Per tipo di cucina e città");
+                    	System.out.println("2) città");
+                    	System.out.println("3) Per fascia di prezzo e città");
+                    	System.out.println("4) Disponibilità Delivery e città");
+                    	System.out.println("5) Disponibilità Prenotazione Online e città");
+                    	System.out.println("6) Disponibilità media stelle recensioni e città");
+                    	System.out.println("7) Per tutti i criteri");
+                    	
+                    	switch(sceltaCriterio) {
+                    	
+                    	case 1:
+                    		
+                    		System.out.println("Inserisci il tipo di cucina: ");
+                    		tipo = scanner.nextLine();
+                    		
+                    		System.out.println("Inserisci la città: ");
+                    		citta = scanner.nextLine();
+                    		
+                    		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(tipo,citta);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		
+                    		break;
+                    		
+                    	case 2:
+                    		
+                    		System.out.println("Inserisci la città: ");
+                    		citta = scanner.nextLine();
+                    		
+                    		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		
+                    		break;
+                    		
+                    	 case 3:
+                    		 
+                    		 double fasciaPrezzoMin = 0,fasciaPrezzoMax = 0;
+                    		 
+                    		 System.out.println("Inserisci la città: ");
+                     		 citta = scanner.nextLine();
+                     		 
+                     		do {
+                            	controllo=false;
+                                System.out.println("Inserisci fascia di prezzo minima:");
 
+                                try {
+                                    fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                                    controllo = true;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+
+                            } while (!controllo);
+                            
+                            do {
+                                controllo = false;
+                                System.out.println("Inserisci fascia di prezzo massima:");
+                                try {
+                                    fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                                    controllo = true;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                                
+                            } while (!controllo);
+                     		
+                            listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		 
+                    		 break;
+                    		 
+                    	 case 4:
+                    		 
+                    		 boolean delivery = false;
+                    		 System.out.println("Inserisci la città: ");
+                     		 citta = scanner.nextLine();
+
+                     		do {
+                            	controllo=false;
+                                System.out.println("Richiedi servizio di delivery? (true/false):");
+                                try {
+                                    delivery = scanner.nextBoolean();
+                                    controllo = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                    scanner.nextLine(); // pulisce il buffer
+                                }
+                            } while (!controllo);
+                     		
+                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,delivery);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		 
+                    		 break;
+                    		 
+                    	 case 5:
+                  
+                    		 boolean prenotazione = false;
+                    		 System.out.println("Inserisci la città: ");
+                     		 citta = scanner.nextLine();
+                     		 
+                     		do {
+                            	controllo=false;
+                                System.out.println("Richiedi prenotazione online? (true/false):");
+                                try {
+                                    prenotazione = scanner.nextBoolean();
+                                    controllo = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                    scanner.nextLine(); // pulisce il buffer
+                                }
+                            } while (!controllo);
+                     		
+                     		
+                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(prenotazione,citta);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		 
+                    		 break;
+                    		 
+                    	 case 6: 
+                    		 
+                    		 double mediaStelle = 0;
+                    		 System.out.println("Inserisci la città: ");
+                     		 citta = scanner.nextLine();
+                     		 
+                     		do {
+                            	controllo = false;
+                                System.out.println("Inserisci media delle stelle:");
+                                try {
+                                    mediaStelle = Double.parseDouble(scanner.nextLine());
+                                    if (mediaStelle >= 1 && mediaStelle <= 5) {
+                                        controllo = true;
+                                    } else {
+                                        System.out.println("Numero fuori dal range 1-5, riprova.");
+                                    }
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                            } while (!controllo);
+                     		
+                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,mediaStelle);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		 
+                    		 break;
+                    		 
+                    	 case 7: 
+                    		 
+                    		 delivery = false;
+                    		 prenotazione = false;
+                    		 mediaStelle = 0; 
+                    		 fasciaPrezzoMin=0;
+                    		 fasciaPrezzoMax=0;
+                    		 
+                    		 
+                     		System.out.println("Inserisci la città: ");
+                     		citta = scanner.nextLine();
+                     		
+                     		System.out.println("Inserisci il tipo di cucina: ");
+                      		tipo = scanner.nextLine();
+                      		
+                      		do {
+                            	controllo=false;
+                                System.out.println("Inserisci fascia di prezzo minima:");
+
+                                try {
+                                    fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                                    controllo = true;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+
+                            } while (!controllo);
+                            
+                            do {
+                                controllo = false;
+                                System.out.println("Inserisci fascia di prezzo massima:");
+                                try {
+                                    fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                                    controllo = true;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                                
+                            } while (!controllo);
+                            
+                            do {
+                            	controllo=false;
+                                System.out.println("Richiedi servizio di delivery? (true/false):");
+                                try {
+                                    delivery = scanner.nextBoolean();
+                                    controllo = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                    scanner.nextLine(); // pulisce il buffer
+                                }
+                            } while (!controllo);
+                     		
+                    		 
+                    		do {
+                            	controllo=false;
+                                System.out.println("Richiedi prenotazione online? (true/false):");
+                                try {
+                                    prenotazione = scanner.nextBoolean();
+                                    controllo = true;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                    scanner.nextLine(); // pulisce il buffer
+                                }
+                            } while (!controllo);
+                    		
+                    		do {
+                            	controllo = false;
+                                System.out.println("Inserisci media delle stelle:");
+                                try {
+                                    mediaStelle = Double.parseDouble(scanner.nextLine());
+                                    if (mediaStelle >= 1 && mediaStelle <= 5) {
+                                        controllo = true;
+                                    } else {
+                                        System.out.println("Numero fuori dal range 1-5, riprova.");
+                                    }
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                            } while (!controllo);
+                    		
+                    		
+                    		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,delivery,prenotazione,mediaStelle);
+                    		if(listaRistorantiTrovati!=null) {
+                    			for(Ristorante r : listaRistorantiTrovati) {
+                    				r.visualizzaRistorante();
+                    			}
+                    		}else
+                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+
+                    		 break;
+                    		 
+                    	}
+                    	
+                    	
+           
                     case 4:
                         // Accesso come guest
-                        System.out.println("Inserisci il nome di un luogo (lascia vuoto per ignorare):");
+                    	
+                        System.out.println("Inserisci il nome di una città (lascia vuoto per ignorare):");
                         String luogo = scanner.nextLine();
                         if (!luogo.isEmpty()) {
                             System.out.println("Hai scelto di cercare ristoranti a: " + luogo);

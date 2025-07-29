@@ -135,8 +135,8 @@ public class GestioneFile {
             writeF.write(r.getLongitude() + ",");
             writeF.write(r.getLatitude() + ",");
             writeF.write(r.getDelivery() + ",");
-            writeF.write(r.getReservation() + ",");
-            writeF.write(r.getStars()); //nell'ultimo non metto la virgola perchè è il campo finale
+            writeF.write(r.getReservation()+"");
+            //nell'ultimo non metto la virgola perchè è il campo finale
         } catch (IOException ex) {
             System.err.println("Errore in fase di scrittura: " + ex);
         }

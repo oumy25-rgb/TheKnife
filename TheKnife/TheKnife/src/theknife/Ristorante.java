@@ -4,7 +4,13 @@
  */
 package theknife;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
 import resources.GestioneFile;
 import resources.GestioneMenu;
 import resources.Piatto;
@@ -14,7 +20,7 @@ import resources.Piatto;
  * @author HEW4K7Z2EA
  */
 public class Ristorante {
-    //Name,Address,Location,Price,Cuisine,Longitude,Latitude,PhoneNumber,Url,WebsiteUrl,Award,GreenStar,FacilitiesAndServices,Description
+    //Name,Address,city,nation,price,Cuisine,Longitude,Latitude,delivery,reservation,stars
 //modificare gli attributi e i metodi
     
     private String name;
@@ -27,7 +33,7 @@ public class Ristorante {
     private double latitude;
     private boolean delivery; //possibilità di delivery
     private boolean reservation; //possibilità di prenotazione online
-    private int stars; //numero di stelle michelin (da 1 a 3)
+   
     
     private ArrayList<Recensione> recensioni; // Lista delle recensioni
     // Nuovi attributi per gestire menu e promozioni
@@ -35,7 +41,7 @@ public class Ristorante {
     private ArrayList<Piatto> menu; // Lista di piatti
     //Costruttore
 
-    public Ristorante(String name, String address, String city, String price,String nation, String cuisine, double longitude, double latitude, boolean delivery,boolean reservation,int stars, ArrayList<Recensione> recensioni) {
+    public Ristorante(String name, String address, String city, String price,String nation, String cuisine, double longitude, double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -45,7 +51,6 @@ public class Ristorante {
         this.latitude = latitude;
         this.delivery = delivery;
         this.reservation = reservation;
-        this.stars = stars;
         this.nation = nation;
         this.recensioni = recensioni;
         this.promozioni = new ArrayList<>(); // Inizializza l'ArrayList per le promozioni   
@@ -73,10 +78,6 @@ public class Ristorante {
     	return reservation;
     }
     
-    public int getStars() {
-    	return stars;
-    }
-    
     public void setDelivery(boolean delivery) {
     	this.delivery = delivery;
     }
@@ -85,9 +86,6 @@ public class Ristorante {
     	this.reservation = reservation;
     }
     
-    public void setStars(int stars) {
-    	this.stars = stars;
-    }
     
     public String getName() {
         return name;
@@ -210,7 +208,6 @@ public class Ristorante {
 	    System.out.println("Coordinate: Latitudine " + latitude + ", Longitudine " + longitude);
 	    System.out.println("Servizio Delivery: " + delivery);
 	    System.out.println("Prenotazione Online: " + reservation);
-	    System.out.println("Stelle Michelin: " + stars);
     
     }
 
@@ -293,5 +290,33 @@ public void rimuoviPiatto(String nomePiatto) {
         System.out.println("Piatto non trovato nel menu.");
     }
 }
+
+	public double calcoloMediaStelle(String nome,String citta,String indirizzo) {
+	
+		double media,stelle=0;
+		int cont=0;
+		
+    	
+        try (CSVReader reader = new CSVReader(new FileReader("src/dati/recensioni.csv"))) {
+            String[] riga;
+
+            while ((riga = reader.readNext()) != null) {
+                if (nome.equalsIgnoreCase(riga[0]) && indirizzo.equalsIgnoreCase(riga[2]) && citta.equalsIgnoreCase(riga[3]) ) {
+                	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
+                	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
+                    stelle += Double.parseDouble(riga[6]);
+                    cont++;
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            e.printStackTrace();
+        }
+        
+        return media = stelle/cont;
+	
+	}
      
 } 
