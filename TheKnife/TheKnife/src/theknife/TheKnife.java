@@ -32,6 +32,7 @@ public class TheKnife {
         Utente nuovoUtente = null;
         int scelta = 0;
 		// Menu iniziale
+        System.out.println("Premere 'invio' per avviare l'applicazione" );
         do {
         	scanner.nextLine();
             try {
