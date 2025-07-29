@@ -35,11 +35,11 @@ public class TheKnife {
 		// Menu iniziale
 
         do {
-            try {
+            try { //l'utente che non effettua il login può:
             	System.out.println("");
-                System.out.println("1. Registrati");
-                System.out.println("2. Login");
-                System.out.println("3. Cerca Ristoranti");
+                System.out.println("1. Registrati"); //registrarsi
+                System.out.println("2. Login"); //fare l'accesso
+                System.out.println("3. Cerca Ristoranti"); //cercare i ristoranti, da qui visualizzarne anche le recensioni e le informazioni
                 System.out.println("4. Esci");
 
                 System.out.print("Scelta: "); // <-- QUI l'input sarà su una nuova riga
