@@ -390,6 +390,7 @@ public class TheKnife {
                                 System.out.println("Richiedi servizio di delivery? (true/false):");
                                 try {
                                     delivery = scanner.nextBoolean();
+                                    scanner.nextLine();
                                     controllo = true;
                                 } catch (InputMismatchException e) {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
@@ -404,6 +405,7 @@ public class TheKnife {
                                 try {
                                     prenotazione = scanner.nextBoolean();
                                     controllo = true;
+                                    scanner.nextLine();
                                 } catch (InputMismatchException e) {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                     scanner.nextLine(); // pulisce il buffer
