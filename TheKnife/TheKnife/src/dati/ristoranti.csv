@@ -1,64 +1,48 @@
-Name,Address,Location,Price,Cuisine,Longitude,Latitude
-"Steirereck im Stadtpark","Am Heumarkt 2a, Vienna, 1030, Austria","Vienna, Austria","20","Creative, Contemporary",16.3815669,48.2043967
-Amador,"Grinzinger Straße 86, Vienna, 1190, Austria","Vienna, Austria","40","Creative, Contemporary",16.3586534,48.2539745
-"Jungsik New York","2 Harrison St., New York, 10013, USA","New York, USA",80,"Korean, Contemporary",-74.0091114,40.7187256
-"Per Se","10 Columbus Circle, New York, 10019, USA","New York, USA",90,"Contemporary, French",-73.9825882,40.7680545
-"Le Bernardin","155 W. 51st St., New York, 10019, USA","New York, USA",80,Seafood,-73.98223,40.76177
-Masa,"10 Columbus Circle, New York, 10019, USA","New York, USA",120,"Japanese, Sushi",-73.98234,40.76819
-"The Inn at Little Washington","309 Middle St., Washington, 22747, USA","Washington, USA",40,"American, French",-78.1595348,38.7134767
-Smyth,"177 N. Ada St., Chicago, 60607, USA","Chicago, USA",100,"Contemporary, Creative",-87.6606324,41.8850485
-Alinea,"1723 N. Halsted St., Chicago, 60614, USA","Chicago, USA",90,"Creative, Modern Cuisine",-87.648174,41.9132737
-Sorn,"56 Soi Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok, 10110, Thailand","Bangkok, Thailand","60","Southern Thai",100.5684937,13.7231336
-Azurmendi,"Legina Auzoa, Larrabetzu, 48195, Spain","Larrabetzu, Spain","30",Creative,-2.81454,43.26065
-Aponiente,"Francisco Cossi Ochoa, El Puerto de Santa María, 11500, Spain","El Puerto de Santa María, Spain","40","Creative, Innovative",-6.2164435,36.6033273
-Noor,"Pablo Ruiz Picasso 8, Córdoba, 14014, Spain","Córdoba, Spain","150",Creative,-4.7585272,37.8899393
-"Cenador de Amós","Plaza del Sol, Villaverde de Pontones, 39793, Spain","Villaverde de Pontones, Spain","30","Modern Cuisine",-3.6988243,43.4124884
-"Quique Dacosta","Rascassa 1, Dénia, 03700, Spain","Dénia, Spain","60",Creative,0.0852209,38.8537884
-Atrio,"Plaza San Mateo 1, Cáceres, 10003, Spain","Cáceres, Spain","20",Creative,-6.3713456,39.4730183
-"Casa Marcial","La Salgar, Arriondas, 33549, Spain","Arriondas, Spain","200","Creative, Asturian",-5.1931556,43.4184082
-"El Celler de Can Roca","Can Sunyer 48, Girona, 17007, Spain","Girona, Spain","25",Creative,2.807927,41.9932026
-"Reua Thai","Dorpstraat 45b, Nuth, 6361EK, Netherlands","Nuth, Netherlands","10",Thai,5.8838304,50.9191536
-"Restobar Vista","Holland Amerikakade 104, Rotterdam, 3072 MC, Netherlands","Rotterdam, Netherlands","15","Modern French",4.4883515,51.9069713
-"Alma Bistro","Ginnekenstraat 88, Breda, 4811 JJ, Netherlands","Breda, Netherlands","35","Modern French",4.7771145,51.5838108
-"'t Spiehuis","Biltseweg 45, Soest, 3763 LD, Netherlands","Soest, Netherlands","80","Classic French",5.2461355,52.1720601
-"Akelaŕe","Paseo del Padre Orcolaga 56, Donostia / San Sebastián, 20008, Spain","Donostia / San Sebastián, Spain","60","Creative, Traditional Cuisine",-2.0731493,43.3027805
-"Martín Berasategui","Loidi 4, Lasarte - Oria, 20160, Spain","Lasarte - Oria, Spain","85",Creative,-2.0157211,43.2669352
-Lasarte,"Mallorca 259, Barcelona, 08008, Spain","Barcelona, Spain","100",Creative,2.1622018,41.3936278
-ABaC,"Avenida del Tibidabo 1, Barcelona, 08022, Spain","Barcelona, Spain","150",Creative,2.1367664,41.4103822
-Disfrutar,"Villarroel 163, Barcelona, 08036, Spain","Barcelona, Spain","200",Creative,2.1530369,41.3879756
-Arzak,"Avenida Alcalde José Elosegi 273, Donostia / San Sebastián, 20015, Spain","Donostia / San Sebastián, Spain","100","Creative, Traditional Cuisine",-1.9490932,43.3214016
-"Cocina Hermanos Torres","Taquígraf Serra 20, Barcelona, 08029, Spain","Barcelona, Spain","45",Creative,2.1400168,41.3865273
-"Ultraviolet by Paul Pairet","'somewhere in Shanghai' - meet at Mr & Mrs Bund restaurant - 6F, Bund 18, 18 Zhongshan Dong Yi Road, Huangpu, Shanghai, China Mainland","Shanghai, China Mainland","60",Innovative,121.48509,31.240358
-"Taian Table","101-102, Building No. 1, Garden Office, No.161, Lane 465, Zhenning Road, Changning, Shanghai, China Mainland","Shanghai, China Mainland","85",Innovative,121.474049,31.221807
-"Casa Perbellini 12 Apostoli","vicolo Corticella San Marco 3, Verona, 37121, Italy","Verona, Italy","50","Creative, Contemporary",10.9961161,45.4426941
-"Le Calandre","via Liguria 1, località Sarmeola, Rubano, 35030, Italy","Rubano, Italy","50","Creative, Contemporary",11.8096633,45.4215425
-"Enrico Bartolini al Mudec","via Tortona 56, Milan, 20144, Italy","Milan, Italy","€80",Creative,9.161865,45.4516
-Uliassi,"banchina di Levante 6, Senigallia, 60019, Italy","Senigallia, Italy","100","Creative, Seafood",13.2206503,43.7194609
-"Enoteca Pinchiorri","via Ghibellina 87, Florence, 50122, Italy","Florence, Italy","120","Italian Contemporary",11.2621974,43.770066
-"Atelier Moessmer Norbert Niederkofler","via Walther Von der Vogelweide 17, Brunico, 39031, Italy","Brunico, Italy","130","Creative, Alpine",11.949283,46.7927709
-"Villa Crespi","via Fava 18, Orta San Giulio, 28016, Italy","Orta San Giulio, Italy","150","Creative, Mediterranean Cuisine",8.4159486,45.7964778
-"Quattro Passi","via Vespucci 13/n, Marina del Cantone, 80061, Italy","Marina del Cantone, Italy","200","Mediterranean Cuisine, Contemporary",14.3537561,40.5857091
-"La Pergola","via Cadlolo 101, Rome, 00136, Italy","Rome, Italy","50","Mediterranean Cuisine, Contemporary",12.4461151,41.9187946
-Reale,"contrada Santa Liberata, località Casadonna, Castel di Sangro, 67031, Italy","Castel di Sangro, Italy","100","Modern Cuisine, Creative",14.094554,41.7800349
-"Da Vittorio","via Cantalupa 17, Brusaporto, 24060, Italy","Brusaporto, Italy","80","Italian Contemporary",9.7692511,45.6756778
-"Osteria Francescana","via Stella 22, Modena, 41121, Italy","Modena, Italy","90",Creative,10.9215518,44.6448099
-"Dal Pescatore","località Runate 15, Runate, 46013, Italy","Runate, Italy","150","Italian Contemporary",10.3565788,45.1712728
-"Piazza Duomo","vicolo dell'Arco 1, angolo piazza Risorgimento 4, Alba, 12051, Italy","Alba, Italy","100","Creative, Seasonal Cuisine",8.0359341,44.7005555
-"Schloss Schauenstein","Schlossgass 77, Fürstenau, 7414, Switzerland","Fürstenau, Switzerland","25","Creative, Country cooking",9.4462648,46.7211969
-"Sven Wassmer Memories","Bernhard-Simon-Strasse 2, Bad Ragaz, 7310, Switzerland","Bad Ragaz, Switzerland","150","Creative, Farm to table",9.5037741,47.0002941
-"Cheval Blanc by Peter Knogl","Blumenrain 8, Basel, 4001, Switzerland","Basel, Switzerland","130","Classic French",7.5875706,47.5604261
-Kanda,"1F, Toranomon Hills Residential Tower, 1-1-1 Atago, Minato-ku, Tokyo, 105-0002, Japan","Tokyo, Japan","100",Japanese,139.748,35.6658
-"Azabu Kadowaki","2-7-2 Azabujuban, Minato-ku, Tokyo, 106-0045, Japan","Tokyo, Japan","150",Japanese,139.733551,35.655993
-Kohaku,"3-5-5 Kagurazaka, Shinjuku-ku, Tokyo, 162-0825, Japan","Tokyo, Japan","20",Japanese,139.740832,35.700825
-"SÉZANNE","7F, Four Seasons Hotel Tokyo at Marunouchi, 1-11-1 Marunouchi, Chiyoda-ku, Tokyo, 100-6277, Japan","Tokyo, Japan","30","French, Contemporary",139.767155,35.678083
-Harutaka,"6F, 8-3-1 Ginza, Chuo-ku, Tokyo, 104-0061, Japan","Tokyo, Japan","40",Sushi,139.759203,35.669269
-"L'OSIER","7-5-5 Ginza, Chuo-ku, Tokyo, 104-0061, Japan","Tokyo, Japan","50","French, French Contemporary",139.761203,35.669667
-"Kagurazaka Ishikawa","5-37 Kagurazaka, Shinjuku-ku, Tokyo, 162-0825, Japan","Tokyo, Japan","60",Japanese,139.739466,35.701212
-RyuGin,"7F, Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku, Tokyo, 100-0006, Japan","Tokyo, Japan","70",Japanese,139.759193,35.673583
-"L'Effervescence","2-26-4 Nishiazabu, Minato-ku, Tokyo, 106-0031, Japan","Tokyo, Japan","80","French, Contemporary",139.719454,35.660299
-"Joël Robuchon","Yebisu Garden Place, 1-13-1 Mita, Meguro-ku, Tokyo, 153-0062, Japan","Tokyo, Japan","90","French, Contemporary",139.714528,35.641903
-Quintessence,"1F, Garden City Shinagawa Gotenyama, 6-7-29 Kitashinagawa, Shinagawa-ku, Tokyo, 141-0001, Japan","Tokyo, Japan","100","French, Contemporary",139.732977,35.624038
-Sazenka,"4-7-5 Minamiazabu, Minato-ku, Tokyo, 106-0047, Japan","Tokyo, Japan","110",Chinese,139.728395,35.649578
-"Xin Rong Ji (Xinyuan South Road)","1F, East Tower, Genesis Beijing, 8 Xinyuan South Road, Chaoyang, Beijing, China Mainland","Beijing, China Mainland","120",Taizhou,116.450148,39.94638
-"Chao Shang Chao (Chaoyang)","L406B, 4F, CP Center, 20 Jinhe East Road, Chaoyang, Beijing, China Mainland","Beijing, China Mainland","150","Chao Zhou",116.461892,39.910992
-"De Librije","Spinhuisplein 1, Zwolle, 8011 ZZ, Netherlands","Zwolle, Netherlands","50","Modern Cuisine",6.0980183,52.5153644
+Name,Address,City,Nation,Price,Cuisine,Longitude,Latitude,delivery,reservation
+"Steirereck im Stadtpark","Am Heumarkt 2a, Vienna, 1030, Austria",Vienna, Austria,"20","Creative, Contemporary",16.3815669,48.2043967,1,1
+Amador,"Grinzinger Straße 86, Vienna, 1190, Austria",Vienna, Austria,"40","Creative, Contemporary",16.3586534,48.2539745,0,1
+"Jungsik New York","2 Harrison St., New York, 10013, USA",New York, USA,80,"Korean, Contemporary",-74.0091114,40.7187256,0,1
+"Per Se","10 Columbus Circle, New York, 10019, USA",New York, USA,90,"Contemporary, French",-73.9825882,40.7680545,1,0
+"Le Bernardin","155 W. 51st St., New York, 10019, USA",New York, USA,80,Seafood,-73.98223,40.76177,1,0
+Masa,"10 Columbus Circle, New York, 10019, USA",New York, USA,120,"Japanese, Sushi",-73.98234,40.76819,1,0
+"The Inn at Little Washington","309 Middle St., Washington, 22747, USA",Washington, USA,40,"American, French",-78.1595348,38.7134767,0,0
+Smyth,"177 N. Ada St., Chicago, 60607, USA",Chicago, USA,100,"Contemporary, Creative",-87.6606324,41.8850485,0,1
+Alinea,"1723 N. Halsted St., Chicago, 60614, USA",Chicago, USA,90,"Creative, Modern Cuisine",-87.648174,41.9132737,1,1
+Sorn,"56 Soi Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok, 10110, Thailand",Bangkok, Thailand,"60","Southern Thai",100.5684937,13.7231336,0,0
+Azurmendi,"Legina Auzoa, Larrabetzu, 48195, Spain",Larrabetzu, Spain,"30",Creative,-2.81454,43.26065,1,0
+Aponiente,"Francisco Cossi Ochoa, El Puerto de Santa María, 11500, Spain",El Puerto de Santa María, Spain,"40","Creative, Innovative",-6.2164435,36.6033273,1,1
+Noor,"Pablo Ruiz Picasso 8, Córdoba, 14014, Spain",Córdoba, Spain,"150",Creative,-4.7585272,37.8899393,1,0
+"Cenador de Amós","Plaza del Sol, Villaverde de Pontones, 39793, Spain",Villaverde de Pontones, Spain,"30","Modern Cuisine",-3.6988243,43.4124884,1,0
+"Quique Dacosta","Rascassa 1, Dénia, 03700, Spain",Dénia, Spain,"60",Creative,0.0852209,38.8537884,1,0
+Atrio,"Plaza San Mateo 1, Cáceres, 10003, Spain",Cáceres, Spain,"20",Creative,-6.3713456,39.4730183,1,1
+"Casa Marcial","La Salgar, Arriondas, 33549, Spain",Arriondas, Spain,"200","Creative, Asturian",-5.1931556,43.4184082,0,1
+"El Celler de Can Roca","Can Sunyer 48, Girona, 17007, Spain",Girona, Spain,"25",Creative,2.807927,41.9932026,0,1
+"Reua Thai","Dorpstraat 45b, Nuth, 6361EK, Netherlands",Nuth, Netherlands,"10",Thai,5.8838304,50.9191536,0,0
+"Restobar Vista","Holland Amerikakade 104, Rotterdam, 3072 MC, Netherlands",Rotterdam, Netherlands,"15","Modern French",4.4883515,51.9069713,0,1
+"Alma Bistro","Ginnekenstraat 88, Breda, 4811 JJ, Netherlands",Breda, Netherlands,"35","Modern French",4.7771145,51.5838108,0,1
+"'t Spiehuis","Biltseweg 45, Soest, 3763 LD, Netherlands",Soest, Netherlands,"80","Classic French",5.2461355,52.1720601,1,1
+"Akelaŕe","Paseo del Padre Orcolaga 56, Donostia / San Sebastián, 20008, Spain",Donostia / San Sebastián, Spain,"60","Creative, Traditional Cuisine",-2.0731493,43.3027805,0,0
+"Martín Berasategui","Loidi 4, Lasarte - Oria, 20160, Spain",Lasarte - Oria, Spain,"85",Creative,-2.0157211,43.2669352,1,0
+Lasarte,"Mallorca 259, Barcelona, 08008, Spain",Barcelona, Spain,"100",Creative,2.1622018,41.3936278,0,0
+ABaC,"Avenida del Tibidabo 1, Barcelona, 08022, Spain",Barcelona, Spain,"150",Creative,2.1367664,41.4103822,1,0
+Disfrutar,"Villarroel 163, Barcelona, 08036, Spain",Barcelona, Spain,"200",Creative,2.1530369,41.3879756,0,1
+Arzak,"Avenida Alcalde José Elosegi 273, Donostia / San Sebastián, 20015, Spain",Donostia / San Sebastián, Spain,"100","Creative, Traditional Cuisine",-1.9490932,43.3214016,0,1
+"Cocina Hermanos Torres","Taquígraf Serra 20, Barcelona, 08029, Spain",Barcelona, Spain,"45",Creative,2.1400168,41.3865273,1,1
+"Ultraviolet by Paul Pairet","'somewhere in Shanghai' - meet at Mr & Mrs Bund restaurant - 6F, Bund 18, 18 Zhongshan Dong Yi Road, Huangpu, Shanghai, China Mainland",Shanghai, China Mainland,"60",Innovative,121.48509,31.240358,0,0
+"Taian Table","101-102, Building No. 1, Garden Office, No.161, Lane 465, Zhenning Road, Changning, Shanghai, China Mainland",Shanghai, China Mainland,"85",Innovative,121.474049,31.221807,1,1
+"Casa Perbellini 12 Apostoli","vicolo Corticella San Marco 3, Verona, 37121, Italy",Verona, Italy,"50","Creative, Contemporary",10.9961161,45.4426941,1,0
+"Le Calandre","via Liguria 1, località Sarmeola, Rubano, 35030, Italy",Rubano, Italy,"50","Creative, Contemporary",11.8096633,45.4215425,1,0
+"Enrico Bartolini al Mudec","via Tortona 56, Milan, 20144, Italy",Milan, Italy,"€80",Creative,9.161865,45.4516,0,1
+Uliassi,"banchina di Levante 6, Senigallia, 60019, Italy",Senigallia, Italy,"100","Creative, Seafood",13.2206503,43.7194609,1,0
+"Enoteca Pinchiorri","via Ghibellina 87, Florence, 50122, Italy",Florence, Italy,"120","Italian Contemporary",11.2621974,43.770066,1,0
+"Atelier Moessmer Norbert Niederkofler","via Walther Von der Vogelweide 17, Brunico, 39031, Italy",Brunico, Italy,"130","Creative, Alpine",11.949283,46.7927709,0,1
+"Villa Crespi","via Fava 18, Orta San Giulio, 28016, Italy",Orta San Giulio, Italy,"150","Creative, Mediterranean Cuisine",8.4159486,45.7964778,1,1
+"Quattro Passi","via Vespucci 13/n, Marina del Cantone, 80061, Italy",Marina del Cantone, Italy,"200","Mediterranean Cuisine, Contemporary",14.3537561,40.5857091,0,1
+"La Pergola","via Cadlolo 101, Rome, 00136, Italy",Rome, Italy,"50","Mediterranean Cuisine, Contemporary",12.4461151,41.9187946,0,1
+Reale,"contrada Santa Liberata, località Casadonna, Castel di Sangro, 67031, Italy",Castel di Sangro, Italy,"100","Modern Cuisine, Creative",14.094554,41.7800349,1,0
+"Da Vittorio","via Cantalupa 17, Brusaporto, 24060, Italy",Brusaporto, Italy,"80","Italian Contemporary",9.7692511,45.6756778,1,1
+"Osteria Francescana","via Stella 22, Modena, 41121, Italy",Modena, Italy,"90",Creative,10.9215518,44.6448099,0,1
+"Dal Pescatore","località Runate 15, Runate, 46013, Italy",Runate, Italy,"150","Italian Contemporary",10.3565788,45.1712728,1,0
+"Piazza Duomo","vicolo dell'Arco 1, angolo piazza Risorgimento 4, Alba, 12051, Italy",Alba, Italy,"100","Creative, Seasonal Cuisine",8.0359341,44.7005555,0,0
+"Schloss Schauenstein","Schlossgass 77, Fürstenau, 7414, Switzerland",Fürstenau, Switzerland,"25","Creative, Country cooking",9.4462648,46.7211969,1,0
+"Sven Wassmer Memories","Bernhard-Simon-Strasse 2, Bad Ragaz, 7310, Switzerland",Bad Ragaz, Switzerland,"150","Creative, Farm to table",9.5037741,47.0002941,0,1
