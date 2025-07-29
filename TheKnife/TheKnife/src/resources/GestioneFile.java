@@ -128,18 +128,15 @@ public class GestioneFile {
             //Cambiare i dati da scrivere
             writeF.write(r.getName() + ",");
             writeF.write(r.getAddress() + ",");
-            writeF.write(r.getLocation() + ",");
+            writeF.write(r.getCity() + ",");
+            writeF.write(r.getNation() + ",");
             writeF.write(r.getPrice() + ",");
             writeF.write(r.getCuisine() + ",");
             writeF.write(r.getLongitude() + ",");
             writeF.write(r.getLatitude() + ",");
-            writeF.write(r.getPhoneNumber() + ",");
-            writeF.write(r.getUrl() + ",");
-            writeF.write(r.getWebsiteUrl() + ",");
-            writeF.write(r.getAward() + ",");
-            writeF.write(r.isGreenStar() ? "Si" : "No" + ",");
-            writeF.write(r.getFacilitiesAndServices() + ",");
-            writeF.write(r.getDescription() + "\n");
+            writeF.write(r.getDelivery() + ",");
+            writeF.write(r.getReservation() + ",");
+            writeF.write(r.getStars()); //nell'ultimo non metto la virgola perchè è il campo finale
         } catch (IOException ex) {
             System.err.println("Errore in fase di scrittura: " + ex);
         }
@@ -272,9 +269,9 @@ public class GestioneFile {
         }
     }
         
-     private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String locazione, String cucina, String telefono) {
+     private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
-        String riga = String.format("%s,%s,%s,%s,%s", nome, indirizzo, locazione, cucina, telefono);
+        String riga = String.format("%s,%s,%s,%s", nome, indirizzo, citta, cucina);
         writer.write(riga);
         writer.newLine();
         System.out.println("Segnalazione salvata correttamente.");
@@ -284,9 +281,9 @@ public class GestioneFile {
     
     }
     
-      public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina, String telefono) {
+      public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
-            String riga = String.format("%s,%s,%s,%s,%s", nome, indirizzo, locazione, cucina, telefono);
+            String riga = String.format("%s,%s,%s,%s", nome, indirizzo, locazione, cucina);
             writer.write(riga);
             writer.newLine();
             System.out.println("Segnalazione ristorante salvata con successo.");

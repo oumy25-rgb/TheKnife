@@ -44,6 +44,7 @@ public class TheKnife {
 
                 switch (scelta) {
                     case 1:
+                    	boolean controllo = false;
                         // Registrazione utente
                         System.out.println("Inserisci il tuo nome:");
                         String nome = scanner.nextLine();
@@ -73,24 +74,50 @@ public class TheKnife {
 
                         // Se ruolo ristoratore far inserire i dati del ristorante
                         if (ruolo.equals("ristoratore")) {
+                        	
                             System.out.println("Inserisci il nome del ristorante:");
                             String nomeRistorante = scanner.nextLine();
+                            
                             System.out.println("Inserisci l'indirizzo del ristorante");
                             String indirizzoRistorante = scanner.nextLine();
-                            System.out.println("Inserisci il numero di telefono del ristorante:");
-                            String telefonoRistorante = scanner.nextLine();
-                            System.out.println("Inserisci la descrizione del ristorante:");
-                            String descrizioneRistorante = scanner.nextLine();
+                
+                            System.out.println("Inserisci città del ristorante");
+                            String citta = scanner.nextLine();
+                            
+                            System.out.println("Inserisci nazione del ristorante");
+                            String nazione = scanner.nextLine();
+                            
                             System.out.println("Inserisci il tipo di cucina del ristorante:");
                             String tipoCucina = scanner.nextLine();
                             
                             System.out.println("Inserisci il prezzo medio del ristorante (es. €25.25):");
                             String prezzoRistorante = scanner.nextLine().replace("€", "").trim(); // Rimuovi simboli e spazi
                             
-                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio, prezzoRistorante, tipoCucina, 157.25, 124.36, telefonoRistorante, "www.sgfag.com", "www.sgfag.com", "gambero rosso", true, "accesso disabili", descrizioneRistorante, new ArrayList<Recensione>());
+                            System.out.println("Inserisci opzione di servizio delivery (true/false) : ");
+                            boolean delivery = scanner.nextBoolean();
+                            
+                            System.out.println("Inserisci opzione di prenotazione online (true/false) : ");
+                            boolean prenotazione = scanner.nextBoolean();
+                            
+                           
+                            int stars;
+                            
+                            do {
+                            	controllo=false;
+	                            System.out.println("Inserisci numero di stelle Michelin (da 1 a 3) : ");
+	                            stars  = scanner.nextInt();
+	                            
+	                            if(stars<=3 && stars>=1)
+	                            	controllo=true;
+	                            else
+	                            	System.out.println("Hai inserito un valore non valido, riprova.");
+	                            
+                            }while(!controllo );
+                            
+                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio, prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, delivery, prenotazione, stars, new ArrayList<Recensione>());
 
                             gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
-                            Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "Italiana", 12.345678, 98.765432, "0123456789", "http://ristoranteitaliano.com", "http://ristoranteitaliano.com", "Miglior Ristorante 2023", true, "WiFi, Parcheggio", "Ristorante con piatti tipici italiani.", new ArrayList<>());
+                            Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,2,new ArrayList<>());
 
                             // Salvataggio dell'associazione
                             gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), ristoranteAssociato);
@@ -142,7 +169,7 @@ public class TheKnife {
                         // Funzione di ricerca ristoranti
                         System.out.println("Inserisci il tipo di cucina (lascia vuoto per ignorare):");
                         String tipoCucina = scanner.nextLine();
-                        System.out.println("Inserisci la locazione (città) (lascia vuoto per ignorare):");
+                        System.out.println("Inserisci la città (lascia vuoto per ignorare):");
                         String locazione = scanner.nextLine();
                         double fasciaPrezzoMax = Double.MAX_VALUE;
                         double fasciaPrezzoMin = 0.0;

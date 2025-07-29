@@ -4,9 +4,6 @@
  */
 package theknife;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import resources.GestioneFile;
 import resources.GestioneMenu;
@@ -22,40 +19,34 @@ public class Ristorante {
     
     private String name;
     private String address;
-    private String location;
+    private String city;
+    private String nation;
     private String price;
     private String cuisine;
     private double longitude;
     private double latitude;
-    private String phoneNumber;
-    private String url;
-    private String websiteUrl;
-    private String award;
-    private boolean greenStar;
-    private String facilitiesAndServices;
-    private String description;
+    private boolean delivery; //possibilità di delivery
+    private boolean reservation; //possibilità di prenotazione online
+    private int stars; //numero di stelle michelin (da 1 a 3)
+    
     private ArrayList<Recensione> recensioni; // Lista delle recensioni
     // Nuovi attributi per gestire menu e promozioni
     private ArrayList<String> promozioni; // Lista delle promozioni
-    private GestioneFile gf;
     private ArrayList<Piatto> menu; // Lista di piatti
     //Costruttore
 
-    public Ristorante(String name, String address, String location, String price, String cuisine, double longitude, double latitude, String phoneNumber, String url, String websiteUrl, String award, boolean greenStar, String facilitiesAndServices, String description, ArrayList<Recensione> recensioni) {
+    public Ristorante(String name, String address, String city, String price,String nation, String cuisine, double longitude, double latitude, boolean delivery,boolean reservation,int stars, ArrayList<Recensione> recensioni) {
         this.name = name;
         this.address = address;
-        this.location = location;
+        this.city = city;
         this.price = price;
         this.cuisine = cuisine;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.phoneNumber = phoneNumber;
-        this.url = url;
-        this.websiteUrl = websiteUrl;
-        this.award = award;
-        this.greenStar = greenStar;
-        this.facilitiesAndServices = facilitiesAndServices;
-        this.description = description;
+        this.delivery = delivery;
+        this.reservation = reservation;
+        this.stars = stars;
+        this.nation = nation;
         this.recensioni = recensioni;
         this.promozioni = new ArrayList<>(); // Inizializza l'ArrayList per le promozioni   
         this.menu = new ArrayList<>();
@@ -63,12 +54,41 @@ public class Ristorante {
     }
 
     public Ristorante(GestioneFile gf, ArrayList<Piatto> menu) {
-        this.gf = gf;
         this.menu = menu;
     }
        
+    public String getNation() {
+    	return nation;
+    }
+    
+    public void setNation(String nation) {
+    	this.nation=nation;
+    }
+    
+    public boolean getDelivery() {
+    	return delivery;
+    }
+    
+    public boolean getReservation() {
+    	return reservation;
+    }
+    
+    public int getStars() {
+    	return stars;
+    }
+    
+    public void setDelivery(boolean delivery) {
+    	this.delivery = delivery;
+    }
 
-
+    public void setReservation(boolean reservation) {
+    	this.reservation = reservation;
+    }
+    
+    public void setStars(int stars) {
+    	this.stars = stars;
+    }
+    
     public String getName() {
         return name;
     }
@@ -85,12 +105,12 @@ public class Ristorante {
         this.address = address;
     }
 
-    public String getLocation() {
-        return location;
+    public String getCity() {
+        return city;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.city = location;
     }
 
     public String getPrice() {
@@ -123,62 +143,6 @@ public class Ristorante {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getWebsiteUrl() {
-        return websiteUrl;
-    }
-
-    public void setWebsiteUrl(String websiteUrl) {
-        this.websiteUrl = websiteUrl;
-    }
-
-    public String getAward() {
-        return award;
-    }
-
-    public void setAward(String award) {
-        this.award = award;
-    }
-
-    public boolean isGreenStar() {
-        return greenStar;
-    }
-
-    public void setGreenStar(boolean greenStar) {
-        this.greenStar = greenStar;
-    }
-
-    public String getFacilitiesAndServices() {
-        return facilitiesAndServices;
-    }
-
-    public void setFacilitiesAndServices(String facilitiesAndServices) {
-        this.facilitiesAndServices = facilitiesAndServices;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public ArrayList<Recensione> getRecensioni() {
@@ -238,19 +202,16 @@ public class Ristorante {
      
      
     public void visualizzaRistorante() {
-    System.out.println("Nome Ristorante: " + name);
-    System.out.println("Indirizzo: " + address);
-    System.out.println("Locazione: " + location);
-    System.out.println("Prezzo: " + price);
-    System.out.println("Cucina: " + cuisine);
-    System.out.println("Coordinate: Latitudine " + latitude + ", Longitudine " + longitude);
-    System.out.println("Numero di telefono: " + phoneNumber);
-    System.out.println("Url: " + url);
-    System.out.println("Url del sito web: " + websiteUrl);
-    System.out.println("Premio: " + award);
-    System.out.println("Stella verde: " + (greenStar ? "Si" : "No"));
-    System.out.println("Servizi e strutture: " + facilitiesAndServices);
-    System.out.println("Descrizione: " + description);
+	    System.out.println("Nome Ristorante: " + name);
+	    System.out.println("Indirizzo: " + address);
+	    System.out.println("Locazione: " + city);
+	    System.out.println("Prezzo: " + price);
+	    System.out.println("Cucina: " + cuisine);
+	    System.out.println("Coordinate: Latitudine " + latitude + ", Longitudine " + longitude);
+	    System.out.println("Servizio Delivery: " + delivery);
+	    System.out.println("Prenotazione Online: " + reservation);
+	    System.out.println("Stelle Michelin: " + stars);
+    
     }
 
     public void visualizzaRecensioni() {
