@@ -30,9 +30,12 @@ public class TheKnife {
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
         GestioneFile gf = new GestioneFile();
         Utente nuovoUtente = null;
-        // Menu iniziale
-        while (true) {
+        int scelta = 0;
+		// Menu iniziale
+        do {
+        	scanner.nextLine();
             try {
+            	System.out.println("");
                 System.out.println("1. Registrati");
                 System.out.println("2. Login");
                 System.out.println("3. Cerca Ristoranti");
@@ -42,8 +45,10 @@ public class TheKnife {
                 System.out.print("Scelta: "); // <-- QUI l'input sarà su una nuova riga
 
                 // Gestione dell'input dell'utente
-                int scelta = Integer.parseInt(scanner.nextLine());
-
+                
+               scelta = Integer.parseInt(scanner.nextLine());
+               System.out.println();
+                
                 switch (scelta) {
                     case 1:
                         // Registrazione utente
@@ -186,7 +191,7 @@ public class TheKnife {
 
                     case 3:
          
-                    	int sceltaCriterio = 0;
+                    	String sceltaCriterio;
                     	String tipo,citta;
                     	ArrayList<Ristorante> listaRistorantiTrovati = null;
                     	
@@ -199,10 +204,10 @@ public class TheKnife {
                     	System.out.println("6) Disponibilità media stelle recensioni e città");
                     	System.out.println("7) Per tutti i criteri");
                     	
-                    	sceltaCriterio = scanner.nextInt();
-                    	scanner.nextLine();
+                    	sceltaCriterio = scanner.nextLine();
                     	
-                    	switch(sceltaCriterio) {
+                    	
+                    	switch(Integer.parseInt(sceltaCriterio)) {
                     	
                     	case 1:
                     		
@@ -213,10 +218,11 @@ public class TheKnife {
                     		citta = scanner.nextLine();
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(tipo,citta);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
+                    				
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -229,10 +235,11 @@ public class TheKnife {
                     		citta = scanner.nextLine();
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
+                    				
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -272,10 +279,10 @@ public class TheKnife {
                             } while (!controllo);
                      		
                             listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -301,10 +308,11 @@ public class TheKnife {
                             } while (!controllo);
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,delivery);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
+                    				
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -331,10 +339,11 @@ public class TheKnife {
                      		
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(prenotazione,citta);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
+                    				
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -363,10 +372,11 @@ public class TheKnife {
                             } while (!controllo);
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,mediaStelle);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
+                    				
                     				r.visualizzaRistorante();
+                    				System.out.println("----------------------------------------------------------------------");
                     			}
                     		}else
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -455,7 +465,7 @@ public class TheKnife {
                     		
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,delivery,prenotazione,mediaStelle);
-                    		if(listaRistorantiTrovati!=null) {
+                    		if(!listaRistorantiTrovati.isEmpty()) {
                     			for(Ristorante r : listaRistorantiTrovati) {
                     				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
@@ -464,6 +474,9 @@ public class TheKnife {
                     			System.out.println("Nessun ristorante trovato con questo criterio.");
 
                     		 break;
+                    		 
+                    		 default : 
+                    			 System.out.println("Opzione non presente.");
                     		 
                     	}
                     	
@@ -499,11 +512,12 @@ public class TheKnife {
                         System.out.println("Scelta non valida.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Errore: inserisci un numero valido." + e + " " +e.getMessage());
+                System.out.println("Errore: inserisci un numero valido. " + e + " " +e.getMessage());
+            	
             } catch (Exception e) {
                 System.out.println("Si è verificato un errore: " + e.getMessage());
             }
-        }
+        }while(scelta!=5);
     }
 
 }
