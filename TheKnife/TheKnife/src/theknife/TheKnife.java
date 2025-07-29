@@ -32,9 +32,8 @@ public class TheKnife {
         Utente nuovoUtente = null;
         int scelta = 0;
 		// Menu iniziale
-        System.out.println("Premere 'invio' per avviare l'applicazione" );
+
         do {
-        	scanner.nextLine();
             try {
             	System.out.println("");
                 System.out.println("1. Registrati");
@@ -202,7 +201,7 @@ public class TheKnife {
                     	System.out.println("3) Per fascia di prezzo e città");
                     	System.out.println("4) Disponibilità Delivery e città");
                     	System.out.println("5) Disponibilità Prenotazione Online e città");
-                    	System.out.println("6) Disponibilità media stelle recensioni e città");
+                    	System.out.println("6) Per media stelle e città");
                     	System.out.println("7) Per tutti i criteri");
                     	
                     	sceltaCriterio = scanner.nextLine();
@@ -301,6 +300,7 @@ public class TheKnife {
                                 System.out.println("Richiedi servizio di delivery? (true/false):");
                                 try {
                                     delivery = scanner.nextBoolean();
+                                    scanner.nextLine();
                                     controllo = true;
                                 } catch (InputMismatchException e) {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
@@ -331,6 +331,7 @@ public class TheKnife {
                                 System.out.println("Richiedi prenotazione online? (true/false):");
                                 try {
                                     prenotazione = scanner.nextBoolean();
+                                    scanner.nextLine();
                                     controllo = true;
                                 } catch (InputMismatchException e) {
                                     System.out.println("Hai inserito un valore non valido, riprova.");

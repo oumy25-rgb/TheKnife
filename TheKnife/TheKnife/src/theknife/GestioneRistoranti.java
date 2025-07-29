@@ -66,7 +66,6 @@ public class GestioneRistoranti {
     }
     
     
-    
 	public ArrayList<Ristorante> cercaRistoranti(String citta,boolean delivery) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
