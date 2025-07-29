@@ -202,7 +202,8 @@ public class Ristorante {
     public void visualizzaRistorante() {
 	    System.out.println("Nome Ristorante: " + name);
 	    System.out.println("Indirizzo: " + address);
-	    System.out.println("Locazione: " + city);
+	    System.out.println("Città: " + city);
+	    System.out.println("Nazione: " + nation);
 	    System.out.println("Prezzo: " + price);
 	    System.out.println("Cucina: " + cuisine);
 	    System.out.println("Coordinate: Latitudine " + latitude + ", Longitudine " + longitude);
