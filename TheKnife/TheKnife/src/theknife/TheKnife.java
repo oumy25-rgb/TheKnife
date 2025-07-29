@@ -21,11 +21,12 @@ public class TheKnife {
     // Dichiarazione globale
     static GestioneFile gestioneFile = new GestioneFile();// Creazione dell'istanza di GestioneFile
     static GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         // TODO code application logic here
     	boolean controllo = false; //variabile usata per fare controlli sugli input
-        Scanner scanner = new Scanner(System.in);
+        
         GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
         GestioneFile gf = new GestioneFile();
@@ -190,7 +191,6 @@ public class TheKnife {
 
 
                     case 3:
-         
                     	String sceltaCriterio;
                     	String tipo,citta;
                     	ArrayList<Ristorante> listaRistorantiTrovati = null;
@@ -203,6 +203,7 @@ public class TheKnife {
                     	System.out.println("5) Disponibilità Prenotazione Online e città");
                     	System.out.println("6) Per media stelle e città");
                     	System.out.println("7) Per tutti i criteri");
+                    	System.out.println("8) Esci");
                     	
                     	sceltaCriterio = scanner.nextLine();
                     	
@@ -218,14 +219,8 @@ public class TheKnife {
                     		citta = scanner.nextLine();
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(tipo,citta);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		
+                    		stampaListaRicerca(listaRistorantiTrovati);
                     		
                     		break;
                     		
@@ -235,14 +230,7 @@ public class TheKnife {
                     		citta = scanner.nextLine();
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		stampaListaRicerca(listaRistorantiTrovati);
                     		
                     		break;
                     		
@@ -279,13 +267,7 @@ public class TheKnife {
                             } while (!controllo);
                      		
                             listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                            stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
@@ -309,14 +291,7 @@ public class TheKnife {
                             } while (!controllo);
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,delivery);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                     		stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
@@ -341,14 +316,7 @@ public class TheKnife {
                      		
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(prenotazione,citta);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                     		stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
@@ -374,14 +342,7 @@ public class TheKnife {
                             } while (!controllo);
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,mediaStelle);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				
-                    				r.visualizzaRistorante();
-                    				System.out.println("----------------------------------------------------------------------");
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                     		stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
@@ -467,14 +428,11 @@ public class TheKnife {
                     		
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,delivery,prenotazione,mediaStelle);
-                    		if(!listaRistorantiTrovati.isEmpty()) {
-                    			for(Ristorante r : listaRistorantiTrovati) {
-                    				System.out.println("----------------------------------------------------------------------");
-                    				r.visualizzaRistorante();
-                    			}
-                    		}else
-                    			System.out.println("Nessun ristorante trovato con questo criterio.");
+                    		stampaListaRicerca(listaRistorantiTrovati);
 
+                    		 break;
+                    		 
+                    	 case 8:
                     		 break;
                     		 
                     		 default : 
@@ -520,6 +478,58 @@ public class TheKnife {
                 System.out.println("Si è verificato un errore: " + e.getMessage());
             }
         }while(scelta!=5);
+    }
+    
+    static void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
+    	
+    	String miniMenu;
+    	int scegli,i=1;
+    	
+    	if(!listaRistorantiTrovati.isEmpty()) {
+			System.out.println("Lista ristoranti trovati: \n");
+			System.out.println("----------------------------------------------------------------------");
+			for(Ristorante r : listaRistorantiTrovati) {
+				System.out.print((i++)+") "+r.getName()+"\n");
+				System.out.println("----------------------------------------------------------------------");
+			}
+
+			do {
+				System.out.print("\nCosa vuoi fare ora? \n");
+				System.out.println("a) Visualizza le informazioni del ristorante");
+				System.out.println("b) Visualizza le recensioni del ristorante");
+				System.out.println("c) Esci");
+				
+				miniMenu = scanner.nextLine();
+				
+    			switch(miniMenu) {
+        			case "a":
+        				
+        				System.out.print ("Di quale ristorante vuoi visualizzare le informazioni? ");
+        				scegli = Integer.parseInt(scanner.nextLine());
+        				System.out.println("");
+        				listaRistorantiTrovati.get(scegli-1).visualizzaRistorante();
+        				
+        				break;
+        				
+        			case "b": 
+        				System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
+        				scegli = Integer.parseInt(scanner.nextLine());
+        				System.out.println("");
+        				listaRistorantiTrovati.get(scegli-1).visualizzaRecensioni();
+        				
+        				break;
+        				
+        			case "c":
+        				break;
+        				
+        			default : 
+        				System.out.println("Opzione inesistente.");
+    			}
+			}while(!miniMenu.equals("c"));
+			
+		}else
+			System.out.println("Nessun ristorante trovato con questo criterio.");
+    	
     }
 
 }

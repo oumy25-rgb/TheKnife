@@ -337,7 +337,8 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
             System.out.println("Ristorante non trovato.");
         }
     }
-   
+    
+  
     private void caricaRistoranti() {
         ArrayList<String> datiRistoranti = gf.leggiDaFile("src/dati/ristoranti.csv");
         for (String linea : datiRistoranti) {

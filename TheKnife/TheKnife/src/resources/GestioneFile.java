@@ -49,6 +49,8 @@ public class GestioneFile {
 
         return colonne; // Restituisce l'array di stringhe
     }
+    
+	
     //il metodo per controllare se l'utente esiste o no 
     public boolean utenteEsiste(String nomeFile, String username) {
         try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/" + nomeFile))) {
@@ -291,9 +293,6 @@ public class GestioneFile {
             System.out.println("Errore durante il salvataggio della segnalazione: " + e.getMessage());
         }
     }
-
-    
-
 
     public ArrayList<Recensione> leggiRecensioniDaFile(String filePath) {
         ArrayList<Recensione> recensioni = new ArrayList<>();
