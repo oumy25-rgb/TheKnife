@@ -38,17 +38,16 @@ public class GestioneRistoranti {
     
     public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
     	
-    	ArrayList<Ristorante> lista = null;
+    	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
     	
         try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
-            String[] riga;
-
+        	String[] riga;
             while ((riga = reader.readNext()) != null) {
                 if (citta.equalsIgnoreCase(riga[2]) && tipo.equalsIgnoreCase(riga[5])) {
                 	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
                 	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
                     Ristorante r = new Ristorante(
-                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
                     lista.add(r);
@@ -70,7 +69,7 @@ public class GestioneRistoranti {
     
 	public ArrayList<Ristorante> cercaRistoranti(String citta,boolean delivery) {
 	    	
-	    	ArrayList<Ristorante> lista = null;
+	    	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
 	    	
 	        try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
 	            String[] riga;
@@ -80,7 +79,7 @@ public class GestioneRistoranti {
 	                	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
 	                	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
 	                    Ristorante r = new Ristorante(
-	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
 	                    );
 	                    
 	                    lista.add(r);
@@ -100,7 +99,7 @@ public class GestioneRistoranti {
 	    
 	public ArrayList<Ristorante> cercaRistoranti(boolean prenotazione,String citta) {
     	
-    	ArrayList<Ristorante> lista = null;
+		ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
     	
         try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
             String[] riga;
@@ -110,7 +109,7 @@ public class GestioneRistoranti {
                 	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
                 	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
                     Ristorante r = new Ristorante(
-                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
                     lista.add(r);
@@ -141,7 +140,7 @@ public class GestioneRistoranti {
 	                	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
 	                	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
 	                    Ristorante r = new Ristorante(
-	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
 	                    );
 	                    
 	                    lista.add(r);
@@ -172,7 +171,7 @@ public class GestioneRistoranti {
 	                	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
 	                	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
 	                    Ristorante r = new Ristorante(
-	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+	                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
 	                    );
 	                    
 	                    lista.add(r);
@@ -203,7 +202,7 @@ public class GestioneRistoranti {
                 if (citta.equalsIgnoreCase(riga[2])) {
                 	
                     Ristorante r = new Ristorante(
-                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
                     if(r.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {
@@ -240,7 +239,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
                 		&& delivery == Boolean.parseBoolean(riga[8]) && prenotazione == Boolean.parseBoolean(riga[9])) {
                 	
                     Ristorante r = new Ristorante(
-                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[7]), Double.parseDouble(riga[8]), Boolean.parseBoolean(riga[9]),Boolean.parseBoolean(riga[10]), null
+                        riga[0], riga[1], riga[2], riga[3], riga[4],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
                     if(r.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {

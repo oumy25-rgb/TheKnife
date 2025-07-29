@@ -199,6 +199,9 @@ public class TheKnife {
                     	System.out.println("6) Disponibilità media stelle recensioni e città");
                     	System.out.println("7) Per tutti i criteri");
                     	
+                    	sceltaCriterio = scanner.nextInt();
+                    	scanner.nextLine();
+                    	
                     	switch(sceltaCriterio) {
                     	
                     	case 1:
@@ -212,6 +215,7 @@ public class TheKnife {
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(tipo,citta);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -227,6 +231,7 @@ public class TheKnife {
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -269,6 +274,7 @@ public class TheKnife {
                             listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -297,6 +303,7 @@ public class TheKnife {
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,delivery);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -326,6 +333,7 @@ public class TheKnife {
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(prenotazione,citta);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -357,6 +365,7 @@ public class TheKnife {
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,mediaStelle);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -448,6 +457,7 @@ public class TheKnife {
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,delivery,prenotazione,mediaStelle);
                     		if(listaRistorantiTrovati!=null) {
                     			for(Ristorante r : listaRistorantiTrovati) {
+                    				System.out.println("----------------------------------------------------------------------");
                     				r.visualizzaRistorante();
                     			}
                     		}else
@@ -457,7 +467,7 @@ public class TheKnife {
                     		 
                     	}
                     	
-                    	
+                   break;	
            
                     case 4:
                         // Accesso come guest
