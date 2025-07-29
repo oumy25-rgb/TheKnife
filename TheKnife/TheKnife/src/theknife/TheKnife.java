@@ -40,8 +40,7 @@ public class TheKnife {
                 System.out.println("1. Registrati");
                 System.out.println("2. Login");
                 System.out.println("3. Cerca Ristoranti");
-                System.out.println("4. Accedi come Guest");
-                System.out.println("5. Esci");
+                System.out.println("4. Esci");
 
                 System.out.print("Scelta: "); // <-- QUI l'input sarà su una nuova riga
 
@@ -441,30 +440,8 @@ public class TheKnife {
                     	}
                     	
                    break;	
-           
-                    case 4:
-                        // Accesso come guest
-                    	
-                        System.out.println("Inserisci il nome di una città (lascia vuoto per ignorare):");
-                        String luogo = scanner.nextLine();
-                        if (!luogo.isEmpty()) {
-                            System.out.println("Hai scelto di cercare ristoranti a: " + luogo);
-                            ArrayList<Ristorante> risultatiGuest = gestioneRistoranti.cercaRistoranti("", luogo, 0.0, Double.MAX_VALUE, false, false, 0);
-                            if (risultatiGuest.isEmpty()) {
-                                System.out.println("Nessun ristorante trovato nella località: " + luogo);
-                            } else {
-                                System.out.println("Ristoranti trovati a " + luogo + ":");
-                                for (Ristorante r : risultatiGuest) {
-                                    System.out.printf("- %s | Cucina: %s | Prezzo: %s | Stelle: %.2f%n",
-                                            r.getName(), r.getCuisine(), r.getPrice(), r.getMediaStelle());
-                                }
-                            }
-                        } else {
-                            System.out.println("Nessun luogo inserito.");
-                        }
-                        break;
 
-                    case 5:
+                    case 4:
                         System.exit(0);
                         break;
 
@@ -477,7 +454,7 @@ public class TheKnife {
             } catch (Exception e) {
                 System.out.println("Si è verificato un errore: " + e.getMessage());
             }
-        }while(scelta!=5);
+        }while(scelta!=4);
     }
     
     static void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
