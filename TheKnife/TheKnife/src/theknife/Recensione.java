@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package theknife;
 
 import java.io.BufferedReader;
@@ -20,9 +19,11 @@ public class Recensione {
     private double stelle;
     private String testoRecensione;
     private String data;
+    private String risposta; // NUOVO CAMPO
 
-    // Costruttore
-    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta, double stelle, String testoRecensione, String data) {
+    // Costruttore completo
+    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta,
+                      double stelle, String testoRecensione, String data, String risposta) {
         this.nomeRistorante = nomeRistorante;
         this.codiceFiscale = codiceFiscale;
         this.indirizzo = indirizzo;
@@ -30,6 +31,13 @@ public class Recensione {
         this.stelle = stelle;
         this.testoRecensione = testoRecensione;
         this.data = data;
+        this.risposta = risposta;
+    }
+
+    // Costruttore senza risposta (opzionale, utile per vecchi dati)
+    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta,
+                      double stelle, String testoRecensione, String data) {
+        this(nomeRistorante, codiceFiscale, indirizzo, citta, stelle, testoRecensione, data, "");
     }
 
     // Getters e Setters
@@ -54,20 +62,32 @@ public class Recensione {
     public String getData() { return data; }
     public void setData(String data) { this.data = data; }
 
+    public String getRisposta() { return risposta; } // NUOVO GETTER
+    public void setRisposta(String risposta) { this.risposta = risposta; } // NUOVO SETTER
+    
+    public String getCliente() {
+    return getCodiceFiscale(); // già presente
+}
+
+    public String getRistorante() {
+        return getNomeRistorante(); // già presente
+    }
+
     // Formattazione per scrittura su CSV
     public String toCSV() {
-        return String.format("%s,%s,%s,%s,%.1f,%s,%s",
+        return String.format("%s,%s,%s,%s,%.1f,%s,%s,%s",
             nomeRistorante,
             codiceFiscale,
             indirizzo,
             citta,
             stelle,
             testoRecensione.replace(",", ";"),
-            data
+            data,
+            risposta.replace(",", ";")
         );
     }
 
-    // Metodo per scrivere una recensione nel file
+    // Scrittura su file
     public void scriviSuFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv", true))) {
             writer.write(this.toCSV());
@@ -77,15 +97,16 @@ public class Recensione {
         }
     }
 
-    // Metodo per leggere tutte le recensioni da file
+    // Lettura da file
     public static ArrayList<Recensione> leggiTutteLeRecensioni() {
         ArrayList<Recensione> recensioni = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(",", 7);
-                if (tokens.length == 7) {
+                String[] tokens = line.split(",", 8); // ora ci sono 8 campi
+                if (tokens.length >= 7) {
+                    String risposta = tokens.length == 8 ? tokens[7] : ""; // risposta può essere vuota
                     recensioni.add(new Recensione(
                         tokens[0],
                         tokens[1],
@@ -93,7 +114,8 @@ public class Recensione {
                         tokens[3],
                         Double.parseDouble(tokens[4]),
                         tokens[5],
-                        tokens[6]
+                        tokens[6],
+                        risposta
                     ));
                 }
             }
@@ -104,7 +126,6 @@ public class Recensione {
         return recensioni;
     }
 
-    // Ricerca recensioni per nome ristorante
     public static ArrayList<Recensione> cercaPerRistorante(String nomeRistorante) {
         ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
         ArrayList<Recensione> filtrate = new ArrayList<>();
@@ -117,7 +138,6 @@ public class Recensione {
         return filtrate;
     }
 
-    // Ricerca recensioni per cliente (codice fiscale)
     public static ArrayList<Recensione> cercaPerCliente(String codFiscale) {
         ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
         ArrayList<Recensione> filtrate = new ArrayList<>();
@@ -130,7 +150,6 @@ public class Recensione {
         return filtrate;
     }
 
-    // Riscrivi tutto il file recensioni (usato per modifiche/cancellazioni)
     public static void riscriviRecensioni(ArrayList<Recensione> recensioni) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv"))) {
             for (Recensione r : recensioni) {
@@ -144,11 +163,15 @@ public class Recensione {
 
     // Visualizzazione per cliente
     public String visualizzaPerCliente() {
-        return "Ristorante: " + nomeRistorante +
-               "\nIndirizzo: " + indirizzo + ", " + citta +
-               "\nVoto: " + stelle + " stelle" +
-               "\nRecensione: \"" + testoRecensione + "\"" +
-               "\nData: " + data;
+        String base = "Ristorante: " + nomeRistorante +
+                      "\nIndirizzo: " + indirizzo + ", " + citta +
+                      "\nVoto: " + stelle + " stelle" +
+                      "\nRecensione: \"" + testoRecensione + "\"" +
+                      "\nData: " + data;
+        if (risposta != null && !risposta.isEmpty()) {
+            base += "\n[Risposta del ristoratore]: \"" + risposta + "\"";
+        }
+        return base;
     }
 
     // Visualizzazione per ristoratore
@@ -156,12 +179,14 @@ public class Recensione {
         return "Cliente: " + codiceFiscale +
                "\nVoto: " + stelle + " stelle" +
                "\nRecensione: \"" + testoRecensione + "\"" +
-               "\nData: " + data;
+               "\nData: " + data +
+               (risposta != null && !risposta.isEmpty() ? "\nRisposta: \"" + risposta + "\"" : "");
     }
 
-    // Override toString
     @Override
     public String toString() {
         return visualizzaPerCliente();
     }
 }
+
+
