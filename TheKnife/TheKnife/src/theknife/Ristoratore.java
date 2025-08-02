@@ -99,8 +99,10 @@ public class Ristoratore extends Utente {
         String nation = scanner.nextLine();
         System.out.print("Longitudine: ");
         String longi = scanner.nextLine();
+        longi = longi.replace(",", ".").trim();
         System.out.print("Latitudine: ");
         String lati = scanner.nextLine();
+        lati = lati.replace(",", ".").trim();
         System.out.print("Prezzo medio: ");
         String price = scanner.nextLine();
         System.out.print("Tipo di cucina: ");
