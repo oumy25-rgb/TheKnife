@@ -99,7 +99,7 @@ public class Ristoratore extends Utente {
         String nation = scanner.nextLine();
         System.out.print("Longitudine: ");
         String longi = scanner.nextLine();
-        longi = longi.replace(",", ".").trim();
+        longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
         System.out.print("Latitudine: ");
         String lati = scanner.nextLine();
         lati = lati.replace(",", ".").trim();
