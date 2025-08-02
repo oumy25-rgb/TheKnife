@@ -93,23 +93,22 @@ public class Ristoratore extends Utente {
         String nome = scanner.nextLine();
         System.out.print("Indirizzo: ");
         String address = scanner.nextLine();
-        System.out.print("Locazione: ");
-        String location = scanner.nextLine();
+        System.out.print("Città: ");
+        String city = scanner.nextLine();
+        System.out.print("Nazione: ");
+        String nation = scanner.nextLine();
         System.out.print("Prezzo medio: ");
         String price = scanner.nextLine();
         System.out.print("Tipo di cucina: ");
         String cuisine = scanner.nextLine();
-        System.out.print("Numero di telefono: ");
-        String phoneNumber = scanner.nextLine();
-        System.out.print("URL: ");
-        String url = scanner.nextLine();
-        System.out.print("Servizi e strutture: ");
-        String facilitiesAndServices = scanner.nextLine();
-        System.out.print("Descrizione: ");
-        String description = scanner.nextLine();
+        System.out.print("Servizio di Delivery? (true/false) : ");
+        String delivery = scanner.nextLine();
+        System.out.print("Servizio di Prenotazione Online? (true/false) : ");
+        String prenotazione = scanner.nextLine();
+        
 
-        Ristorante nuovoRistorante = new Ristorante(nome, address, location, price, cuisine, 0.0, 0.0,
-                phoneNumber, url, "", "", false, facilitiesAndServices, description, Recensione.cercaPerRistorante(nome));
+        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, 0.0, 0.0,Boolean.parseBoolean(delivery),
+        		Boolean.parseBoolean(prenotazione), Recensione.cercaPerRistorante(nome));
 
         gestioneRistoranti.aggiungiRistorante(nuovoRistorante);
         this.ristorante = nuovoRistorante;

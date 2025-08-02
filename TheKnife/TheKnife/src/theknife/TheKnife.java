@@ -99,46 +99,37 @@ public class TheKnife {
                             System.out.println("Inserisci il prezzo medio del ristorante (es. €25.25):");
                             String prezzoRistorante = scanner.nextLine().replace("€", "").trim(); // Rimuovi simboli e spazi
                             
-                            boolean delivery = false;
+                            String delivery;
                             
                             do {
                             	controllo=false;
                             	System.out.println("Inserisci opzione di servizio delivery (true/false) : ");
-	                            
-	                            try {
 	                            	
-	                            	delivery = scanner.nextBoolean();
-	                            	controllo = true;
-	                            
-	                            }catch(InputMismatchException e) { //se l'input non è true o false viene lanciata
-	                        		
-	                        		System.out.println("Hai inserito un valore non valido, riprova.");
-	                        		scanner.nextLine(); // pulisce il buffer
-	                        	}
+	                            	delivery = scanner.nextLine();
+	                            	if(delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false"))
+	                            		controllo = true;
+	                            	else
+	                            		System.out.println("Hai inserito un valore non valido, riprova.");
                             
                             }while(!controllo);
                             	
-                            boolean prenotazione = false;
+                            String prenotazione;
                             
                             do {
                             	controllo=false;
                             	
                             	System.out.println("Inserisci opzione di prenotazione online (true/false) : ");
-                            	
-                            	try {
+
+                            		prenotazione = scanner.nextLine();
                             		
-                            		prenotazione = scanner.nextBoolean();
-                            		controllo = true;
+                            		if(prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false"))
+	                            		controllo = true;
+	                            	else
+	                            		System.out.println("Hai inserito un valore non valido, riprova.");
                             		
-                            	}catch(InputMismatchException e) {
-                            		
-                            		System.out.println("Hai inserito un valore non valido, riprova.");
-                            		scanner.nextLine(); // pulisce il buffer
-                            	}
-                            	
                             }while(!controllo);
                             
-                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio, prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, delivery, prenotazione,new ArrayList<Recensione>());
+                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio,prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione),new ArrayList<Recensione>());
 
                             gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
                             Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,new ArrayList<>());
@@ -219,7 +210,7 @@ public class TheKnife {
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(tipo,citta);
                     		
-                    		stampaListaRicerca(listaRistorantiTrovati);
+                    		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		
                     		break;
                     		
@@ -229,7 +220,7 @@ public class TheKnife {
                     		citta = scanner.nextLine();
                     		
                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta);
-                    		stampaListaRicerca(listaRistorantiTrovati);
+                    		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		
                     		break;
                     		
@@ -266,56 +257,54 @@ public class TheKnife {
                             } while (!controllo);
                      		
                             listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
-                            stampaListaRicerca(listaRistorantiTrovati);
+                            gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
                     	 case 4:
                     		 
-                    		 boolean delivery = false;
+                    		 String delivery;
                     		 System.out.println("Inserisci la città: ");
                      		 citta = scanner.nextLine();
 
                      		do {
                             	controllo=false;
                                 System.out.println("Richiedi servizio di delivery? (true/false):");
-                                try {
-                                    delivery = scanner.nextBoolean();
-                                    scanner.nextLine();
-                                    controllo = true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
-                                    scanner.nextLine(); // pulisce il buffer
-                                }
+                                    delivery = scanner.nextLine();
+                                    
+                                    if(delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false"))
+                                    	controllo = true;
+                                    else
+                                    	System.out.println("Hai inserito un valore non valido, riprova.");
+                                
                             } while (!controllo);
                      		
-                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,delivery);
-                     		stampaListaRicerca(listaRistorantiTrovati);
+                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,Boolean.parseBoolean(delivery));
+                     		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
                     	 case 5:
                   
-                    		 boolean prenotazione = false;
+                    		 String prenotazione;
                     		 System.out.println("Inserisci la città: ");
                      		 citta = scanner.nextLine();
                      		 
                      		do {
                             	controllo=false;
-                                System.out.println("Richiedi prenotazione online? (true/false):");
-                                try {
-                                    prenotazione = scanner.nextBoolean();
-                                    scanner.nextLine();
-                                    controllo = true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
-                                    scanner.nextLine(); // pulisce il buffer
-                                }
+                                System.out.println("Richiedi servizio di prenotazione online? (true/false):");
+                                    prenotazione = scanner.nextLine();
+                                    
+                                    if(prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false"))
+                                    	controllo = true;
+                                    else
+                                    	System.out.println("Hai inserito un valore non valido, riprova.");
+                                
                             } while (!controllo);
                      		
                      		
-                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(prenotazione,citta);
-                     		stampaListaRicerca(listaRistorantiTrovati);
+                     		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(Boolean.parseBoolean(prenotazione),citta);
+                     		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
@@ -341,14 +330,14 @@ public class TheKnife {
                             } while (!controllo);
                      		
                      		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,mediaStelle);
-                     		stampaListaRicerca(listaRistorantiTrovati);
+                     		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
                     		 
                     		 break;
                     		 
                     	 case 7: 
                     		 
-                    		 delivery = false;
-                    		 prenotazione = false;
+                    		 String del;
+                    		 String pren;
                     		 mediaStelle = 0; 
                     		 fasciaPrezzoMin=0;
                     		 fasciaPrezzoMax=0;
@@ -388,28 +377,26 @@ public class TheKnife {
                             do {
                             	controllo=false;
                                 System.out.println("Richiedi servizio di delivery? (true/false):");
-                                try {
-                                    delivery = scanner.nextBoolean();
-                                    scanner.nextLine();
-                                    controllo = true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
-                                    scanner.nextLine(); // pulisce il buffer
-                                }
+                                    del = scanner.nextLine();
+                                    
+                                    if(del.equalsIgnoreCase("true") || del.equalsIgnoreCase("false"))
+                                    	controllo = true;
+                                    else
+                                    	System.out.println("Hai inserito un valore non valido, riprova.");
+                                
                             } while (!controllo);
                      		
                     		 
-                    		do {
+                            do {
                             	controllo=false;
-                                System.out.println("Richiedi prenotazione online? (true/false):");
-                                try {
-                                    prenotazione = scanner.nextBoolean();
-                                    controllo = true;
-                                    scanner.nextLine();
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
-                                    scanner.nextLine(); // pulisce il buffer
-                                }
+                                System.out.println("Richiedi servizio di prenotazione online? (true/false):");
+                                    pren = scanner.nextLine();
+                                    
+                                    if(pren.equalsIgnoreCase("true") || pren.equalsIgnoreCase("false"))
+                                    	controllo = true;
+                                    else
+                                    	System.out.println("Hai inserito un valore non valido, riprova.");
+                                
                             } while (!controllo);
                     		
                     		do {
@@ -428,8 +415,8 @@ public class TheKnife {
                             } while (!controllo);
                     		
                     		
-                    		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,delivery,prenotazione,mediaStelle);
-                    		stampaListaRicerca(listaRistorantiTrovati);
+                    		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,Boolean.parseBoolean(del),Boolean.parseBoolean(pren),mediaStelle);
+                    		gestioneRistoranti.stampaListaRicerca(listaRistorantiTrovati);
 
                     		 break;
                     		 
@@ -459,58 +446,6 @@ public class TheKnife {
         }while(scelta!=4);
     }
     
-    static void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
-    	
-    	String miniMenu;
-    	int scegli,i=1;
-    	
-    	if(!listaRistorantiTrovati.isEmpty()) {
-			System.out.println("Lista ristoranti trovati: \n");
-			System.out.println("----------------------------------------------------------------------");
-			for(Ristorante r : listaRistorantiTrovati) {
-				System.out.print((i++)+") "+r.getName()+"\n");
-				System.out.println("----------------------------------------------------------------------");
-			}
-
-			do {
-				System.out.print("\nCosa vuoi fare ora? \n");
-				System.out.println("a) Visualizza le informazioni del ristorante");
-				System.out.println("b) Visualizza le recensioni del ristorante");
-				System.out.println("c) Esci");
-				
-				miniMenu = scanner.nextLine();
-				
-    			switch(miniMenu) {
-        			case "a":
-        				
-        				System.out.print ("Di quale ristorante vuoi visualizzare le informazioni? ");
-        				scegli = Integer.parseInt(scanner.nextLine());
-        				System.out.println("");
-        				listaRistorantiTrovati.get(scegli-1).visualizzaRistorante();
-        				
-        				break;
-        				
-        			case "b": 
-        				System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
-        				scegli = Integer.parseInt(scanner.nextLine());
-        				System.out.println("");
-        				listaRistorantiTrovati.get(scegli-1).visualizzaRecensioni();
-        				
-        				break;
-        				
-        			case "c":
-        				break;
-        				
-        			default : 
-        				System.out.println("Opzione inesistente.");
-    			}
-			}while(!miniMenu.equals("c"));
-			
-		}else
-			System.out.println("Nessun ristorante trovato con questo criterio.");
-    	
-    }
-
 }
     
 

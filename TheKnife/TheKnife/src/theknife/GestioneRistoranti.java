@@ -338,7 +338,60 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
         }
     }
     
-  
+	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
+	    	
+	    	String miniMenu;
+	    	int scegli,i=1;
+	    	Scanner scanner = new Scanner(System.in);
+	    	
+	    	if(!listaRistorantiTrovati.isEmpty()) {
+				System.out.println("Lista ristoranti trovati: \n");
+				System.out.println("----------------------------------------------------------------------");
+				for(Ristorante r : listaRistorantiTrovati) {
+					System.out.print((i++)+") "+r.getName()+"\n");
+					System.out.println("----------------------------------------------------------------------");
+				}
+	
+				do {
+					System.out.print("\nCosa vuoi fare ora? \n");
+					System.out.println("a) Visualizza le informazioni del ristorante");
+					System.out.println("b) Visualizza le recensioni del ristorante");
+					System.out.println("c) Esci");
+					
+					
+					miniMenu = scanner.nextLine();
+					
+	    			switch(miniMenu) {
+	        			case "a":
+	        				
+	        				System.out.print ("Di quale ristorante vuoi visualizzare le informazioni? ");
+	        				scegli = Integer.parseInt(scanner.nextLine());
+	        				System.out.println("");
+	        				listaRistorantiTrovati.get(scegli-1).visualizzaRistorante();
+	        				
+	        				break;
+	        				
+	        			case "b": 
+	        				System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
+	        				scegli = Integer.parseInt(scanner.nextLine());
+	        				System.out.println("");
+	        				listaRistorantiTrovati.get(scegli-1).visualizzaRecensioni();
+	        				
+	        				break;
+	        				
+	        			case "c":
+	        				break;
+	        				
+	        			default : 
+	        				System.out.println("Opzione inesistente.");
+	    			}
+				}while(!miniMenu.equals("c"));
+				
+			}else
+				System.out.println("Nessun ristorante trovato con questo criterio.");
+	    	
+	    }
+
     private void caricaRistoranti() {
         ArrayList<String> datiRistoranti = gf.leggiDaFile("src/dati/ristoranti.csv");
         for (String linea : datiRistoranti) {
