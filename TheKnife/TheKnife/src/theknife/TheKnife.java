@@ -33,16 +33,16 @@ public class TheKnife {
         Utente nuovoUtente = null;
         int scelta = 0;
 		// Menu iniziale
-
+    	System.out.println("");
+        System.out.println("Benvenuto su TheKnife!");
         do {
             try { //l'utente che non effettua il login può:
-            	System.out.println("");
                 System.out.println("1. Registrati"); //registrarsi
                 System.out.println("2. Login"); //fare l'accesso
                 System.out.println("3. Cerca Ristoranti"); //cercare i ristoranti, da qui visualizzarne anche le recensioni e le informazioni
                 System.out.println("4. Esci");
 
-                System.out.print("Scelta: "); // <-- QUI l'input sarà su una nuova riga
+                System.out.print("Cosa vuoi fare? : "); // <-- QUI l'input sarà su una nuova riga
 
                 // Gestione dell'input dell'utente
                 
@@ -420,11 +420,8 @@ public class TheKnife {
 
                     		 break;
                     		 
-                    	 case 8:
-                    		 break;
-                    		 
                     		 default : 
-                    			 System.out.println("Opzione non presente.");
+                    			 System.out.println("Opzione non presente, riprova.\n");
                     		 
                     	}
                     	
@@ -435,7 +432,7 @@ public class TheKnife {
                         break;
 
                     default:
-                        System.out.println("Scelta non valida.");
+                        System.out.println("Opzione non presente, riprova.\n");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Errore: inserisci un numero valido. " + e + " " +e.getMessage());
