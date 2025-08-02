@@ -13,109 +13,61 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Recensione {
-    private String ristorante;
-    private String cliente;
-    private String data;
+    private String nomeRistorante;
+    private String codiceFiscale;
+    private String indirizzo;
+    private String citta;
+    private double stelle;
     private String testoRecensione;
-    private int stelle;
-    private String risposta;
+    private String data;
 
-    public Recensione(String ristorante, String cliente, String data, String testoRecensione, int stelle, String risposta) {
-        this.ristorante = ristorante;
-        this.cliente = cliente;
+    // Costruttore
+    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta, double stelle, String testoRecensione, String data) {
+        this.nomeRistorante = nomeRistorante;
+        this.codiceFiscale = codiceFiscale;
+        this.indirizzo = indirizzo;
+        this.citta = citta;
+        this.stelle = stelle;
+        this.testoRecensione = testoRecensione;
         this.data = data;
-        this.testoRecensione = testoRecensione;
-        this.stelle = stelle;
-        this.risposta = risposta;
     }
 
-    public String getRistorante() {
-        return ristorante;
-    }
+    // Getters e Setters
+    public String getNomeRistorante() { return nomeRistorante; }
+    public void setNomeRistorante(String nomeRistorante) { this.nomeRistorante = nomeRistorante; }
 
-    public String getCliente() {
-        return cliente;
-    }
+    public String getCodiceFiscale() { return codiceFiscale; }
+    public void setCodiceFiscale(String codiceFiscale) { this.codiceFiscale = codiceFiscale; }
 
-    public String getData() {
-        return data;
-    }
+    public String getIndirizzo() { return indirizzo; }
+    public void setIndirizzo(String indirizzo) { this.indirizzo = indirizzo; }
 
-    public String getTestoRecensione() {
-        return testoRecensione;
-    }
+    public String getCitta() { return citta; }
+    public void setCitta(String citta) { this.citta = citta; }
 
-    public int getStelle() {
-        return stelle;
-    }
+    public double getStelle() { return stelle; }
+    public void setStelle(double stelle) { this.stelle = stelle; }
 
-    public String getRisposta() {
-        return risposta;
-    }
+    public String getTestoRecensione() { return testoRecensione; }
+    public void setTestoRecensione(String testoRecensione) { this.testoRecensione = testoRecensione; }
 
-    public void setRisposta(String risposta) {
-        this.risposta = risposta;
-    }
+    public String getData() { return data; }
+    public void setData(String data) { this.data = data; }
 
-    public void setTestoRecensione(String testoRecensione) {
-        this.testoRecensione = testoRecensione;
-    }
-
-    public void setStelle(int stelle) {
-        this.stelle = stelle;
-    }
-
-    @Override
-    public String toString() {
-        return visualizzaPerCliente();
-    }
-
+    // Formattazione per scrittura su CSV
     public String toCSV() {
-        return String.join(",",
-                ristorante,
-                cliente,
-                data,
-                testoRecensione,
-                String.valueOf(stelle),
-                (risposta != null ? risposta : ""));
+        return String.format("%s,%s,%s,%s,%.1f,%s,%s",
+            nomeRistorante,
+            codiceFiscale,
+            indirizzo,
+            citta,
+            stelle,
+            testoRecensione.replace(",", ";"),
+            data
+        );
     }
 
-    public static ArrayList<Recensione> cercaPerRistorante(String nomeRistorante) {
-        ArrayList<Recensione> recensioni = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(",");
-                if (tokens.length >= 5 && tokens[0].equalsIgnoreCase(nomeRistorante)) {
-                    recensioni.add(new Recensione(tokens[0], tokens[1], tokens[2],
-                            tokens[3], Integer.parseInt(tokens[4]),
-                            tokens.length > 5 ? tokens[5] : ""));
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Errore durante la lettura delle recensioni: " + e.getMessage());
-        }
-        return recensioni;
-    }
-
-    public static ArrayList<Recensione> cercaPerCliente(String codFiscale) {
-        ArrayList<Recensione> recensioni = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(",");
-                if (tokens.length >= 5 && tokens[1].equalsIgnoreCase(codFiscale)) {
-                    recensioni.add(new Recensione(tokens[0], tokens[1], tokens[2],
-                            tokens[3], Integer.parseInt(tokens[4]),
-                            tokens.length > 5 ? tokens[5] : ""));
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Errore durante la lettura delle recensioni: " + e.getMessage());
-        }
-        return recensioni;
-    }
-
+    // Metodo per scrivere una recensione nel file
     public void scriviSuFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv", true))) {
             writer.write(this.toCSV());
@@ -125,23 +77,60 @@ public class Recensione {
         }
     }
 
+    // Metodo per leggere tutte le recensioni da file
     public static ArrayList<Recensione> leggiTutteLeRecensioni() {
         ArrayList<Recensione> recensioni = new ArrayList<>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(",");
-                if (tokens.length >= 5) {
-                    recensioni.add(new Recensione(tokens[0], tokens[1], tokens[2], tokens[3],
-                            Integer.parseInt(tokens[4]), tokens.length > 5 ? tokens[5] : ""));
+                String[] tokens = line.split(",", 7);
+                if (tokens.length == 7) {
+                    recensioni.add(new Recensione(
+                        tokens[0],
+                        tokens[1],
+                        tokens[2],
+                        tokens[3],
+                        Double.parseDouble(tokens[4]),
+                        tokens[5],
+                        tokens[6]
+                    ));
                 }
             }
         } catch (IOException e) {
             System.err.println("Errore nella lettura delle recensioni: " + e.getMessage());
         }
+
         return recensioni;
     }
 
+    // Ricerca recensioni per nome ristorante
+    public static ArrayList<Recensione> cercaPerRistorante(String nomeRistorante) {
+        ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
+        ArrayList<Recensione> filtrate = new ArrayList<>();
+
+        for (Recensione r : tutte) {
+            if (r.getNomeRistorante().equalsIgnoreCase(nomeRistorante)) {
+                filtrate.add(r);
+            }
+        }
+        return filtrate;
+    }
+
+    // Ricerca recensioni per cliente (codice fiscale)
+    public static ArrayList<Recensione> cercaPerCliente(String codFiscale) {
+        ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
+        ArrayList<Recensione> filtrate = new ArrayList<>();
+
+        for (Recensione r : tutte) {
+            if (r.getCodiceFiscale().equalsIgnoreCase(codFiscale)) {
+                filtrate.add(r);
+            }
+        }
+        return filtrate;
+    }
+
+    // Riscrivi tutto il file recensioni (usato per modifiche/cancellazioni)
     public static void riscriviRecensioni(ArrayList<Recensione> recensioni) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv"))) {
             for (Recensione r : recensioni) {
@@ -153,21 +142,26 @@ public class Recensione {
         }
     }
 
+    // Visualizzazione per cliente
     public String visualizzaPerCliente() {
-        String output = "Ristorante: " + ristorante +
-                        "\nVoto: " + stelle + " stelle" +
-                        "\nTesto: \"" + testoRecensione + "\"" +
-                        "\nData: " + data;
-        if (risposta != null && !risposta.trim().isEmpty()) {
-            output += "\nRisposta del ristoratore: \"" + risposta + "\"";
-        }
-        return output;
+        return "Ristorante: " + nomeRistorante +
+               "\nIndirizzo: " + indirizzo + ", " + citta +
+               "\nVoto: " + stelle + " stelle" +
+               "\nRecensione: \"" + testoRecensione + "\"" +
+               "\nData: " + data;
     }
 
+    // Visualizzazione per ristoratore
     public String visualizzaPerRistoratore() {
-        return testoRecensione + " (" + stelle + " stelle)";
+        return "Cliente: " + codiceFiscale +
+               "\nVoto: " + stelle + " stelle" +
+               "\nRecensione: \"" + testoRecensione + "\"" +
+               "\nData: " + data;
     }
-    
-    
-    
+
+    // Override toString
+    @Override
+    public String toString() {
+        return visualizzaPerCliente();
+    }
 }
