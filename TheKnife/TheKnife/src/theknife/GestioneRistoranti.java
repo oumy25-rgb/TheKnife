@@ -393,20 +393,42 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	    }
 
     private void caricaRistoranti() {
-        ArrayList<String> datiRistoranti = gf.leggiDaFile("src/dati/ristoranti.csv");
-        for (String linea : datiRistoranti) {
-            String[] tokens = gf.dividereCsv(linea);
-            if (tokens.length < 14) {
-                System.out.println("Errore: dati ristorante incompleti nella linea: " + linea);
-                continue; // Salta questa linea se i dati sono incompleti
+    try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
+        String[] riga;
+        while ((riga = reader.readNext()) != null) {
+            // Controllo numero di colonne
+            if (riga.length < 10) {
+                System.out.println("Errore: dati ristorante incompleti nella riga: " + String.join(",", riga));
+                continue;
             }
-            Ristorante r = new Ristorante(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], 
-                Double.parseDouble(tokens[5]), Double.parseDouble(tokens[6]), tokens[7], tokens[8], 
-                tokens[9], tokens[10], true, tokens[12], tokens[13], new ArrayList<>());
-            ristoranti.add(r); // Aggiungi il ristorante alla lista
+
+            try {
+                Ristorante r = new Ristorante(
+                    riga[0],                     // nome
+                    riga[1],                     // indirizzo
+                    riga[2],                     // città
+                    riga[3],                     // prezzo
+                    riga[4],                     // nazione
+                    riga[5],                     // tipo cucina
+                    Double.parseDouble(riga[6]), // longitudine
+                    Double.parseDouble(riga[7]), // latitudine
+                    Boolean.parseBoolean(riga[8]), // delivery
+                    Boolean.parseBoolean(riga[9]), // prenotazione
+                    new ArrayList<>()             // recensioni
+                );
+                ristoranti.add(r);
+            } catch (Exception e) {
+                System.out.println("Errore nel parsing della riga: " + String.join(",", riga));
+                e.printStackTrace();
+            }
         }
+    } catch (IOException | CsvValidationException e) {
+        e.printStackTrace();
     }
+}
+
  
     
 }
+
 
