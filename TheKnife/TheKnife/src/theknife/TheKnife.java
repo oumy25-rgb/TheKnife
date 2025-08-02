@@ -67,7 +67,7 @@ public class TheKnife {
                         System.out.println("Inserisci una password:");
                         String password = scanner.nextLine(); // In un'applicazione reale, cifrare la password
 
-                        System.out.println("Inserisci la tua data di nascita (opzionale):");
+                        System.out.println("Inserisci la tua data di nascita (opzionale) (gg/mm/aaaa) :");
                         String dataNascita = scanner.nextLine();
 
                         System.out.println("Inserisci il tuo luogo di domicilio:");
@@ -92,6 +92,14 @@ public class TheKnife {
                             
                             System.out.println("Inserisci nazione del ristorante");
                             String nazione = scanner.nextLine();
+                            
+                            System.out.print("Longitudine: ");
+                            String longi = scanner.nextLine();
+                            longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
+                            
+                            System.out.print("Latitudine: ");
+                            String lati = scanner.nextLine();
+                            lati = lati.replace(",", ".").trim();
                             
                             System.out.println("Inserisci il tipo di cucina del ristorante:");
                             String tipoCucina = scanner.nextLine();
@@ -129,14 +137,14 @@ public class TheKnife {
                             		
                             }while(!controllo);
                             
-                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, luogoDomicilio,prezzoRistorante, nazione,  tipoCucina, 157.25, 124.36, Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione),new ArrayList<Recensione>());
-
+                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, citta,prezzoRistorante, nazione,  tipoCucina, Double.parseDouble(longi), Double.parseDouble(lati), Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione),new ArrayList<Recensione>());
+                            
                             gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
-                            Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,new ArrayList<>());
+                            //Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,new ArrayList<>()); //non ho capito by giusy
 
                             // Salvataggio dell'associazione
-                            gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), ristoranteAssociato);
-                            gf.scriviPreferiti("preferiti.csv", new Preferiti(nuovoUtente.getCodFiscale(), nomeRistorante));
+                            gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), nuovoRistorante);
+                           // gf.scriviPreferiti("preferiti.csv", new Preferiti(nuovoUtente.getCodFiscale(), nomeRistorante)); //non ho capito by giusy
                         }
 
                         // Scrittura dell'utente su file

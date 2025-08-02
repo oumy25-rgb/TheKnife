@@ -257,7 +257,7 @@ public class GestioneFile {
         try {
             if (ristorante != null) {
                 // Scrivi l'associazione nel formato CSV
-                writeF.write(proprietario + "," + ristorante.getName() + "\n");
+                writeF.write(proprietario + "," + ristorante.getName() +","+ ristorante.getCity()+","+ristorante.getAddress()+"\n"); // ho aggiunto dei campi perchè se uno ha più sedi con lo stesso nome in città diverse devono risultare ed essere identificate
             } else {
                 System.out.println("Errore: il ristorante è nullo. Impossibile salvare l'associazione.");
             }
@@ -271,7 +271,7 @@ public class GestioneFile {
         }
     }
         
-     private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
+    /* private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
         String riga = String.format("%s,%s,%s,%s", nome, indirizzo, citta, cucina);
         writer.write(riga);
@@ -282,6 +282,7 @@ public class GestioneFile {
     }    
     
     }
+    */ //questo metodo è inutilizzato (controllare) 
     
       public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
@@ -309,9 +310,11 @@ public class GestioneFile {
                 if (tokens.length == 5) { // Assicurati che ci siano 5 campi
                     String ristorante = tokens[0];
                     String cliente = tokens[1];
-                    String data = tokens[2];
-                    String testoRecensione = tokens[3];
-                    String risposta = tokens[4];
+                    String indirizzo = tokens[2];
+                    String citta = tokens[3];
+                    String data = tokens[6];
+                    String testoRecensione = tokens[5];
+                    String risposta = tokens[7];
                     int stelle;
                     try {
                         stelle = Integer.parseInt(tokens[4]);
@@ -321,7 +324,9 @@ public class GestioneFile {
                     }
                     
                     // Crea un oggetto Recensione e aggiungilo alla lista
-                    Recensione recensione = new Recensione(ristorante, cliente, data, testoRecensione, stelle,risposta);
+                    Recensione recensione = new Recensione(ristorante,cliente,indirizzo,citta,
+                            stelle, testoRecensione, data, risposta);
+                    
                     recensioni.add(recensione);
                 } else {
                     System.out.println("Formato della riga non valido: " + line);
