@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 import resources.GestioneFile;
 import resources.Piatto;
 
@@ -25,7 +26,6 @@ public class Cliente extends Utente {
         this.preferiti = caricaPreferiti();
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
     }
-    
 
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
         int scelta;
@@ -51,8 +51,11 @@ public class Cliente extends Utente {
                     System.out.print("Nome ristorante: ");
                     String nomeAdd = scanner.nextLine();
                     Ristorante rAdd = gestioneRistoranti.cercaRistorantePerNome(nomeAdd);
-                    if (rAdd != null) aggiungiPreferito(rAdd);
-                    else System.out.println("Ristorante non trovato.");
+                    if (rAdd != null) {
+                        aggiungiPreferito(rAdd);
+                    } else {
+                        System.out.println("Ristorante non trovato.");
+                    }
                     break;
                 case 3:
                     System.out.print("Nome ristorante: ");
@@ -71,10 +74,14 @@ public class Cliente extends Utente {
                         System.out.print("Testo: ");
                         String testo = scanner.nextLine();
                         System.out.print("Stelle (1-5): ");
-                        int stelle = Integer.parseInt(scanner.nextLine());
-                        Recensione rec = new Recensione(nome, getCodFiscale(), java.time.LocalDate.now().toString(), testo, stelle, "");
-                        gestioneRecensioni.aggiungiRecensione(rec);
+                        double stelle = Double.parseDouble(scanner.nextLine());
+                        String data = java.time.LocalDate.now().toString();
+
+                        Recensione rec = new Recensione(r.getName(), getCodFiscale(), r.getAddress(), r.getCity(), stelle, testo, data);
+
+                        rec.scriviSuFile();
                         aggiornaRecensioniPersonali();
+                        System.out.println("Recensione aggiunta con successo.");
                     } else {
                         System.out.println("Ristorante non trovato.");
                     }
@@ -87,7 +94,7 @@ public class Cliente extends Utente {
                     gestioneRecensioni.eliminaRecensione(this, scanner);
                     aggiornaRecensioniPersonali();
                     break;
-                case 8:             
+                case 8:
                     System.out.print("Nome del ristorante: ");
                     String nomeRistMenu = scanner.nextLine();
                     Ristorante rMenu = gestioneRistoranti.cercaRistorantePerNome(nomeRistMenu);
@@ -106,7 +113,7 @@ public class Cliente extends Utente {
                         }
                     } else {
                         System.out.println("Ristorante non trovato.");
-                    }     
+                    }
                     break;
                 case 0:
                     System.out.println("Logout effettuato.");
@@ -123,6 +130,8 @@ public class Cliente extends Utente {
             preferiti.add(ristorante.getName());
             salvaPreferiti();
             System.out.println("Aggiunto ai preferiti.");
+        } else {
+            System.out.println("Il ristorante è già nei preferiti.");
         }
     }
 
@@ -147,36 +156,31 @@ public class Cliente extends Utente {
     }
 
     public void visualizzaRecensioniPersonali() {
-    // Carica TUTTE le recensioni del cliente
-    this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
-    
-    if (recensioni.isEmpty()) {
-        System.out.println("Non hai ancora scritto nessuna recensione.");
-    } else {
-        System.out.println("\n----- LE TUE RECENSIONI -----");
-        for (Recensione r : recensioni) {
-            System.out.println("\nRistorante: " + r.getRistorante());
-            
-            // Stampa le stelle
-            System.out.print("Voto: ");
-            for (int i = 0; i < r.getStelle(); i++) {
-                System.out.print("★");
+        this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
+
+        if (recensioni.isEmpty()) {
+            System.out.println("Non hai ancora scritto nessuna recensione.");
+        } else {
+            System.out.println("\n----- LE TUE RECENSIONI -----");
+            for (Recensione r : recensioni) {
+                System.out.println("\nRistorante: " + r.getNomeRistorante());
+                System.out.print("Voto: ");
+                for (int i = 0; i < r.getStelle(); i++) {
+                    System.out.print("★");
+                }
+                System.out.println(" (" + r.getStelle() + "/5)");
+                System.out.println("Data: " + r.getData());
+                System.out.println("Recensione: \"" + r.getTestoRecensione() + "\"");
+
+                if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {
+                    System.out.println("\n[Risposta del ristoratore]");
+                    System.out.println("\"" + r.getRisposta() + "\"");
+                }
+
+                System.out.println("-----------------------------");
             }
-            System.out.println(" (" + r.getStelle() + "/5)");
-            
-            System.out.println("Data: " + r.getData());
-            System.out.println("Recensione: \"" + r.getTestoRecensione() + "\"");
-            
-            // Mostra la risposta solo se esiste
-            if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {
-                System.out.println("\n[Risposta del ristoratore]");
-                System.out.println("\"" + r.getRisposta() + "\"");
-            }
-            
-            System.out.println("-----------------------------");
         }
     }
-}
 
     private void aggiornaRecensioniPersonali() {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
@@ -184,7 +188,7 @@ public class Cliente extends Utente {
 
     private ArrayList<String> caricaPreferiti() {
         ArrayList<String> lista = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new java.io.File(filePreferiti))) {
+        try (Scanner scanner = new Scanner(new File(filePreferiti))) {
             while (scanner.hasNextLine()) {
                 lista.add(scanner.nextLine().trim());
             }
@@ -204,10 +208,4 @@ public class Cliente extends Utente {
             System.err.println("Errore nel salvataggio dei preferiti: " + e.getMessage());
         }
     }
-    
-    
-    
 }
-
-    
-
