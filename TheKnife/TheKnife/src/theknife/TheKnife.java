@@ -51,6 +51,7 @@ public class TheKnife {
                 
                 switch (scelta) {
                     case 1:
+                        
                         // Registrazione utente
                         System.out.println("Inserisci il tuo nome:");
                         String nome = scanner.nextLine();
@@ -65,94 +66,89 @@ public class TheKnife {
                         String username = scanner.nextLine();
 
                         System.out.println("Inserisci una password:");
-                        String password = scanner.nextLine(); // In un'applicazione reale, cifrare la password
+                        String password = scanner.nextLine();
 
-                        System.out.println("Inserisci la tua data di nascita (opzionale) (gg/mm/aaaa) :");
+                        System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare):");
                         String dataNascita = scanner.nextLine();
 
                         System.out.println("Inserisci il tuo luogo di domicilio:");
                         String luogoDomicilio = scanner.nextLine();
 
                         System.out.println("Inserisci il tuo ruolo (cliente/ristoratore):");
-                        String ruolo = scanner.nextLine();
+                        String ruolo = scanner.nextLine().toLowerCase();
 
-                        nuovoUtente = new Utente(nome, cognome, codFiscale, username, password, dataNascita, luogoDomicilio, ruolo) {};
+                        // Crea l'utente con data di nascita opzionale
+                         nuovoUtente = new Utente(
+                            nome, cognome, codFiscale, username, password, 
+                            dataNascita.isEmpty() ? "N/A" : dataNascita, 
+                            luogoDomicilio, ruolo
+                        ) {};
 
-                        // Se ruolo ristoratore far inserire i dati del ristorante
+                        // Se ruolo ristoratore, crea il ristorante
                         if (ruolo.equals("ristoratore")) {
-                        	
+                            System.out.println("\n--- Inserimento dati ristorante ---");
                             System.out.println("Inserisci il nome del ristorante:");
                             String nomeRistorante = scanner.nextLine();
-                            
-                            System.out.println("Inserisci l'indirizzo del ristorante");
+
+                            System.out.println("Inserisci l'indirizzo del ristorante:");
                             String indirizzoRistorante = scanner.nextLine();
-                
-                            System.out.println("Inserisci città del ristorante");
-                            String citta = scanner.nextLine();
-                            
-                            System.out.println("Inserisci nazione del ristorante");
-                            String nazione = scanner.nextLine();
-                            
-                            System.out.print("Longitudine: ");
-                            String longi = scanner.nextLine();
-                            longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
-                            
-                            System.out.print("Latitudine: ");
-                            String lati = scanner.nextLine();
-                            lati = lati.replace(",", ".").trim();
-                            
+
+                            System.out.println("Inserisci città del ristorante:");
+                            String cittaRistorante = scanner.nextLine();
+
+                            System.out.println("Inserisci nazione del ristorante:");
+                            String nazioneRistorante = scanner.nextLine();
+
                             System.out.println("Inserisci il tipo di cucina del ristorante:");
                             String tipoCucina = scanner.nextLine();
-                            
-                            System.out.println("Inserisci il prezzo medio del ristorante (es. €25.25):");
-                            String prezzoRistorante = scanner.nextLine().replace("€", "").trim(); // Rimuovi simboli e spazi
-                            
+
+                            System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
+                            String prezzoRistorante = scanner.nextLine().replace("€", "").trim();
+
+                            // Controllo per il servizio delivery
                             String delivery;
-                            
+
                             do {
-                            	controllo=false;
-                            	System.out.println("Inserisci opzione di servizio delivery (true/false) : ");
-	                            	
-	                            	delivery = scanner.nextLine();
-	                            	if(delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false"))
-	                            		controllo = true;
-	                            	else
-	                            		System.out.println("Hai inserito un valore non valido, riprova.");
-                            
-                            }while(!controllo);
-                            	
+                                controllo = false;
+                                System.out.println("Inserisci opzione di servizio delivery (true/false): ");
+                                delivery = scanner.nextLine();
+                                if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
+                                    controllo = true;
+                                } else {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                            } while (!controllo);
+
+                            // Controllo per la prenotazione online
                             String prenotazione;
-                            
                             do {
-                            	controllo=false;
-                            	
-                            	System.out.println("Inserisci opzione di prenotazione online (true/false) : ");
+                                controllo = false;
+                                System.out.println("Inserisci opzione di prenotazione online (true/false): ");
+                                prenotazione = scanner.nextLine();
+                                if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {
+                                    controllo = true;
+                                } else {
+                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                }
+                            } while (!controllo);
 
-                            		prenotazione = scanner.nextLine();
-                            		
-                            		if(prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false"))
-	                            		controllo = true;
-	                            	else
-	                            		System.out.println("Hai inserito un valore non valido, riprova.");
-                            		
-                            }while(!controllo);
-                            
-                            Ristorante nuovoRistorante = new Ristorante(nomeRistorante, indirizzoRistorante, citta,prezzoRistorante, nazione,  tipoCucina, Double.parseDouble(longi), Double.parseDouble(lati), Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione),new ArrayList<Recensione>());
-                            
+                            // Creazione e salvataggio ristorante
+                            Ristorante nuovoRistorante = new Ristorante(
+                                nomeRistorante, indirizzoRistorante, cittaRistorante, 
+                                prezzoRistorante, nazioneRistorante, tipoCucina, 
+                                0.0, 0.0, Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>()
+                            );
+
+                            // Salva ristorante e associazione
                             gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
-                            //Ristorante ristoranteAssociato = new Ristorante(nomeRistorante, "Via Roma 1", "Roma", "$$", "italia","Italiana", 12.345678, 98.765432,true,true,new ArrayList<>()); //non ho capito by giusy
-
-                            // Salvataggio dell'associazione
                             gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), nuovoRistorante);
-                           // gf.scriviPreferiti("preferiti.csv", new Preferiti(nuovoUtente.getCodFiscale(), nomeRistorante)); //non ho capito by giusy
                         }
 
                         // Scrittura dell'utente su file
                         gf.scriviUtente("utente.csv", nuovoUtente);
                         gestioneUtenti.registraUtente(nuovoUtente);
-                        System.out.println("Complimenti " + ruolo + "! Ti sei registrato con successo!");
+                        System.out.println("\nComplimenti " + ruolo + "! Registrazione completata con successo!");
                         break;
-
                     case 2:
                     
                         System.out.print("Username: ");
@@ -169,12 +165,13 @@ public class TheKnife {
                             if (dati.length >= 8 && dati[3].equals(user) && dati[4].equals(pass)) {
                                 String ruoloUtente = dati[7];
                                 if (ruoloUtente.equals("cliente")) {
-                                    loggedUser = new Cliente(dati[0], dati[1], dati[2], dati[3], dati[4], dati[5], dati[6]);
+                                    loggedUser  = new Cliente(dati[0], dati[1], dati[2], dati[3], dati[4], dati[5], dati[6]);
                                 } else if (ruoloUtente.equals("ristoratore")) {
-                                    loggedUser = new Ristoratore(dati[0], dati[1], dati[2], dati[3], dati[4], dati[5], dati[6], null);
+                                    loggedUser  = new Ristoratore(dati[0], dati[1], dati[2], dati[3], dati[4], dati[5], dati[6], null);
                                 }
                                 break;
                             }
+
                         }
 
                         if (loggedUser == null) {
