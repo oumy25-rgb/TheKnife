@@ -257,7 +257,7 @@ public class GestioneFile {
         try {
             if (ristorante != null) {
                 // Scrivi l'associazione nel formato CSV
-                writeF.write(proprietario + "," + ristorante.getName() +","+ ristorante.getCity()+","+ristorante.getAddress()+"\n"); // ho aggiunto dei campi perchè se uno ha più sedi con lo stesso nome in città diverse devono risultare ed essere identificate
+                writeF.write(proprietario + "," + ristorante.getName() + "\n");
             } else {
                 System.out.println("Errore: il ristorante è nullo. Impossibile salvare l'associazione.");
             }
@@ -271,7 +271,7 @@ public class GestioneFile {
         }
     }
         
-    /* private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
+     private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
         String riga = String.format("%s,%s,%s,%s", nome, indirizzo, citta, cucina);
         writer.write(riga);
@@ -282,7 +282,6 @@ public class GestioneFile {
     }    
     
     }
-    */ //questo metodo è inutilizzato (controllare) 
     
       public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
@@ -296,48 +295,48 @@ public class GestioneFile {
     }
 
     public ArrayList<Recensione> leggiRecensioniDaFile(String filePath) {
-        ArrayList<Recensione> recensioni = new ArrayList<>();
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Ignora righe vuote
-                if (line.trim().isEmpty()) {
-                    continue;
+    ArrayList<Recensione> recensioni = new ArrayList<>();
+    
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // Ignora righe vuote
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+            
+            String[] tokens = line.split(",");
+            if (tokens.length >= 7) { // Assicurati che ci siano almeno 7 campi
+                String ristorante = tokens[0];
+                String cliente = tokens[1];
+                String indirizzo = tokens[2];
+                String citta = tokens[3];
+                double stelle;
+                String testoRecensione = tokens[5];
+                String data = tokens[6];
+                String risposta = tokens.length == 8 ? tokens[7] : ""; // Gestisci la risposta se presente
+
+                try {
+                    stelle = Double.parseDouble(tokens[4]); // Assicurati che il campo stelle sia corretto
+                } catch (NumberFormatException e) {
+                    System.out.println("Errore nel formato delle stelle: " + tokens[4]);
+                    continue; // Salta questa riga se il formato non è corretto
                 }
                 
-                String[] tokens = line.split(",");
-                if (tokens.length == 5) { // Assicurati che ci siano 5 campi
-                    String ristorante = tokens[0];
-                    String cliente = tokens[1];
-                    String indirizzo = tokens[2];
-                    String citta = tokens[3];
-                    String data = tokens[6];
-                    String testoRecensione = tokens[5];
-                    String risposta = tokens[7];
-                    int stelle;
-                    try {
-                        stelle = Integer.parseInt(tokens[4]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Errore nel formato delle stelle: " + tokens[4]);
-                        continue; // Salta questa riga se il formato non è corretto
-                    }
-                    
-                    // Crea un oggetto Recensione e aggiungilo alla lista
-                    Recensione recensione = new Recensione(ristorante,cliente,indirizzo,citta,
-                            stelle, testoRecensione, data, risposta);
-                    
-                    recensioni.add(recensione);
-                } else {
-                    System.out.println("Formato della riga non valido: " + line);
-                }
+                // Crea un oggetto Recensione e aggiungilo alla lista
+                Recensione recensione = new Recensione(ristorante, cliente, indirizzo, citta, stelle, testoRecensione, data, risposta);
+                recensioni.add(recensione);
+            } else {
+                System.out.println("Formato della riga non valido: " + line);
             }
-        } catch (IOException e) {
-            System.out.println("Errore durante la lettura del file: " + e.getMessage());
         }
-        
-        return recensioni;
+    } catch (IOException e) {
+        System.out.println("Errore durante la lettura del file: " + e.getMessage());
     }
+    
+    return recensioni;
+}
+
 
 public static String cercaRistoranteDaProprietario(String filePath, String codFiscale) {
         GestioneFile gf = new GestioneFile();
