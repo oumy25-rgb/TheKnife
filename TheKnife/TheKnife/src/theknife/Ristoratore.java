@@ -20,15 +20,20 @@ public class Ristoratore extends Utente {
     }
 
     public void caricaRistoranteAssociato(GestioneRistoranti gestioneRistoranti) {
-        String nomeRistorante = GestioneFile.cercaRistoranteDaProprietario("src/dati/proprietari.csv", this.getCodFiscale());
-        if (nomeRistorante != null) {
-            Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nomeRistorante);
-            if (r != null) {
-                this.ristorante = r;
-                System.out.println("Ristorante associato caricato: " + ristorante.getName());
-            }
+    if (this.ristorante != null) {
+        return; // Già associato
+    }
+    
+    String nomeRistorante = GestioneFile.cercaRistoranteDaProprietario("src/dati/proprietari.csv", this.getCodFiscale());
+    if (nomeRistorante != null) {
+        Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nomeRistorante);
+        if (r != null) {
+            this.ristorante = r;
+            System.out.println("Ristorante associato caricato: " + ristorante.getName());
         }
     }
+}
+
 
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
         int scelta;
@@ -97,12 +102,6 @@ public class Ristoratore extends Utente {
         String city = scanner.nextLine();
         System.out.print("Nazione: ");
         String nation = scanner.nextLine();
-        System.out.print("Longitudine: ");
-        String longi = scanner.nextLine();
-        longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
-        System.out.print("Latitudine: ");
-        String lati = scanner.nextLine();
-        lati = lati.replace(",", ".").trim();
         System.out.print("Prezzo medio: ");
         String price = scanner.nextLine();
         System.out.print("Tipo di cucina: ");
@@ -113,7 +112,7 @@ public class Ristoratore extends Utente {
         String prenotazione = scanner.nextLine();
         
 
-        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, Double.parseDouble(longi), Double.parseDouble(lati),Boolean.parseBoolean(delivery),
+        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, 0.0, 0.0,Boolean.parseBoolean(delivery),
         		Boolean.parseBoolean(prenotazione), Recensione.cercaPerRistorante(nome));
 
         gestioneRistoranti.aggiungiRistorante(nuovoRistorante);
