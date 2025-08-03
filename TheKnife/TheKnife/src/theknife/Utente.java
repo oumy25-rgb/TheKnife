@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package theknife;
-
-
-
 /**
  *
  * @author HEW4K7Z2EA
@@ -28,7 +25,7 @@ public abstract class Utente {
         this.codFiscale = codFiscale;
         this.username = username;
         this.password = password;
-        this.dataNascita = dataNascita;
+        this.dataNascita = (dataNascita != null && !dataNascita.trim().isEmpty()) ? dataNascita : "N/A"; // Imposta un valore di default
         this.luogoDomicilio = luogoDomicilio;
         this.ruolo = ruolo;
     }
