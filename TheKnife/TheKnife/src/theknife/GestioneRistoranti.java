@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import java.io.BufferedReader;
 
 import resources.GestioneFile;
 import resources.GestioneMenu;
@@ -307,14 +308,29 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 }
 
 
-    public Ristorante cercaRistorantePerNome(String nome) {
-        for (Ristorante ristorante : ristoranti) {
-            if (ristorante.getName().equalsIgnoreCase(nome)) {
-                return ristorante; // Restituisce il ristorante se trovato
+   public Ristorante cercaRistorantePerNome(String nome) {
+    try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
+        String[] riga;
+        while ((riga = reader.readNext()) != null) {
+            // Assicurati che il nome sia confrontato correttamente
+            if (riga.length > 0 && nome.equalsIgnoreCase(riga[0].trim())) {
+                return new Ristorante(
+                    riga[0], riga[1], riga[2], riga[4], riga[3],
+                    riga[5], Double.parseDouble(riga[6]), 
+                    Double.parseDouble(riga[7]),
+                    Boolean.parseBoolean(riga[8]),
+                    Boolean.parseBoolean(riga[9]),
+                    null
+                );
             }
         }
-        return null; // Se non trovato
+    } catch (Exception e) {
+        System.err.println("Error searching restaurant: " + e.getMessage());
     }
+    return null; 
+}
+
+
 
     // Nuovo metodo per aggiungere un piatto al menu
     public void aggiungiPiattoAlMenu(String nomeRistorante, Piatto piatto) {
@@ -392,43 +408,50 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	    	
 	    }
 
-    private void caricaRistoranti() {
-    try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
-        String[] riga;
-        while ((riga = reader.readNext()) != null) {
-            // Controllo numero di colonne
-            if (riga.length < 10) {
-                System.out.println("Errore: dati ristorante incompleti nella riga: " + String.join(",", riga));
-                continue;
-            }
+     
+    public void caricaRistoranti() {
+    try (BufferedReader br = new BufferedReader(new FileReader("src/dati/ristoranti.csv"))) {
+        br.readLine(); // Salta intestazione
 
-            try {
-                Ristorante r = new Ristorante(
-                    riga[0],                     // nome
-                    riga[1],                     // indirizzo
-                    riga[2],                     // città
-                    riga[3],                     // prezzo
-                    riga[4],                     // nazione
-                    riga[5],                     // tipo cucina
-                    Double.parseDouble(riga[6]), // longitudine
-                    Double.parseDouble(riga[7]), // latitudine
-                    Boolean.parseBoolean(riga[8]), // delivery
-                    Boolean.parseBoolean(riga[9]), // prenotazione
-                    new ArrayList<>()             // recensioni
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] dati = line.split(",");
+
+            if (dati.length >= 10) {
+                String name = dati[0].replaceAll("^\"|\"$", ""); // Rimuove virgolette se presenti
+                String address = dati[1].replaceAll("^\"|\"$", "");
+                String city = dati[2].trim();
+                String nation = dati[3].trim();
+                String price = dati[4].replaceAll("^\"|\"$", "");
+                String cuisine = dati[5].replaceAll("^\"|\"$", "");
+                double longitude = Double.parseDouble(dati[6]);
+                double latitude = Double.parseDouble(dati[7]);
+                boolean delivery = Boolean.parseBoolean(dati[8]);
+                boolean reservation = Boolean.parseBoolean(dati[9]);
+
+                Ristorante ristorante = new Ristorante(
+                    name, address, city, price, nation, cuisine,
+                    longitude, latitude, delivery, reservation, new ArrayList<>()
                 );
-                ristoranti.add(r);
-            } catch (Exception e) {
-                System.out.println("Errore nel parsing della riga: " + String.join(",", riga));
-                e.printStackTrace();
+
+                ristoranti.add(ristorante);
+            } else {
+                System.out.println("Riga non valida nel file CSV: " + line);
             }
         }
-    } catch (IOException | CsvValidationException e) {
-        e.printStackTrace();
+    } catch (IOException e) {
+        System.err.println("Errore durante il caricamento dei ristoranti: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.err.println("Errore nel parsing di un numero: " + e.getMessage());
     }
 }
+
+
+
+
+   
 
  
     
 }
-
 
