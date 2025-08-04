@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package theknife;
 
 import java.io.BufferedReader;
@@ -75,27 +76,30 @@ public class Recensione {
 
     // Formattazione per scrittura su CSV
     public String toCSV() {
-        return String.format("%s,%s,%s,%s,%.1f,%s,%s,%s",
-            nomeRistorante,
-            codiceFiscale,
-            indirizzo,
-            citta,
-            stelle,
-            testoRecensione.replace(",", ";"),
-            data,
-            risposta.replace(",", ";")
-        );
-    }
+    return String.format("%s,%s,%s,%s,%.1f,%s,%s,%s",
+        nomeRistorante,
+        codiceFiscale,
+        indirizzo,
+        citta,
+        stelle,
+        testoRecensione.replace(",", ";"),
+        data,
+        risposta != null ? risposta.replace(",", ";") : ""
+    );
+}
+
 
     // Scrittura su file
     public void scriviSuFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv", true))) {
-            writer.write(this.toCSV());
-            writer.newLine();
-        } catch (IOException e) {
-            System.err.println("Errore durante la scrittura della recensione: " + e.getMessage());
-        }
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv", true))) {
+        writer.write(this.toCSV());
+        writer.newLine();
+    } catch (IOException e) {
+        System.err.println("Errore durante la scrittura della recensione: " + e.getMessage());
     }
+}
+
+
 
     // Lettura da file
     public static ArrayList<Recensione> leggiTutteLeRecensioni() {
@@ -188,5 +192,3 @@ public class Recensione {
         return visualizzaPerCliente();
     }
 }
-
-
