@@ -155,32 +155,44 @@ public class Cliente extends Utente {
         }
     }
 
-    public void visualizzaRecensioniPersonali() {
-        this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
+ // Nella classe Cliente
+public void visualizzaRecensioniPersonali() {
+    this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
 
-        if (recensioni.isEmpty()) {
-            System.out.println("Non hai ancora scritto nessuna recensione.");
-        } else {
-            System.out.println("\n----- LE TUE RECENSIONI -----");
-            for (Recensione r : recensioni) {
-                System.out.println("\nRistorante: " + r.getNomeRistorante());
-                System.out.print("Voto: ");
-                for (int i = 0; i < r.getStelle(); i++) {
-                    System.out.print("★");
-                }
-                System.out.println(" (" + r.getStelle() + "/5)");
-                System.out.println("Data: " + r.getData());
-                System.out.println("Recensione: \"" + r.getTestoRecensione() + "\"");
-
-                if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {
-                    System.out.println("\n[Risposta del ristoratore]");
-                    System.out.println("\"" + r.getRisposta() + "\"");
-                }
-
-                System.out.println("-----------------------------");
+    if (recensioni.isEmpty()) {
+        System.out.println("Non hai ancora scritto nessuna recensione.");
+    } else {
+        System.out.println("\n----- LE TUE RECENSIONI -----");
+        for (Recensione r : recensioni) {
+            System.out.println("\nRistorante: " + r.getNomeRistorante());
+            
+            // Stampa il voto
+            System.out.print("Voto: ");
+            int stelleIntere = (int) r.getStelle();
+            for (int i = 0; i < stelleIntere; i++) {
+                System.out.print("★");
+            }
+            System.out.println(" (" + r.getStelle() + "/5)");
+            
+            // Stampa DATA correttamente
+            System.out.println("Data: " + r.getData());
+            
+            // Stampa RECENSIONE
+            System.out.println("Recensione: " + r.getTestoRecensione());
+            
+            // Stampa RISPOSTA solo se esiste ed è valida
+            if (r.getRisposta() != null && !r.getRisposta().isEmpty() && !r.getRisposta().equals(r.getData())) {
+                System.out.println("\n[Risposta del ristoratore]");
+                System.out.println(r.getRisposta());
             }
         }
     }
+}
+
+
+
+
+
 
     private void aggiornaRecensioniPersonali() {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
