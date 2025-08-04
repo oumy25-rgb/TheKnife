@@ -20,13 +20,15 @@ public class GestioneRecensioni {
      private final String filePath = "src/dati/recensioni.csv";
 
     public void aggiungiRecensione(Recensione rec) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(rec.toCSV());
-            writer.newLine();
-        } catch (IOException e) {
-            System.err.println("Errore scrittura recensione: " + e.getMessage());
-        }
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+        writer.write(rec.toCSV());
+        writer.newLine();
+        writer.flush(); // Forza il salvataggio immediato
+    } catch (IOException e) {
+        System.err.println("ERRORE SALVATAGGIO: " + e.getMessage());
     }
+}
+
 
 public void modificaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
@@ -91,6 +93,8 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     }
     System.out.println("Recensione non trovata per il cliente: " + cliente);
 }
+
+
 
 
     private void riscriviRecensioni(ArrayList<Recensione> recensioni) {
