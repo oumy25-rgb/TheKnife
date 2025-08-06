@@ -112,15 +112,12 @@ public abstract class Utente {
        
         boolean controllo = true;
         s = s.toUpperCase().trim();
-        
-       if (Utente.campoNonVuoto(s)) {
+       
     	   if(!s.matches(regex)) {
         	   System.out.println("Formato non valido, riprova.");
         	   controllo = false;
-           }
-       }else
-    	   controllo = false;
-       
+    	   }
+    	   
        return controllo;
     }
     

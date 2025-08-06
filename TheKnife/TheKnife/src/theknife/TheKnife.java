@@ -71,7 +71,7 @@ public class TheKnife {
                         do {
                         	System.out.println("Inserisci il tuo codice fiscale:");
                         	codFiscale = scanner.nextLine();
-                        }while(!Utente.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
+                        }while(!Utente.campoNonVuoto(codFiscale) || !Utente.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
                         // Regex: 6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri o lettere
                         
                         String username = "";
