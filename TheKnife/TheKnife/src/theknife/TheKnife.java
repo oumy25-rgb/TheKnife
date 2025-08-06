@@ -67,6 +67,7 @@ public class TheKnife {
 
                         System.out.println("Inserisci una password:");
                         String password = scanner.nextLine();
+                        password = Utente.cifraPassword(password);
 
                         System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare):");
                         String dataNascita = scanner.nextLine();
@@ -164,6 +165,7 @@ public class TheKnife {
                         String user = scanner.nextLine();
                         System.out.print("Password: ");
                         String pass = scanner.nextLine();
+                        pass = Utente.cifraPassword(pass);
                         GestioneRecensioni gestioneRecensioni = new GestioneRecensioni();
 
                         ArrayList<String> utenti = gf.leggiDaFile("src/dati/utente.csv");
@@ -200,7 +202,6 @@ public class TheKnife {
                     	System.out.println("Inserire una città per continuare: ");
                     	luogo = scanner.nextLine();
                     	gestioneRistoranti.menuCercaRistoranti(luogo);
-                    	
                     	
                    break;	
 
