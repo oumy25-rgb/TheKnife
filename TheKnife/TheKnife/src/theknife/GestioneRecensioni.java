@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import static resources.GestioneFile.leggiTutteLeRecensioni;
 
 /**
  *
@@ -31,55 +32,58 @@ public class GestioneRecensioni {
 
 
 public void modificaRecensione(Cliente cliente, Scanner scanner) {
-    ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
+    ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
     
-    System.out.print("Nome ristorante: ");
+    System.out.print("Nome del ristorante di cui vuoi modificare la recensione: ");
     String nomeRistorante = scanner.nextLine();
 
-    boolean found = false;
     for (Recensione rec : tutteRecensioni) {
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
             rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
-
-            System.out.print("Nuovo testo: ");
+            System.out.print("Nuovo testo recensione: ");
             String nuovoTesto = scanner.nextLine();
             System.out.print("Nuovo voto (1-5): ");
-            int nuoveStelle = Integer.parseInt(scanner.nextLine());
+            double nuoveStelle = Double.parseDouble(scanner.nextLine());
 
             rec.setTestoRecensione(nuovoTesto);
             rec.setStelle(nuoveStelle);
-            found = true;
-            break;
+            riscriviRecensioni(tutteRecensioni);
+            System.out.println("Recensione modificata con successo.");
+            return;
         }
     }
-
-    if (found) {
-        riscriviRecensioni(tutteRecensioni);
-        System.out.println("Recensione aggiornata.");
-    } else {
-        System.out.println("Recensione non trovata.");
-    }
+    System.out.println("Nessuna recensione trovata per questo ristorante.");
 }
+
 
 
 public void eliminaRecensione(Cliente cliente, Scanner scanner) {
-    ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
+    ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
 
-    System.out.print("Nome ristorante: ");
+    System.out.print("Nome del ristorante di cui vuoi eliminare la recensione: ");
     String nomeRistorante = scanner.nextLine();
 
-    boolean removed = tutteRecensioni.removeIf(rec ->
-        rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
-        rec.getRistorante().equalsIgnoreCase(nomeRistorante)
-    );
+    Iterator<Recensione> iterator = tutteRecensioni.iterator();
+    boolean removed = false;
+    
+    while (iterator.hasNext()) {
+        Recensione rec = iterator.next();
+        if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
+            rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
+            iterator.remove();
+            removed = true;
+            break; // Esci dopo aver eliminato la prima (e unica) recensione
+        }
+    }
 
     if (removed) {
         riscriviRecensioni(tutteRecensioni);
-        System.out.println("Recensione eliminata.");
+        System.out.println("Recensione eliminata con successo.");
     } else {
-        System.out.println("Recensione non trovata.");
+        System.out.println("Nessuna recensione trovata per questo ristorante.");
     }
 }
+
 
     public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
     ArrayList<Recensione> tutte = Recensione.cercaPerRistorante(nomeRistorante);
@@ -107,6 +111,18 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
         System.err.println("Errore riscrittura file recensioni: " + e.getMessage());
     }
 }
+    
+    public boolean recensioneEsistente(String nomeRistorante, String codiceFiscale) {
+    ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
+    for (Recensione rec : tutteRecensioni) {
+        if (rec.getNomeRistorante().equalsIgnoreCase(nomeRistorante) && 
+            rec.getCodiceFiscale().equalsIgnoreCase(codiceFiscale)) {
+            return true; // La recensione esiste già
+        }
+    }
+    return false; // Nessuna recensione trovata
+}
+
 
 }
 
