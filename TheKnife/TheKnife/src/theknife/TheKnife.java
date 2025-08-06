@@ -73,6 +73,15 @@ public class TheKnife {
                         	codFiscale = scanner.nextLine();
                         }while(!Utente.campoNonVuoto(codFiscale) || !Utente.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
                         // Regex: 6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri o lettere
+                     // Il codice fiscale italiano è composto da 16 caratteri con il seguente formato:
+                     // - 3 lettere per le consonanti del cognome
+                     // - 3 lettere per le consonanti del nome
+                     // - 2 cifre per l'anno di nascita (es. 97 per 1997)
+                     // - 1 lettera per il mese di nascita (A=Gennaio, B=Febbraio, ..., M=Dicembre)
+                     // - 2 cifre per il giorno di nascita (01–31 per maschi, 41–71 per femmine)
+                     // - 4 caratteri alfanumerici per il codice catastale del comune di nascita
+                     // - 1 carattere di controllo calcolato in base ai precedenti
+                     // Esempio valido: RSSMRA97A41H501X
                         
                         String username = "";
                         do {
