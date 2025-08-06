@@ -243,11 +243,20 @@ public class TheKnife {
                         System.out.println("\nComplimenti " + ruolo + "! Registrazione completata con successo!");
                         break;
                     case 2:
-                    
-                        System.out.print("Username: ");
-                        String user = scanner.nextLine();
-                        System.out.print("Password: ");
-                        String pass = scanner.nextLine();
+                    	
+                    	String user="";
+                    	do {
+                    		System.out.print("Username: ");
+                    		user = scanner.nextLine();
+                    	}while(!Utente.campoNonVuoto(user));
+                    	
+                    	String pass="";
+                    	
+                    	do {
+                    		System.out.print("Password: ");
+                    		pass = scanner.nextLine();
+                    	}while(!Utente.campoNonVuoto(pass));
+                    	
                         pass = Utente.cifraPassword(pass);
                         GestioneRecensioni gestioneRecensioni = new GestioneRecensioni();
 
@@ -281,9 +290,13 @@ public class TheKnife {
 
                     case 3:
                     	
-                    	String luogo;
-                    	System.out.println("Inserire una città per continuare: ");
-                    	luogo = scanner.nextLine();
+                    	String luogo="";
+                    	
+                    	do {
+                    		System.out.println("Inserire una città per continuare: ");
+                    		luogo = scanner.nextLine();
+                    	}while(!Utente.campoNonVuoto(luogo));
+                    	
                     	gestioneRistoranti.menuCercaRistoranti(luogo);
                     	
                    break;	
