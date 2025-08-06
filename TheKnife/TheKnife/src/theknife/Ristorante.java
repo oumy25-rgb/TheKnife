@@ -172,32 +172,6 @@ public class Ristorante {
         }
         return somma / recensioni.size();
     }
-    
-    // Metodi per gestire le promozioni
-    public void aggiungiPromozione(String promozione,String nomeUtente) {
-        if (!promozioni.contains(promozione)) {
-            promozioni.add(promozione);
-            GestioneFile gestioneFile = new GestioneFile();
-            gestioneFile.scriviPreferiti("promozioni.csv", new Preferiti(nomeUtente, this.getName()));
-        }else{
-            System.out.println("La promozione è già presente.");
-        }
-    }
-    public void rimuoviPromozione(String promozione) {
-        promozioni.remove(promozione);
-    }
-    
-    public void visualizzaPromozioni() {
-    if (promozioni.isEmpty()) {
-        System.out.println("Nessuna promozione disponibile.");
-    } else {
-        System.out.println("Promozioni disponibili:");
-        for (String promozione : promozioni) {
-            System.out.println("- " + promozione);
-        }
-    }
-}
-     
      
     public void visualizzaRistorante() {
 	    System.out.println("Nome Ristorante: " + name);
@@ -292,32 +266,49 @@ public void rimuoviPiatto(String nomePiatto) {
     }
 }
 
-	public double calcoloMediaStelle(String nome,String citta,String indirizzo) {
-	
-		double media,stelle=0;
-		int cont=0;
-		
-    	
-        try (CSVReader reader = new CSVReader(new FileReader("src/dati/recensioni.csv"))) {
-            String[] riga;
+    public double calcoloMediaStelle(String nome, String citta, String indirizzo) {
+    double somma = 0.0;
+    int cont = 0;
 
-            while ((riga = reader.readNext()) != null) {
-                if (nome.equalsIgnoreCase(riga[0]) && indirizzo.equalsIgnoreCase(riga[2]) && citta.equalsIgnoreCase(riga[3]) ) {
-                	//String name, String address, String city, String price,String nation, String cuisine, double longitude, 
-                	//double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni
-                    stelle += Double.parseDouble(riga[6]);
+    try (CSVReader reader = new CSVReader(new FileReader("src/dati/recensioni.csv"))) {
+        String[] riga;
+        while ((riga = reader.readNext()) != null) {
+            if (riga.length > 6 && // Assicurati che ci siano abbastanza colonne
+                nome.equalsIgnoreCase(riga[0]) && 
+                indirizzo.equalsIgnoreCase(riga[2]) && 
+                citta.equalsIgnoreCase(riga[3])) {
+                
+                try {
+                    somma += Double.parseDouble(riga[4]); // Assicurati che il campo stelle sia corretto
                     cont++;
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid star rating format: " + riga[4]);
                 }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CsvValidationException e) {
-            e.printStackTrace();
         }
-        
-        return media = stelle/cont;
-	
-	}
+    } catch (Exception e) {
+        System.err.println("Error reading reviews: " + e.getMessage());
+    }
+
+    return cont > 0 ? somma / cont : 0.0; // Evita divisione per zero
+}
+    
+    // In Ristorante.java
+public String toCSV() {
+    return String.join(",",
+        this.name,
+        this.address,
+        this.city,
+        this.nation,
+        this.price,
+        this.cuisine,
+        String.valueOf(this.longitude),
+        String.valueOf(this.latitude),
+        String.valueOf(this.delivery),
+        String.valueOf(this.reservation)
+    );
+}
+
+
      
 } 
