@@ -23,22 +23,14 @@ public class Recensione {
     private String risposta; // NUOVO CAMPO
 
     // Costruttore completo
-    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta,
-                      double stelle, String testoRecensione, String data, String risposta) {
+    public Recensione(String nomeRistorante, String codiceFiscale, String testoRecensione, 
+                     double stelle, String data, String risposta) {
         this.nomeRistorante = nomeRistorante;
         this.codiceFiscale = codiceFiscale;
-        this.indirizzo = indirizzo;
-        this.citta = citta;
-        this.stelle = stelle;
         this.testoRecensione = testoRecensione;
+        this.stelle = stelle;
         this.data = data;
         this.risposta = risposta;
-    }
-
-    // Costruttore senza risposta (opzionale, utile per vecchi dati)
-    public Recensione(String nomeRistorante, String codiceFiscale, String indirizzo, String citta,
-                      double stelle, String testoRecensione, String data) {
-        this(nomeRistorante, codiceFiscale, indirizzo, citta, stelle, testoRecensione, data, "");
     }
 
     // Getters e Setters
@@ -74,19 +66,17 @@ public class Recensione {
         return getNomeRistorante(); // già presente
     }
 
-    // Formattazione per scrittura su CSV
     public String toCSV() {
-    return String.format("%s,%s,%s,%s,%.1f,%s,%s,%s",
-        nomeRistorante,
-        codiceFiscale,
-        indirizzo,
-        citta,
-        stelle,
-        testoRecensione.replace(",", ";"),
-        data,
-        risposta != null ? risposta.replace(",", ";") : ""
-    );
-}
+        return String.format("%s,%s,%s,%.1f,%s,%s",
+            nomeRistorante,
+            codiceFiscale,
+            testoRecensione.replace(",", ";"),
+            stelle,
+            data,
+            risposta != null ? risposta.replace(",", ";") : ""
+        );
+    }
+
 
 
     // Scrittura su file
@@ -101,34 +91,42 @@ public class Recensione {
 
 
 
-    // Lettura da file
     public static ArrayList<Recensione> leggiTutteLeRecensioni() {
-        ArrayList<Recensione> recensioni = new ArrayList<>();
+    ArrayList<Recensione> recensioni = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split(",", 8); // ora ci sono 8 campi
-                if (tokens.length >= 7) {
-                    String risposta = tokens.length == 8 ? tokens[7] : ""; // risposta può essere vuota
-                    recensioni.add(new Recensione(
-                        tokens[0],
-                        tokens[1],
-                        tokens[2],
-                        tokens[3],
-                        Double.parseDouble(tokens[4]),
-                        tokens[5],
-                        tokens[6],
-                        risposta
-                    ));
+    try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+            if (line.isEmpty()) continue;
+
+            String[] tokens = line.split(",", -1);  // -1 mantiene i valori vuoti
+            if (tokens.length >= 6) {
+                String nomeRistorante = tokens[0]; 
+                String codiceFiscale = tokens[1];
+                String testoRecensione = tokens[2];
+                
+                // Gestione valore stelle con eventuale 0 dopo
+                String stelleStr = tokens[3];
+                if (tokens.length > 5 && tokens[4].equals("0")) {
+                    stelleStr = tokens[3] + "." + tokens[4]; // Trasforma "4,0" in "4.0"
                 }
-            }
-        } catch (IOException e) {
-            System.err.println("Errore nella lettura delle recensioni: " + e.getMessage());
-        }
+                double stelle = Double.parseDouble(stelleStr.replace(',', '.')); 
+                
+                // Data sarà tokens[5] se c'è lo 0, altrimenti tokens[4]
+                String data = (tokens.length > 5 && tokens[4].equals("0")) ? tokens[5] : tokens[4];
+                
+                String risposta = tokens.length > 6 ? tokens[6] : "";
 
-        return recensioni;
+                recensioni.add(new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta));
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Errore lettura recensioni: " + e.getMessage());
     }
+    return recensioni;
+}
+
 
     public static ArrayList<Recensione> cercaPerRistorante(String nomeRistorante) {
         ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
