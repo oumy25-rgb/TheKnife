@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -28,13 +29,18 @@ public class GestioneRistoranti {
        // caricaRistoranti(); // Carica i ristoranti all'inizializzazione
     }
 
-    public void aggiungiRistorante(Ristorante ristorante) {
-        if (ristorante != null) {
-            ristoranti.add(ristorante);
-        } else {
-            System.out.println("Errore: il ristorante non può essere nullo.");
-        }
+    public void aggiungiRistorante(Ristorante ristorante, String codFiscale) {
+    if (ristorante != null) {
+        ristoranti.add(ristorante);
+        // Scrivi nel file proprietari.csv
+        GestioneFile.aggiungiRistoranteProprietario("src/dati/proprietari.csv", codFiscale, ristorante.getName());
+        
+        // Scrivi nel file ristoranti.csv con percorso corretto
+        GestioneFile.scriviRistorante("src/dati/ristoranti.csv", ristorante);
+    } else {
+        System.out.println("Errore: il ristorante non può essere nullo.");
     }
+}
     
     
     public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
@@ -259,10 +265,8 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 
         return lista;
     }
-	
-	
     
-    public void creaEMenuRistorante(String nomeRistorante) {
+   public void creaEMenuRistorante(String nomeRistorante) {
     Scanner scanner = new Scanner(System.in);
     ArrayList<Piatto> menu = new ArrayList<>();
     String risposta;
@@ -306,6 +310,9 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
         System.out.println("Errore durante il salvataggio del menu: " + e.getMessage());
     }
 }
+
+
+
 
 
    public Ristorante cercaRistorantePerNome(String nome) {
