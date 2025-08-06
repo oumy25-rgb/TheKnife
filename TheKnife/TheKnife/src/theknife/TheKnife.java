@@ -146,22 +146,37 @@ public class TheKnife {
                             	
                             }while(!Utente.campoNonVuoto(nomeRistorante));
                             
+							String indirizzoRistorante ="";
+							do {
+								System.out.println("Inserisci l'indirizzo del ristorante:");
+								indirizzoRistorante = scanner.nextLine();
+							 }while(!Utente.campoNonVuoto(indirizzoRistorante));
+							
+							String cittaRistorante="";
+							do {
+								System.out.println("Inserisci città del ristorante:");
+								 cittaRistorante = scanner.nextLine();
+							}while(!Utente.campoNonVuoto(cittaRistorante));
+							
+							String nazioneRistorante ="";
+							do {
+								System.out.println("Inserisci nazione del ristorante:");
+								nazioneRistorante = scanner.nextLine();
+							}while(!Utente.campoNonVuoto(nazioneRistorante));
 
-                            System.out.println("Inserisci l'indirizzo del ristorante:");
-                            String indirizzoRistorante = scanner.nextLine();
-
-                            System.out.println("Inserisci città del ristorante:");
-                            String cittaRistorante = scanner.nextLine();
-
-                            System.out.println("Inserisci nazione del ristorante:");
-                            String nazioneRistorante = scanner.nextLine();
-
-                            System.out.println("Inserisci il tipo di cucina del ristorante:");
-                            String tipoCucina = scanner.nextLine();
-
-                            System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
-                            String prezzoRistorante = scanner.nextLine().replace("€", "").trim();
-
+							String tipoCucina="";
+							do {
+								System.out.println("Inserisci il tipo di cucina del ristorante:");
+								tipoCucina = scanner.nextLine();
+							}while(!Utente.campoNonVuoto(tipoCucina));
+							
+							String prezzoRistorante="";
+							
+							do {
+								System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
+								prezzoRistorante = scanner.nextLine().replace("€", "").trim();
+							}while(!Utente.campoNonVuoto(prezzoRistorante));
+							
                             // Controllo per il servizio delivery
                             String delivery;
 
@@ -174,7 +189,7 @@ public class TheKnife {
                                 } else {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                 }
-                            } while (!controllo);
+                            } while (!Utente.campoNonVuoto(delivery) || !controllo );
 
                             // Controllo per la prenotazione online
                             String prenotazione;
@@ -187,7 +202,7 @@ public class TheKnife {
                                 } else {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                 }
-                            } while (!controllo);
+                            } while (!Utente.campoNonVuoto(prenotazione) || !controllo);
                             
                             String longi, lati;
                             
