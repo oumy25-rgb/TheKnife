@@ -97,8 +97,22 @@ public class Ristoratore extends Utente {
 
    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti, Scanner scanner) {
     System.out.println("Inserisci i dettagli del ristorante:");
-    System.out.print("Nome: ");
-    String nome = scanner.nextLine();
+    boolean controllo;
+    String nome="";
+    
+    do {
+    	controllo = true;
+    	
+    	System.out.println("Nome del ristorante:");
+    	 nome = scanner.nextLine();
+    	
+    	if(gestioneRistoranti.verificaEsistenzaRistorantePerRistoratore(this.getCodFiscale(), nome)) {
+    		controllo=false;
+    		System.out.println("il ristorante '"+nome+"' esiste già per questo ristoratore! riprova.");
+    	}
+    	
+    }while(!controllo);
+    
     System.out.print("Indirizzo: ");
     String address = scanner.nextLine();
     System.out.print("Città: ");

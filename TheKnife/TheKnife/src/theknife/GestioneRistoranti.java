@@ -684,6 +684,31 @@ public void menuCercaRistoranti(String citta) {
 	}
 }
 
+
+	public boolean verificaEsistenzaRistorantePerRistoratore(String cf, String nomeRistorante) {
+		
+		try (CSVReader reader = new CSVReader(new FileReader("src/dati/proprietari.csv"))) {
+            String[] riga;
+
+            while ((riga = reader.readNext()) != null) {
+               
+            		if(riga[0].equalsIgnoreCase(cf)) {
+            			if(riga[1].equalsIgnoreCase(nomeRistorante)) {
+            				return true; //se esiste già quel ristorante per quel ristoratore
+            			}
+            		}
+                }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+        } catch (CsvValidationException e) {
+            e.printStackTrace();
+            
+        }
+
+		return false; //se non ha trovato corrispondenze non esiste e si può aggiungere
+	}
    
 }
 

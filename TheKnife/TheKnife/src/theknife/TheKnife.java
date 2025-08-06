@@ -136,8 +136,16 @@ public class TheKnife {
                         // Se ruolo ristoratore, crea il ristorante
                         if (ruolo.equals("ristoratore")) {
                             System.out.println("\n--- Inserimento dati ristorante ---");
-                            System.out.println("Inserisci il nome del ristorante:");
-                            String nomeRistorante = scanner.nextLine();
+                            
+                            String nomeRistorante="";
+                            
+							do {
+                            	
+                            	System.out.println("Inserisci il nome del ristorante:");
+                            	nomeRistorante = scanner.nextLine();
+                            	
+                            }while(!Utente.campoNonVuoto(nomeRistorante));
+                            
 
                             System.out.println("Inserisci l'indirizzo del ristorante:");
                             String indirizzoRistorante = scanner.nextLine();
