@@ -134,6 +134,24 @@ public abstract class Utente {
     	return true; // non è vuoto
     }
     
+    public static boolean isLongitudineValida(String longi) {
+        try {
+            double val = Double.parseDouble(longi.replace(",", ".").trim());
+            return val >= -180 && val <= 180;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isLatitudineValida(String lati) {
+        try {
+            double val = Double.parseDouble(lati.replace(",", ".").trim());
+            return val >= -90 && val <= 90;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
 }
 
 

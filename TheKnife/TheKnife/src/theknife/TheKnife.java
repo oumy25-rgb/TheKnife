@@ -175,13 +175,25 @@ public class TheKnife {
                                 }
                             } while (!controllo);
                             
-                            System.out.print("Longitudine: ");
-                            String longi = scanner.nextLine();
-                            longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
+                            String longi, lati;
                             
-                            System.out.print("Latitudine: ");
-                            String lati = scanner.nextLine();
-                            lati = lati.replace(",", ".").trim();
+                            do {
+                                System.out.print("Longitudine: ");
+                                longi = scanner.nextLine();
+
+                                if (!Utente.isLongitudineValida(longi)) {
+                                    System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
+                                }
+                            } while (!Utente.campoNonVuoto(longi) || !Utente.isLongitudineValida(longi));
+
+                            do {
+                                System.out.print("Latitudine: ");
+                                lati = scanner.nextLine();
+
+                                if (!Utente.isLatitudineValida(lati)) {
+                                    System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
+                                }
+                            } while (!Utente.campoNonVuoto(lati) || !Utente.isLatitudineValida(lati));
                             
 
                             // Creazione e salvataggio ristorante
