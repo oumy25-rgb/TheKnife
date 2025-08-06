@@ -86,6 +86,54 @@ public abstract class Utente {
         return risultato; // Restituisce la stringa cifrata
     }
     
+    public static boolean nominativoValido(String nominativo) {
+    	
+    	boolean controllo = true;
+    	
+        if (Utente.campoNonVuoto(nominativo)) {
+        	
+        	for (int i = 0; i < nominativo.length(); i++) {
+                if (!Character.isLetter(nominativo.charAt(i)) && nominativo.charAt(i) != ' ') {
+                	System.out.println("Non puoi inserire numeri o simboli, riprova.");
+                    controllo = false;
+                    break;
+                }
+        	}     
+        }else {
+        	System.out.println("Non puoi lasciare il campo vuoto, riprova.");
+        	controllo = false;
+        }
+    
+        
+        return controllo; 
+    }
+    
+    public static boolean formatoValido(String s,String regex) {
+       
+        boolean controllo = true;
+        s = s.toUpperCase().trim();
+        
+       if (Utente.campoNonVuoto(s)) {
+    	   if(!s.matches(regex)) {
+        	   System.out.println("Formato non valido, riprova.");
+        	   controllo = false;
+           }
+       }else
+    	   controllo = false;
+       
+       return controllo;
+    }
+    
+    public static boolean campoNonVuoto(String s) {
+    	
+    	if(s.isEmpty() || s == null) {
+    		System.out.println("Non puoi lasciare il campo vuoto, riprova.");
+    		return false;
+    	}
+    	
+    	return true; // non è vuoto
+    }
+    
 }
 
 

@@ -53,42 +53,72 @@ public class TheKnife {
                     case 1:
                         
                         // Registrazione utente
-                        System.out.println("Inserisci il tuo nome:");
-                        String nome = scanner.nextLine();
-
-                        System.out.println("Inserisci il tuo cognome:");
-                        String cognome = scanner.nextLine();
-
-                        System.out.println("Inserisci il tuo codice fiscale:");
-                        String codFiscale = scanner.nextLine();
-
-                        System.out.println("Inserisci un username:");
-                        String username = scanner.nextLine();
-
-                        System.out.println("Inserisci una password:");
-                        String password = scanner.nextLine();
-                        password = Utente.cifraPassword(password);
+                    	String nome="";
+                    	
+                    	do {
+                    		System.out.println("Inserisci il tuo nome:");
+                    		nome = scanner.nextLine();
+                    	}while(!Utente.nominativoValido(nome));
                         
-                        String dataNascita;
+                        String cognome="";
+                        do {
+                        	System.out.println("Inserisci il tuo cognome:");
+                        	cognome = scanner.nextLine();
+                        }while(!Utente.nominativoValido(cognome));
+                        
+                        String codFiscale="";
+                       
+                        do {
+                        	System.out.println("Inserisci il tuo codice fiscale:");
+                        	codFiscale = scanner.nextLine();
+                        }while(!Utente.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
+                        // Regex: 6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri o lettere
+                        
+                        String username = "";
+                        do {
+                        	System.out.println("Inserisci un username:");
+                        	username = scanner.nextLine();
+                        }while(!Utente.campoNonVuoto(username));
+                        
+                        
+                        String password="";
                         
                         do {
-                        	controllo = false;
+                        	System.out.println("Inserisci una password:");
+                        	 password = scanner.nextLine();
+                        	password = Utente.cifraPassword(password);
+                        }while(!Utente.campoNonVuoto(password));	
+                        
+                        String dataNascita="";
+                        
+                        do {
+                        	
                         	System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare) (formato gg/mm/aaaa) :");
                         	dataNascita = scanner.nextLine();
+                        	 // Controllo formato: due cifre / due cifre / quattro cifre
                         	
-                        	 if (dataNascita.matches("^\\d{2}/\\d{2}/\\d{4}$")) {   // Controllo formato: due cifre / due cifre / quattro cifre
-                        		 controllo = true;
-                        	 }else {
-                        		 System.out.println("Formato non valido, riprova.");
-                        	 }
+                        }while(!Utente.formatoValido(dataNascita, "^\\d{2}/\\d{2}/\\d{4}$"));
+
+                        
+                        String luogoDomicilio = "";
+                        
+                        do {
+                        	System.out.println("Inserisci il tuo luogo di domicilio:");
+                        	luogoDomicilio = scanner.nextLine();
+                        }while(!Utente.campoNonVuoto(luogoDomicilio));
+                        
+                        String ruolo ="";
+                        
+                        do {
+                        	controllo = true;
+                        	System.out.println("Inserisci il tuo ruolo (cliente/ristoratore):");
+                        	ruolo = scanner.nextLine().toLowerCase();
                         	
-                        }while(!controllo);
-
-                        System.out.println("Inserisci il tuo luogo di domicilio:");
-                        String luogoDomicilio = scanner.nextLine();
-
-                        System.out.println("Inserisci il tuo ruolo (cliente/ristoratore):");
-                        String ruolo = scanner.nextLine().toLowerCase();
+                        	if(!ruolo.equalsIgnoreCase("cliente") && !ruolo.equalsIgnoreCase("ristoratore")) {
+                        		controllo = false;
+                        		System.out.println("Ruolo inesistente, riprova");
+                        	}
+                        }while(!controllo || !Utente.campoNonVuoto(ruolo));
 
                         // Crea l'utente con data di nascita opzionale
                          nuovoUtente = new Utente(
