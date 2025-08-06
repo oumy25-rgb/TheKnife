@@ -39,6 +39,7 @@ public class Cliente extends Utente {
             System.out.println("6. Modifica recensione");
             System.out.println("7. Elimina recensione");
             System.out.println("8. Visualizza menu di un ristorante");
+            System.out.println("9. Cerca ristorante vicino a me");
             System.out.println("0. Logout");
             System.out.print("Scelta: ");
             scelta = Integer.parseInt(scanner.nextLine());
@@ -115,6 +116,13 @@ public class Cliente extends Utente {
                         System.out.println("Ristorante non trovato.");
                     }
                     break;
+                    
+                case 9:
+                	
+                	gestioneRistoranti.menuCercaRistoranti(this.getLuogoDomicilio());
+                	
+                	break;
+                	
                 case 0:
                     System.out.println("Logout effettuato.");
                     break;

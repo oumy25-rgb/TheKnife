@@ -447,11 +447,236 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 }
 
 
+public void menuCercaRistoranti(String citta) {
+	
+	String sceltaCriterio;
+	String tipo;
+	boolean controllo;
+	ArrayList<Ristorante> listaRistorantiTrovati = null;
+	
+	System.out.println("Seleziona i criteri di ricerca dei ristoranti: ");
+	System.out.println("1) Per tipo di cucina e città");
+	System.out.println("2) città");
+	System.out.println("3) Per fascia di prezzo e città");
+	System.out.println("4) Disponibilità Delivery e città");
+	System.out.println("5) Disponibilità Prenotazione Online e città");
+	System.out.println("6) Per media stelle e città");
+	System.out.println("7) Per tutti i criteri");
+	System.out.println("8) Esci");
+	
+	Scanner scanner = new Scanner(System.in);
+	sceltaCriterio = scanner .nextLine();
+	
+	
+	switch(Integer.parseInt(sceltaCriterio)) {
+	
+	case 1:
+		
+		System.out.println("Inserisci il tipo di cucina: ");
+		tipo = scanner.nextLine();
+		
+		listaRistorantiTrovati = cercaRistoranti(tipo,citta);
+		
+		stampaListaRicerca(listaRistorantiTrovati);
+		
+		break;
+		
+	case 2:
+		
+		listaRistorantiTrovati = cercaRistoranti(citta);
+		stampaListaRicerca(listaRistorantiTrovati);
+		
+		break;
+		
+	 case 3:
+		 
+		 double fasciaPrezzoMin = 0,fasciaPrezzoMax = 0;
+ 		 
+ 		do {
+        	controllo=false;
+            System.out.println("Inserisci fascia di prezzo minima:");
 
+            try {
+                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                controllo = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+
+        } while (!controllo);
+        
+        do {
+            controllo = false;
+            System.out.println("Inserisci fascia di prezzo massima:");
+            try {
+                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                controllo = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+            
+        } while (!controllo);
+ 		
+        listaRistorantiTrovati = cercaRistoranti(citta,fasciaPrezzoMin,fasciaPrezzoMax);
+        stampaListaRicerca(listaRistorantiTrovati);
+		 
+		 break;
+		 
+	 case 4:
+		 
+		 String delivery;
+
+ 		do {
+        	controllo=false;
+            System.out.println("Richiedi servizio di delivery? (true/false):");
+                delivery = scanner.nextLine();
+                
+                if(delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false"))
+                	controllo = true;
+                else
+                	System.out.println("Hai inserito un valore non valido, riprova.");
+            
+        } while (!controllo);
+ 		
+ 		listaRistorantiTrovati = cercaRistoranti(citta,Boolean.parseBoolean(delivery));
+ 		stampaListaRicerca(listaRistorantiTrovati);
+		 
+		 break;
+		 
+	 case 5:
+
+		 String prenotazione;
+ 		 
+ 		do {
+        	controllo=false;
+            System.out.println("Richiedi servizio di prenotazione online? (true/false):");
+                prenotazione = scanner.nextLine();
+                
+                if(prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false"))
+                	controllo = true;
+                else
+                	System.out.println("Hai inserito un valore non valido, riprova.");
+            
+        } while (!controllo);
+ 		
+ 		
+ 		listaRistorantiTrovati = cercaRistoranti(Boolean.parseBoolean(prenotazione),citta);
+ 		stampaListaRicerca(listaRistorantiTrovati);
+		 
+		 break;
+		 
+	 case 6: 
+		 
+		 double mediaStelle = 0;
+ 		 
+ 		do {
+        	controllo = false;
+            System.out.println("Inserisci media delle stelle:");
+            try {
+                mediaStelle = Double.parseDouble(scanner.nextLine());
+                if (mediaStelle >= 1 && mediaStelle <= 5) {
+                    controllo = true;
+                } else {
+                    System.out.println("Numero fuori dal range 1-5, riprova.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+        } while (!controllo);
+ 		
+ 		listaRistorantiTrovati = cercaRistoranti(citta,mediaStelle);
+ 		stampaListaRicerca(listaRistorantiTrovati);
+		 
+		 break;
+		 
+	 case 7: 
+		 
+		 String del;
+		 String pren;
+		 mediaStelle = 0; 
+		 fasciaPrezzoMin=0;
+		 fasciaPrezzoMax=0;
+ 		
+ 		System.out.println("Inserisci il tipo di cucina: ");
+  		tipo = scanner.nextLine();
+  		
+  		do {
+        	controllo=false;
+            System.out.println("Inserisci fascia di prezzo minima:");
+
+            try {
+                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                controllo = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+
+        } while (!controllo);
+        
+        do {
+            controllo = false;
+            System.out.println("Inserisci fascia di prezzo massima:");
+            try {
+                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                controllo = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+            
+        } while (!controllo);
+        
+        do {
+        	controllo=false;
+            System.out.println("Richiedi servizio di delivery? (true/false):");
+                del = scanner.nextLine();
+                
+                if(del.equalsIgnoreCase("true") || del.equalsIgnoreCase("false"))
+                	controllo = true;
+                else
+                	System.out.println("Hai inserito un valore non valido, riprova.");
+            
+        } while (!controllo);
+ 		
+		 
+        do {
+        	controllo=false;
+            System.out.println("Richiedi servizio di prenotazione online? (true/false):");
+                pren = scanner.nextLine();
+                
+                if(pren.equalsIgnoreCase("true") || pren.equalsIgnoreCase("false"))
+                	controllo = true;
+                else
+                	System.out.println("Hai inserito un valore non valido, riprova.");
+            
+        } while (!controllo);
+		
+		do {
+        	controllo = false;
+            System.out.println("Inserisci media delle stelle:");
+            try {
+                mediaStelle = Double.parseDouble(scanner.nextLine());
+                if (mediaStelle >= 1 && mediaStelle <= 5) {
+                    controllo = true;
+                } else {
+                    System.out.println("Numero fuori dal range 1-5, riprova.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Hai inserito un valore non valido, riprova.");
+            }
+        } while (!controllo);
+		
+		
+		listaRistorantiTrovati = cercaRistoranti(citta,tipo,fasciaPrezzoMin,fasciaPrezzoMax,Boolean.parseBoolean(del),Boolean.parseBoolean(pren),mediaStelle);
+		stampaListaRicerca(listaRistorantiTrovati);
+
+		 break;
+		 
+		 default : 
+			 System.out.println("Opzione non presente, riprova.\n");
+		 
+	}
+}
 
    
-
- 
-    
 }
 
