@@ -131,12 +131,21 @@ public class TheKnife {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                 }
                             } while (!controllo);
+                            
+                            System.out.print("Longitudine: ");
+                            String longi = scanner.nextLine();
+                            longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
+                            
+                            System.out.print("Latitudine: ");
+                            String lati = scanner.nextLine();
+                            lati = lati.replace(",", ".").trim();
+                            
 
                             // Creazione e salvataggio ristorante
                             Ristorante nuovoRistorante = new Ristorante(
                                 nomeRistorante, indirizzoRistorante, cittaRistorante, 
                                 prezzoRistorante, nazioneRistorante, tipoCucina, 
-                                0.0, 0.0, Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>()
+                                Double.parseDouble(longi), Double.parseDouble(lati), Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>()
                             );
 
                             // Salva ristorante e associazione

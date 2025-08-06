@@ -102,6 +102,14 @@ public class Ristoratore extends Utente {
         String city = scanner.nextLine();
         System.out.print("Nazione: ");
         String nation = scanner.nextLine();
+        System.out.print("Longitudine: ");
+        String longi = scanner.nextLine();
+        longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
+        
+        System.out.print("Latitudine: ");
+        String lati = scanner.nextLine();
+        lati = lati.replace(",", ".").trim();
+        
         System.out.print("Prezzo medio: ");
         String price = scanner.nextLine();
         System.out.print("Tipo di cucina: ");
@@ -112,7 +120,7 @@ public class Ristoratore extends Utente {
         String prenotazione = scanner.nextLine();
         
 
-        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, 0.0, 0.0,Boolean.parseBoolean(delivery),
+        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, Double.parseDouble(longi), Double.parseDouble(lati),Boolean.parseBoolean(delivery),
         		Boolean.parseBoolean(prenotazione), Recensione.cercaPerRistorante(nome));
 
         gestioneRistoranti.aggiungiRistorante(nuovoRistorante);
