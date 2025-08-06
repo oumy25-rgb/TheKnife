@@ -92,12 +92,18 @@ public class TheKnife {
                         String dataNascita="";
                         
                         do {
+                        	controllo = true;
                         	
                         	System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare) (formato gg/mm/aaaa) :");
                         	dataNascita = scanner.nextLine();
                         	 // Controllo formato: due cifre / due cifre / quattro cifre
                         	
-                        }while(!Utente.formatoValido(dataNascita, "^\\d{2}/\\d{2}/\\d{4}$"));
+                        	if(!dataNascita.isEmpty()) {
+                        		if(!Utente.formatoValido(dataNascita, "^\\d{2}/\\d{2}/\\d{4}$"))
+                        			controllo = false;
+                        	}
+                        	
+                        }while(!controllo);
 
                         
                         String luogoDomicilio = "";
