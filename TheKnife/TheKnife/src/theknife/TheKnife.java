@@ -25,7 +25,7 @@ public class TheKnife {
 
     public static void main(String[] args) {
         // TODO code application logic here
-    	boolean controllo = false; //variabile usata per fare controlli sugli input
+    	boolean controllo; //variabile usata per fare controlli sugli input
         
         GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
@@ -68,9 +68,21 @@ public class TheKnife {
                         System.out.println("Inserisci una password:");
                         String password = scanner.nextLine();
                         password = Utente.cifraPassword(password);
-
-                        System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare):");
-                        String dataNascita = scanner.nextLine();
+                        
+                        String dataNascita;
+                        
+                        do {
+                        	controllo = false;
+                        	System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare) (formato gg/mm/aaaa) :");
+                        	dataNascita = scanner.nextLine();
+                        	
+                        	 if (dataNascita.matches("^\\d{2}/\\d{2}/\\d{4}$")) {   // Controllo formato: due cifre / due cifre / quattro cifre
+                        		 controllo = true;
+                        	 }else {
+                        		 System.out.println("Formato non valido, riprova.");
+                        	 }
+                        	
+                        }while(!controllo);
 
                         System.out.println("Inserisci il tuo luogo di domicilio:");
                         String luogoDomicilio = scanner.nextLine();
