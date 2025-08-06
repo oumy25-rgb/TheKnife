@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import resources.Piatto;
 import resources.GestioneFile;
+import static theknife.Recensione.riscriviRecensioni;
 
 public class Ristoratore extends Utente {
     private Ristorante ristorante;
@@ -63,9 +64,11 @@ public class Ristoratore extends Utente {
                 case 4:
                     rispondiARecensione(gestioneRecensioni, scanner);
                     break;
-                case 5:
-                    gestioneRistoranti.creaEMenuRistorante(ristorante.getName());
-                    ristorante.caricaMenuRistorante();
+                case 5:                    
+                    
+                    System.out.print("Inserisci il nome del ristorante per cui vuoi creare il menu: ");
+                    String nomeRistorante = scanner.nextLine().trim();
+                    gestioneRistoranti.creaEMenuRistorante(nomeRistorante);
                     break;
                 case 6:
                     System.out.print("Nome del piatto: ");
@@ -92,41 +95,31 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
-    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti, Scanner scanner) {
-        System.out.println("Inserisci i dettagli del ristorante:");
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
-        System.out.print("Indirizzo: ");
-        String address = scanner.nextLine();
-        System.out.print("Città: ");
-        String city = scanner.nextLine();
-        System.out.print("Nazione: ");
-        String nation = scanner.nextLine();
-        System.out.print("Longitudine: ");
-        String longi = scanner.nextLine();
-        longi = longi.replace(",", ".").trim(); // se per caso mettono ',' al posto del '.' viene sostituita e tolti spazi
-        
-        System.out.print("Latitudine: ");
-        String lati = scanner.nextLine();
-        lati = lati.replace(",", ".").trim();
-        
-        System.out.print("Prezzo medio: ");
-        String price = scanner.nextLine();
-        System.out.print("Tipo di cucina: ");
-        String cuisine = scanner.nextLine();
-        System.out.print("Servizio di Delivery? (true/false) : ");
-        String delivery = scanner.nextLine();
-        System.out.print("Servizio di Prenotazione Online? (true/false) : ");
-        String prenotazione = scanner.nextLine();
-        
+   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti, Scanner scanner) {
+    System.out.println("Inserisci i dettagli del ristorante:");
+    System.out.print("Nome: ");
+    String nome = scanner.nextLine();
+    System.out.print("Indirizzo: ");
+    String address = scanner.nextLine();
+    System.out.print("Città: ");
+    String city = scanner.nextLine();
+    System.out.print("Nazione: ");
+    String nation = scanner.nextLine();
+    System.out.print("Prezzo medio: ");
+    String price = scanner.nextLine();
+    System.out.print("Tipo di cucina: ");
+    String cuisine = scanner.nextLine();
+    System.out.print("Servizio di Delivery? (true/false) : ");
+    String delivery = scanner.nextLine();
+    System.out.print("Servizio di Prenotazione Online? (true/false) : ");
+    String prenotazione = scanner.nextLine();
+    Ristorante nuovoRistorante = new Ristorante(nome, address, city, price, nation, cuisine, 0.0, 0.0, 
+        Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>());
+    // Aggiungi il ristorante al sistema
+    gestioneRistoranti.aggiungiRistorante(nuovoRistorante, this.getCodFiscale());
+    System.out.println("Ristorante aggiunto e associato con successo!");
+}
 
-        Ristorante nuovoRistorante = new Ristorante(nome, address, city, price,nation, cuisine, Double.parseDouble(longi), Double.parseDouble(lati),Boolean.parseBoolean(delivery),
-        		Boolean.parseBoolean(prenotazione), Recensione.cercaPerRistorante(nome));
-
-        gestioneRistoranti.aggiungiRistorante(nuovoRistorante);
-        this.ristorante = nuovoRistorante;
-        System.out.println("Ristorante aggiunto e associato con successo!");
-    }
 
     private void visualizzaRiepilogo() {
         if (ristorante == null) {
@@ -181,6 +174,31 @@ public class Ristoratore extends Utente {
             System.out.println("Scelta non valida.");
         }
     }
+    
+    public void modificaRecensione(Cliente cliente, Scanner scanner) {
+    ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
+    
+    System.out.print("Nome ristorante: ");
+    String nomeRistorante = scanner.nextLine();
+
+    for (Recensione rec : tutteRecensioni) {
+        if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
+            rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
+            System.out.print("Nuovo testo: ");
+            String nuovoTesto = scanner.nextLine();
+            System.out.print("Nuovo voto (1-5): ");
+            int nuoveStelle = Integer.parseInt(scanner.nextLine());
+
+            rec.setTestoRecensione(nuovoTesto);
+            rec.setStelle(nuoveStelle);
+            riscriviRecensioni(tutteRecensioni);
+            System.out.println("Recensione aggiornata.");
+            return; // Esci dopo aver trovato e modificato la recensione
+        }
+    }
+    System.out.println("Recensione non trovata.");
+}
+
 
     private void aggiungiPiatto(Scanner scanner) {
         if (ristorante == null) {
