@@ -6,9 +6,11 @@ package resources;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import theknife.Preferiti;
@@ -21,6 +23,8 @@ import theknife.Utente;
  * @author HEW4K7Z2EA
  */
 public class GestioneFile {
+    
+
 
     public String[] dividereCsv(String linea) {
         //System.out.println("Nel metodo ricevo la linea: "+linea);
@@ -118,36 +122,30 @@ public class GestioneFile {
         return null; // Se non c'è corrispondenza ritorno null
     }
 
-    public void scriviRistorante(String nomeFile, Ristorante r) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter("src/dati/" + nomeFile, true);
-        } catch (IOException ex) {
-            System.err.println("Errore in apertura del file " + ex);
+public static void scriviRistorante(String filePath, Ristorante ristorante) {
+    try {
+        // Verifica se il file esiste già
+        File file = new File(filePath);
+        boolean fileEsiste = file.exists();
+        
+        try (FileWriter fw = new FileWriter(file, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            
+            // Scrivi l'intestazione solo se il file è nuovo
+            if (!fileEsiste) {
+                out.println("Name,Address,City,Nation,Price,Cuisine,Longitude,Latitude,Delivery,Reservation");
+            }
+            
+            // Scrivi i dati del ristorante
+            out.println(ristorante.toCSV()); // Scrivi i dati del ristorante
+            out.flush(); // Assicurati che i dati vengano scritti immediatamente
         }
-        BufferedWriter writeF = new BufferedWriter(fw);
-        try {
-            //Cambiare i dati da scrivere
-            writeF.write(r.getName() + ",");
-            writeF.write(r.getAddress() + ",");
-            writeF.write(r.getCity() + ",");
-            writeF.write(r.getNation() + ",");
-            writeF.write(r.getPrice() + ",");
-            writeF.write(r.getCuisine() + ",");
-            writeF.write(r.getLongitude() + ",");
-            writeF.write(r.getLatitude() + ",");
-            writeF.write(r.getDelivery() + ",");
-            writeF.write(r.getReservation()+"");
-            //nell'ultimo non metto la virgola perchè è il campo finale
-        } catch (IOException ex) {
-            System.err.println("Errore in fase di scrittura: " + ex);
-        }
-        try {
-            writeF.flush();
-        } catch (IOException ex) {
-            System.err.println("Errore durante lo svuotamento del buffer " + ex);
-        }
+    } catch (IOException e) {
+        System.err.println("Errore durante la scrittura del file: " + e.getMessage());
     }
+}
+
     
     public void scriviPreferiti(String nomeFile, Preferiti f) {
         FileWriter fw = null;
@@ -294,48 +292,50 @@ public class GestioneFile {
         }
     }
 
-    public ArrayList<Recensione> leggiRecensioniDaFile(String filePath) {
+   public static ArrayList<Recensione> leggiTutteLeRecensioni() {
     ArrayList<Recensione> recensioni = new ArrayList<>();
-    
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             // Ignora righe vuote
             if (line.trim().isEmpty()) {
                 continue;
             }
-            
-            String[] tokens = line.split(",");
-            if (tokens.length >= 7) { // Assicurati che ci siano almeno 7 campi
-                String ristorante = tokens[0];
-                String cliente = tokens[1];
-                String indirizzo = tokens[2];
-                String citta = tokens[3];
+
+            String[] tokens = line.split(",", -1); // Usa -1 per mantenere tutti i campi
+            if (tokens.length >= 6) { // Assicurati che ci siano almeno 6 campi
+                String nomeRistorante = tokens[0]; // Nome del ristorante
+                String codiceFiscale = tokens[1]; // Codice fiscale del cliente
+                String testoRecensione = tokens[2]; // Testo della recensione
                 double stelle;
-                String testoRecensione = tokens[5];
-                String data = tokens[6];
-                String risposta = tokens.length == 8 ? tokens[7] : ""; // Gestisci la risposta se presente
+                String data = tokens[4]; // Data della recensione
+                String risposta = tokens.length == 6 ? tokens[5] : ""; // Risposta può essere vuota
+
+                // Sostituisci la virgola con un punto per il campo delle stelle
+                String stelleString = tokens[3].replace(',', '.');
 
                 try {
-                    stelle = Double.parseDouble(tokens[4]); // Assicurati che il campo stelle sia corretto
+                    stelle = Double.parseDouble(stelleString); // Stelle
                 } catch (NumberFormatException e) {
-                    System.out.println("Errore nel formato delle stelle: " + tokens[4]);
+                    System.err.println("Formato stelle non valido: " + tokens[3]);
                     continue; // Salta questa riga se il formato non è corretto
                 }
-                
+
                 // Crea un oggetto Recensione e aggiungilo alla lista
-                Recensione recensione = new Recensione(ristorante, cliente, indirizzo, citta, stelle, testoRecensione, data, risposta);
-                recensioni.add(recensione);
+                Recensione rec = new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta);
+                recensioni.add(rec);
             } else {
                 System.out.println("Formato della riga non valido: " + line);
             }
         }
     } catch (IOException e) {
-        System.out.println("Errore durante la lettura del file: " + e.getMessage());
+        System.err.println("Errore nella lettura delle recensioni: " + e.getMessage());
     }
-    
+
     return recensioni;
 }
+
 
 
 public static String cercaRistoranteDaProprietario(String filePath, String codFiscale) {
@@ -363,6 +363,16 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         System.err.println("Errore nella lettura del file: " + e.getMessage());
     }
     return codFiscale; // Se non trovato ritorna comunque il codice fiscale
+}
+
+    public static void aggiungiRistoranteProprietario(String filePath, String codFiscale, String nomeRistorante) {
+    try (FileWriter writer = new FileWriter(filePath, true);
+         BufferedWriter bw = new BufferedWriter(writer);
+         PrintWriter out = new PrintWriter(bw)) {
+        out.println(codFiscale + "," + nomeRistorante);
+    } catch (IOException e) {
+        System.err.println("Errore durante la scrittura nel file: " + e.getMessage());
+    }
 }
 
                
