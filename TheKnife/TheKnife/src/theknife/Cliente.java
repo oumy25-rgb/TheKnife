@@ -39,7 +39,6 @@ public class Cliente extends Utente {
             System.out.println("6. Modifica recensione");
             System.out.println("7. Elimina recensione");
             System.out.println("8. Visualizza menu di un ristorante");
-            System.out.println("9. Cerca ristorante vicino a me");
             System.out.println("0. Logout");
             System.out.print("Scelta: ");
             scelta = Integer.parseInt(scanner.nextLine());
@@ -72,16 +71,25 @@ public class Cliente extends Utente {
                     String nome = scanner.nextLine();
                     Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nome);
                     if (r != null) {
-                        System.out.print("Testo: ");
+                        if (gestioneRecensioni.recensioneEsistente(nome, getCodFiscale())) {
+                            System.out.println("Hai già recensito questo ristorante. Usa l'opzione 6 per modificarla.");
+                            break;
+                        }
+                        System.out.print("Testo recensione: ");
                         String testo = scanner.nextLine();
                         System.out.print("Stelle (1-5): ");
                         double stelle = Double.parseDouble(scanner.nextLine());
                         String data = java.time.LocalDate.now().toString();
 
-                        Recensione rec = new Recensione(r.getName(), getCodFiscale(), r.getAddress(), r.getCity(), stelle, testo, data);
-
-                        rec.scriviSuFile();
-                        aggiornaRecensioniPersonali();
+                        Recensione rec = new Recensione(
+                            r.getName(), 
+                            getCodFiscale(), 
+                            testo, 
+                            stelle, 
+                            data, 
+                            null
+                        );
+                        gestioneRecensioni.aggiungiRecensione(rec);
                         System.out.println("Recensione aggiunta con successo.");
                     } else {
                         System.out.println("Ristorante non trovato.");
@@ -95,6 +103,7 @@ public class Cliente extends Utente {
                     gestioneRecensioni.eliminaRecensione(this, scanner);
                     aggiornaRecensioniPersonali();
                     break;
+
                 case 8:
                     System.out.print("Nome del ristorante: ");
                     String nomeRistMenu = scanner.nextLine();
@@ -116,13 +125,6 @@ public class Cliente extends Utente {
                         System.out.println("Ristorante non trovato.");
                     }
                     break;
-                    
-                case 9:
-                	
-                	gestioneRistoranti.menuCercaRistoranti(this.getLuogoDomicilio());
-                	
-                	break;
-                	
                 case 0:
                     System.out.println("Logout effettuato.");
                     break;
@@ -163,7 +165,6 @@ public class Cliente extends Utente {
         }
     }
 
- // Nella classe Cliente
 public void visualizzaRecensioniPersonali() {
     this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
 
@@ -189,18 +190,13 @@ public void visualizzaRecensioniPersonali() {
             System.out.println("Recensione: " + r.getTestoRecensione());
             
             // Stampa RISPOSTA solo se esiste ed è valida
-            if (r.getRisposta() != null && !r.getRisposta().isEmpty() && !r.getRisposta().equals(r.getData())) {
+            if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {
                 System.out.println("\n[Risposta del ristoratore]");
                 System.out.println(r.getRisposta());
             }
         }
     }
 }
-
-
-
-
-
 
     private void aggiornaRecensioniPersonali() {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
@@ -228,4 +224,16 @@ public void visualizzaRecensioniPersonali() {
             System.err.println("Errore nel salvataggio dei preferiti: " + e.getMessage());
         }
     }
+    
+    public void aggiungiRecensione(GestioneRecensioni gestioneRecensioni, String nomeRistorante, String testo, double stelle) {
+    if (gestioneRecensioni.recensioneEsistente(nomeRistorante, getCodFiscale())) {
+        System.out.println("Hai già recensito questo ristorante. Puoi solo modificare la tua recensione.");
+        return; // Non permettere l'aggiunta di una nuova recensione
+    }
+
+    Recensione rec = new Recensione(nomeRistorante, getCodFiscale(), testo, stelle, java.time.LocalDate.now().toString(), null);
+    gestioneRecensioni.aggiungiRecensione(rec);
+    System.out.println("Recensione aggiunta con successo.");
+}
+
 }
