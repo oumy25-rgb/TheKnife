@@ -186,7 +186,7 @@ public class TheKnife {
                             do {
                                 System.out.print("Longitudine: ");
                                 longi = scanner.nextLine();
-
+                                longi = longi.replace(",", ".").trim();
                                 if (!Utente.isLongitudineValida(longi)) {
                                     System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
                                 }
@@ -195,7 +195,7 @@ public class TheKnife {
                             do {
                                 System.out.print("Latitudine: ");
                                 lati = scanner.nextLine();
-
+                                lati = lati.replace(",", ".").trim();
                                 if (!Utente.isLatitudineValida(lati)) {
                                     System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
                                 }
@@ -210,7 +210,7 @@ public class TheKnife {
                             );
 
                             // Salva ristorante e associazione
-                            gf.scriviRistorante("ristoranti.csv", nuovoRistorante);
+                            GestioneFile.scriviRistorante("src/dati/ristoranti.csv", nuovoRistorante);
                             gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), nuovoRistorante);
                         }
 
