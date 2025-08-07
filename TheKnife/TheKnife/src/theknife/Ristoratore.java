@@ -13,7 +13,7 @@ import static theknife.Recensione.riscriviRecensioni;
 
 public class Ristoratore extends Utente {
     private Ristorante ristorante;
-
+    public static Scanner scanner = new Scanner(System.in);
     public Ristoratore(String nome, String cognome, String codFiscale, String username, String password,
                        String dataNascita, String luogoDomicilio, Ristorante ristorante) {
         super(nome, cognome, codFiscale, username, password, dataNascita, luogoDomicilio, "ristoratore");
@@ -53,7 +53,7 @@ public class Ristoratore extends Utente {
 
             switch (scelta) {
                 case 1:
-                    aggiungiRistorante(gestioneRistoranti, scanner);
+                    aggiungiRistorante(gestioneRistoranti);
                     break;
                 case 2:
                     visualizzaRiepilogo();
@@ -64,26 +64,52 @@ public class Ristoratore extends Utente {
                 case 4:
                     rispondiARecensione(gestioneRecensioni, scanner);
                     break;
-                case 5:                    
-                    
-                    System.out.print("Inserisci il nome del ristorante per cui vuoi creare il menu: ");
-                    String nomeRistorante = scanner.nextLine().trim();
+                case 5:  
+                	String nomeRistorante="";
+                    do {
+                    	System.out.print("Inserisci il nome del ristorante per cui vuoi creare il menu: ");
+                    	nomeRistorante = scanner.nextLine().trim();
+                    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
                     gestioneRistoranti.creaEMenuRistorante(nomeRistorante);
                     break;
                 case 6:
-                    System.out.print("Nome del piatto: ");
-                    String nomePiatto = scanner.nextLine();
-                    System.out.print("Descrizione del piatto: ");
-                    String descrizionePiatto = scanner.nextLine();
-                    System.out.print("Prezzo del piatto: ");
-                    double prezzoPiatto = Double.parseDouble(scanner.nextLine());
-
+                	String nomePiatto="";
+                	do {
+                		System.out.print("Nome del piatto: ");
+                		nomePiatto = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(nomePiatto));
+                	
+                	String descrizionePiatto="";
+                	do {
+	                    System.out.print("Descrizione del piatto: ");
+	                    descrizionePiatto = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(descrizionePiatto));
+                	
+				boolean controllo;
+				double prezzoPiatto = 0.0;
+				
+					do {
+						try {
+	                		controllo = true;
+	                		System.out.print("Prezzo del piatto: ");
+	                		prezzoPiatto = Double.parseDouble(scanner.nextLine());
+						}catch(NumberFormatException e) {
+							System.out.println("Valore inserito non valido, riprova.");
+							controllo=false;
+						}
+						
+                	}while(!controllo);
+                	
                     Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
                     ristorante.aggiungiPiatto(nuovoPiatto);
                     break;
                 case 7:
-                    System.out.print("Nome del piatto da rimuovere: ");
-                    String piattoDaRimuovere = scanner.nextLine();
+                	String piattoDaRimuovere="";
+                	do {
+                		System.out.print("Nome del piatto da rimuovere: ");
+                		piattoDaRimuovere = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(piattoDaRimuovere));
+                	
                     ristorante.rimuoviPiatto(piattoDaRimuovere);
                     break;
                 case 0:
@@ -95,46 +121,140 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
-   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti, Scanner scanner) {
-    System.out.println("Inserisci i dettagli del ristorante:");
-    boolean controllo;
-    String nome="";
-    
-    do {
-    	controllo = true;
-    	
-    	System.out.println("Nome del ristorante:");
-    	 nome = scanner.nextLine();
-    	
-    	if(gestioneRistoranti.verificaEsistenzaRistorantePerRistoratore(this.getCodFiscale(), nome)) {
-    		controllo=false;
-    		System.out.println("il ristorante '"+nome+"' esiste già per questo ristoratore! riprova.");
-    	}
-    	
-    }while(!controllo);
-    
-    System.out.print("Indirizzo: ");
-    String address = scanner.nextLine();
-    System.out.print("Città: ");
-    String city = scanner.nextLine();
-    System.out.print("Nazione: ");
-    String nation = scanner.nextLine();
-    System.out.print("Prezzo medio: ");
-    String price = scanner.nextLine();
-    System.out.print("Tipo di cucina: ");
-    String cuisine = scanner.nextLine();
-    System.out.print("Servizio di Delivery? (true/false) : ");
-    String delivery = scanner.nextLine();
-    System.out.print("Servizio di Prenotazione Online? (true/false) : ");
-    String prenotazione = scanner.nextLine();
-    Ristorante nuovoRistorante = new Ristorante(nome, address, city, price, nation, cuisine, 0.0, 0.0, 
-        Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>());
+   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti) {
     // Aggiungi il ristorante al sistema
-    gestioneRistoranti.aggiungiRistorante(nuovoRistorante, this.getCodFiscale());
+    gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti,this.getCodFiscale()), this.getCodFiscale());
     System.out.println("Ristorante aggiunto e associato con successo!");
 }
+   
+   
+	public static Ristorante menuAggiuntaRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
+		
+		Ristorante nuovoRistorante;
+		System.out.println("Inserisci i dettagli del ristorante:");
+	    boolean controllo;
+	    String nome="";
+	    
+	    do {
+	    	controllo = true;
+	    	
+	    	System.out.println("Inserisci il nome del ristorante:");
+	    	 nome = scanner.nextLine();
+	    	if(GestioneUtenti.campoNonVuoto(nome)) {
+		    	if(gestioneRistoranti.verificaEsistenzaRistorantePerRistoratore(cf, nome)) {
+		    		controllo=false;
+		    		System.out.println("il ristorante '"+nome+"' esiste già per questo ristoratore! riprova.");
+		    	}
+	    	}else
+	    		controllo=false;
+	    }while(!controllo);
+	    
+	    String address="";
+	    do {
+	    	System.out.print("Inserisci l'indirizzo del ristorante:");
+	    	address = scanner.nextLine();
+	    }while(!GestioneUtenti.campoNonVuoto(address));
+	    
+	    String city="";
+	    
+	    do {
+		    System.out.print("Inserisci città del ristorante:");
+		    city = scanner.nextLine();
+	    }while(!GestioneUtenti.campoNonVuoto(address));
+	    
+	    String nation="";
+	    
+	    do {
+	    	System.out.print("Inserisci nazione del ristorante:");
+	    	nation = scanner.nextLine();
+	    }while(!GestioneUtenti.campoNonVuoto(nation));
+	    
+	    String price="";
+	    do {
+			controllo = true;
+			System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
+			price = scanner.nextLine().replace("€", "").trim();
+			price = price.replace(",", ".");
+			
+			if(GestioneUtenti.campoNonVuoto(price)) {
+				try {
+			        Double.parseDouble(price);
+			    } catch (NumberFormatException e) {
+			        System.out.println("Devi inserire un numero valido, riprova.");
+			        controllo = false;
+			    }
+			}else
+				controllo = false;
+			
+		}while(!controllo);
+	    
+	    String cuisine="";
+	    do {
+	    	System.out.print("Inserisci il tipo di cucina del ristorante: ");
+	    	cuisine = scanner.nextLine();
+	    }while(!GestioneUtenti.campoNonVuoto(cuisine));
+	    
+	    String delivery;
 
+	    do {
+	        controllo = false;
+	        System.out.println("Inserisci opzione di servizio delivery (true/false): ");
+	        delivery = scanner.nextLine();
+	        
+	        if(GestioneUtenti.campoNonVuoto(delivery)) {
+	            if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
+	                controllo = true;
+	            } else {
+	                System.out.println("Hai inserito un valore non valido, riprova.");
+	            }
+	        }
+	        
+	    } while (!controllo );
 
+	    String prenotazione;
+	    do {
+	        controllo = false;
+	        System.out.println("Inserisci opzione di prenotazione online (true/false): ");
+	        prenotazione = scanner.nextLine();
+	        
+	        if(GestioneUtenti.campoNonVuoto(prenotazione)) {
+	            if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {
+	                controllo = true;
+	            } else {
+	                System.out.println("Hai inserito un valore non valido, riprova.");
+	            }
+	        }
+	        
+	    } while (!controllo);
+	    
+	    String longi ="";
+	    do {
+	        System.out.print("Inserisci Longitudine : ");
+	        longi = scanner.nextLine();
+	        longi = longi.replace(",", ".").trim();
+	        if (!GestioneUtenti.isLongitudineValida(longi)) {
+	            System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
+	        }
+	    } while (!GestioneUtenti.isLongitudineValida(longi)); //il metodo controlla già che non sia vuota 
+
+	    String lati="";
+	    do {
+	        System.out.print("Inserisci Latitudine: ");
+	        lati = scanner.nextLine();
+	        lati = lati.replace(",", ".").trim();
+	        if (!GestioneUtenti.isLatitudineValida(lati)) {
+	            System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
+	        }
+	    } while (!GestioneUtenti.isLatitudineValida(lati)); //il metodo controlla già che non sia vuota
+	    
+	    return  nuovoRistorante = new Ristorante(
+	            nome, address, city, 
+	            price, nation, cuisine, 
+	            Double.parseDouble(longi), Double.parseDouble(lati), Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>()
+	        );
+	}
+	
+	
     private void visualizzaRiepilogo() {
         if (ristorante == null) {
             System.out.println("Nessun ristorante associato.");

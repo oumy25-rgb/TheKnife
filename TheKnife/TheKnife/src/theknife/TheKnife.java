@@ -45,9 +45,17 @@ public class TheKnife {
                 System.out.print("Cosa vuoi fare? : "); // <-- QUI l'input sarà su una nuova riga
 
                 // Gestione dell'input dell'utente
+                do {
+                	controllo = true;
+                	try {
+                		scelta = Integer.parseInt(scanner.nextLine());
+                		System.out.println();
+                	}catch(NumberFormatException e) {
+                		System.out.println("Valore inserito non valido, riprova.");
+                		controllo = false;
+                	}
+                }while(!controllo);
                 
-               scelta = Integer.parseInt(scanner.nextLine());
-               System.out.println();
                 
                 switch (scelta) {
                     case 1:
@@ -138,123 +146,8 @@ public class TheKnife {
 
                         // Se ruolo ristoratore, crea il ristorante
                         if (ruolo.equals("ristoratore")) {
-                            System.out.println("\n--- Inserimento dati ristorante ---");
-                            
-                            String nomeRistorante="";
-                            
-							do {
-                            	
-                            	System.out.println("Inserisci il nome del ristorante:");
-                            	nomeRistorante = scanner.nextLine();
-                            	
-                            }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
-                            
-							String indirizzoRistorante ="";
-							do {
-								System.out.println("Inserisci l'indirizzo del ristorante:");
-								indirizzoRistorante = scanner.nextLine();
-							 }while(!GestioneUtenti.campoNonVuoto(indirizzoRistorante));
-							
-							String cittaRistorante="";
-							do {
-								System.out.println("Inserisci città del ristorante:");
-								 cittaRistorante = scanner.nextLine();
-							}while(!GestioneUtenti.campoNonVuoto(cittaRistorante));
-							
-							String nazioneRistorante ="";
-							do {
-								System.out.println("Inserisci nazione del ristorante:");
-								nazioneRistorante = scanner.nextLine();
-							}while(!GestioneUtenti.campoNonVuoto(nazioneRistorante));
-
-							String tipoCucina="";
-							do {
-								System.out.println("Inserisci il tipo di cucina del ristorante:");
-								tipoCucina = scanner.nextLine();
-							}while(!GestioneUtenti.campoNonVuoto(tipoCucina));
-							
-							String prezzoRistorante="";
-							
-							do {
-								controllo = true;
-								System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
-								prezzoRistorante = scanner.nextLine().replace("€", "").trim();
-								prezzoRistorante = prezzoRistorante.replace(",", ".");
-								
-								if(GestioneUtenti.campoNonVuoto(prezzoRistorante)) {
-									try {
-								        Double.parseDouble(prezzoRistorante);
-								    } catch (NumberFormatException e) {
-								        System.out.println("Devi inserire un numero valido, riprova.");
-								        controllo = false;
-								    }
-								}else
-									controllo = false;
-								
-							}while(!controllo);
-							
-                            // Controllo per il servizio delivery
-                            String delivery;
-
-                            do {
-                                controllo = false;
-                                System.out.println("Inserisci opzione di servizio delivery (true/false): ");
-                                delivery = scanner.nextLine();
-                                
-                                if(GestioneUtenti.campoNonVuoto(delivery)) {
-	                                if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
-	                                    controllo = true;
-	                                } else {
-	                                    System.out.println("Hai inserito un valore non valido, riprova.");
-	                                }
-                                }
-                                
-                            } while (!controllo );
-
-                            // Controllo per la prenotazione online
-                            String prenotazione;
-                            do {
-                                controllo = false;
-                                System.out.println("Inserisci opzione di prenotazione online (true/false): ");
-                                prenotazione = scanner.nextLine();
-                                
-                                if(GestioneUtenti.campoNonVuoto(prenotazione)) {
-	                                if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {
-	                                    controllo = true;
-	                                } else {
-	                                    System.out.println("Hai inserito un valore non valido, riprova.");
-	                                }
-                                }
-                                
-                            } while (!controllo);
-                            
-                            String longi, lati;
-                            
-                            do {
-                                System.out.print("Longitudine: ");
-                                longi = scanner.nextLine();
-                                longi = longi.replace(",", ".").trim();
-                                if (!GestioneUtenti.isLongitudineValida(longi)) {
-                                    System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
-                                }
-                            } while (!GestioneUtenti.isLongitudineValida(longi)); //il metodo controlla già che non sia vuota 
-
-                            do {
-                                System.out.print("Latitudine: ");
-                                lati = scanner.nextLine();
-                                lati = lati.replace(",", ".").trim();
-                                if (!GestioneUtenti.isLatitudineValida(lati)) {
-                                    System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
-                                }
-                            } while (!GestioneUtenti.isLatitudineValida(lati)); //il metodo controlla già che non sia vuota
-                            
-
-                            // Creazione e salvataggio ristorante
-                            Ristorante nuovoRistorante = new Ristorante(
-                                nomeRistorante, indirizzoRistorante, cittaRistorante, 
-                                prezzoRistorante, nazioneRistorante, tipoCucina, 
-                                Double.parseDouble(longi), Double.parseDouble(lati), Boolean.parseBoolean(delivery), Boolean.parseBoolean(prenotazione), new ArrayList<>()
-                            );
+                            Ristorante nuovoRistorante;
+                            nuovoRistorante = Ristoratore.menuAggiuntaRistorante(gestioneRistoranti,nuovoUtente.getCodFiscale());
 
                             // Salva ristorante e associazione
                             GestioneFile.scriviRistorante("src/dati/ristoranti.csv", nuovoRistorante);
