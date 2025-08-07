@@ -30,7 +30,6 @@ public class Ristoratore extends Utente {
         Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nomeRistorante);
         if (r != null) {
             this.ristorante = r;
-            System.out.println("Ristorante associato caricato: " + ristorante.getName());
         }
     }
 }
@@ -53,7 +52,7 @@ public class Ristoratore extends Utente {
 
             switch (scelta) {
                 case 1:
-                    aggiungiRistorante(gestioneRistoranti);
+                    aggiungiRistorante(gestioneRistoranti,this.getCodFiscale());
                     break;
                 case 2:
                     visualizzaRiepilogo();
@@ -76,13 +75,13 @@ public class Ristoratore extends Utente {
                 	String nomePiatto="";
                 	do {
                 		System.out.print("Nome del piatto: ");
-                		nomePiatto = scanner.nextLine();
+                		nomePiatto = scanner.nextLine().trim();
                 	}while(!GestioneUtenti.campoNonVuoto(nomePiatto));
                 	
                 	String descrizionePiatto="";
                 	do {
 	                    System.out.print("Descrizione del piatto: ");
-	                    descrizionePiatto = scanner.nextLine();
+	                    descrizionePiatto = scanner.nextLine().trim();
                 	}while(!GestioneUtenti.campoNonVuoto(descrizionePiatto));
                 	
 				boolean controllo;
@@ -107,7 +106,7 @@ public class Ristoratore extends Utente {
                 	String piattoDaRimuovere="";
                 	do {
                 		System.out.print("Nome del piatto da rimuovere: ");
-                		piattoDaRimuovere = scanner.nextLine();
+                		piattoDaRimuovere = scanner.nextLine().trim();
                 	}while(!GestioneUtenti.campoNonVuoto(piattoDaRimuovere));
                 	
                     ristorante.rimuoviPiatto(piattoDaRimuovere);
@@ -121,9 +120,9 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
-   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti) {
+   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
     // Aggiungi il ristorante al sistema
-    gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti,this.getCodFiscale()), this.getCodFiscale());
+    gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti,cf), cf);
     System.out.println("Ristorante aggiunto e associato con successo!");
 }
    
@@ -131,7 +130,7 @@ public class Ristoratore extends Utente {
 	public static Ristorante menuAggiuntaRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
 		
 		Ristorante nuovoRistorante;
-		System.out.println("Inserisci i dettagli del ristorante:");
+		System.out.println("Inserisci i dettagli del ristorante");
 	    boolean controllo;
 	    String nome="";
 	    
@@ -139,7 +138,7 @@ public class Ristoratore extends Utente {
 	    	controllo = true;
 	    	
 	    	System.out.println("Inserisci il nome del ristorante:");
-	    	 nome = scanner.nextLine();
+	    	 nome = scanner.nextLine().trim();
 	    	if(GestioneUtenti.campoNonVuoto(nome)) {
 		    	if(gestioneRistoranti.verificaEsistenzaRistorantePerRistoratore(cf, nome)) {
 		    		controllo=false;
@@ -152,21 +151,21 @@ public class Ristoratore extends Utente {
 	    String address="";
 	    do {
 	    	System.out.print("Inserisci l'indirizzo del ristorante:");
-	    	address = scanner.nextLine();
+	    	address = scanner.nextLine().trim();
 	    }while(!GestioneUtenti.campoNonVuoto(address));
 	    
 	    String city="";
 	    
 	    do {
 		    System.out.print("Inserisci città del ristorante:");
-		    city = scanner.nextLine();
+		    city = scanner.nextLine().trim();
 	    }while(!GestioneUtenti.campoNonVuoto(address));
 	    
 	    String nation="";
 	    
 	    do {
 	    	System.out.print("Inserisci nazione del ristorante:");
-	    	nation = scanner.nextLine();
+	    	nation = scanner.nextLine().trim();
 	    }while(!GestioneUtenti.campoNonVuoto(nation));
 	    
 	    String price="";
@@ -191,7 +190,7 @@ public class Ristoratore extends Utente {
 	    String cuisine="";
 	    do {
 	    	System.out.print("Inserisci il tipo di cucina del ristorante: ");
-	    	cuisine = scanner.nextLine();
+	    	cuisine = scanner.nextLine().trim();
 	    }while(!GestioneUtenti.campoNonVuoto(cuisine));
 	    
 	    String delivery;
@@ -199,7 +198,7 @@ public class Ristoratore extends Utente {
 	    do {
 	        controllo = false;
 	        System.out.println("Inserisci opzione di servizio delivery (true/false): ");
-	        delivery = scanner.nextLine();
+	        delivery = scanner.nextLine().trim();
 	        
 	        if(GestioneUtenti.campoNonVuoto(delivery)) {
 	            if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
@@ -215,7 +214,7 @@ public class Ristoratore extends Utente {
 	    do {
 	        controllo = false;
 	        System.out.println("Inserisci opzione di prenotazione online (true/false): ");
-	        prenotazione = scanner.nextLine();
+	        prenotazione = scanner.nextLine().trim();
 	        
 	        if(GestioneUtenti.campoNonVuoto(prenotazione)) {
 	            if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {

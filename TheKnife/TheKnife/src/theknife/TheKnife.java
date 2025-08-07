@@ -65,27 +65,27 @@ public class TheKnife {
                     	
                     	do {
                     		System.out.println("Inserisci il tuo nome:");
-                    		nome = scanner.nextLine();
+                    		nome = scanner.nextLine().trim();
                     	}while(!GestioneUtenti.nominativoValido(nome));
                         
                         String cognome="";
                         do {
                         	System.out.println("Inserisci il tuo cognome:");
-                        	cognome = scanner.nextLine();
+                        	cognome = scanner.nextLine().trim();
                         }while(!GestioneUtenti.nominativoValido(cognome));
                         
                         String codFiscale="";
                        
                         do {
                         	System.out.println("Inserisci il tuo codice fiscale:");
-                        	codFiscale = scanner.nextLine();
+                        	codFiscale = scanner.nextLine().trim();
                         }while(!GestioneUtenti.campoNonVuoto(codFiscale) || !GestioneUtenti.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
                         // Regex: 6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri o lettere
                         
                         String username = "";
                         do {
                         	System.out.println("Inserisci un username:");
-                        	username = scanner.nextLine();
+                        	username = scanner.nextLine().trim();
                         }while(!GestioneUtenti.campoNonVuoto(username));
                         
                         
@@ -103,7 +103,7 @@ public class TheKnife {
                         	controllo = true;
                         	
                         	System.out.println("Inserisci la tua data di nascita (opzionale - premi invio per saltare) (formato gg/mm/aaaa) :");
-                        	dataNascita = scanner.nextLine();
+                        	dataNascita = scanner.nextLine().trim();
                         	 // Controllo formato: due cifre / due cifre / quattro cifre
                         	
                         	if(!dataNascita.isEmpty()) {
@@ -118,7 +118,7 @@ public class TheKnife {
                         
                         do {
                         	System.out.println("Inserisci il tuo luogo di domicilio:");
-                        	luogoDomicilio = scanner.nextLine();
+                        	luogoDomicilio = scanner.nextLine().trim();
                         }while(!GestioneUtenti.campoNonVuoto(luogoDomicilio));
                         
                         String ruolo ="";
@@ -126,7 +126,7 @@ public class TheKnife {
                         do {
                         	controllo = true;
                         	System.out.println("Inserisci il tuo ruolo (cliente/ristoratore):");
-                        	ruolo = scanner.nextLine().toLowerCase();
+                        	ruolo = scanner.nextLine().toLowerCase().trim();
                         	if(GestioneUtenti.campoNonVuoto(ruolo)) {
 	                        	if(!ruolo.equals("cliente") && !ruolo.equals("ristoratore")) {
 	                        		controllo = false;
@@ -164,7 +164,7 @@ public class TheKnife {
                     	String user="";
                     	do {
                     		System.out.print("Username: ");
-                    		user = scanner.nextLine();
+                    		user = scanner.nextLine().trim();
                     	}while(!GestioneUtenti.campoNonVuoto(user));
                     	
                     	String pass="";
@@ -210,7 +210,7 @@ public class TheKnife {
                     	
                     	do {
                     		System.out.println("Inserire una città per continuare: ");
-                    		luogo = scanner.nextLine();
+                    		luogo = scanner.nextLine().trim();
                     	}while(!GestioneUtenti.campoNonVuoto(luogo));
                     	
                     	gestioneRistoranti.menuCercaRistoranti(luogo);
