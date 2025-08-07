@@ -48,8 +48,14 @@ public class Cliente extends Utente {
                     visualizzaPreferiti();
                     break;
                 case 2:
-                    System.out.print("Nome ristorante: ");
-                    String nomeAdd = scanner.nextLine();
+                	
+                	String nomeAdd="";
+                	
+                	do {
+                		System.out.print("Nome ristorante: ");
+                		nomeAdd = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(nomeAdd));
+                	
                     Ristorante rAdd = gestioneRistoranti.cercaRistorantePerNome(nomeAdd);
                     if (rAdd != null) {
                         aggiungiPreferito(rAdd);
@@ -58,8 +64,13 @@ public class Cliente extends Utente {
                     }
                     break;
                 case 3:
-                    System.out.print("Nome ristorante: ");
-                    String nomeRem = scanner.nextLine();
+                	
+                	String nomeRem ="";
+                	do {
+                		System.out.print("Nome ristorante: ");
+                		nomeRem = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(nomeRem));	
+                	
                     rimuoviPreferito(nomeRem);
                     break;
                 case 4:
@@ -67,18 +78,41 @@ public class Cliente extends Utente {
                     visualizzaRecensioniPersonali();
                     break;
                 case 5:
-                    System.out.print("Nome ristorante: ");
-                    String nome = scanner.nextLine();
+                	String nome="";
+                	do {
+                		System.out.print("Nome ristorante: ");
+                		nome = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(nome));
+                	
                     Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nome);
                     if (r != null) {
                         if (gestioneRecensioni.recensioneEsistente(nome, getCodFiscale())) {
                             System.out.println("Hai già recensito questo ristorante. Usa l'opzione 6 per modificarla.");
                             break;
                         }
-                        System.out.print("Testo recensione: ");
+                        
+                        System.out.print("Testo recensione (opzionale) : "); 
                         String testo = scanner.nextLine();
-                        System.out.print("Stelle (1-5): ");
-                        double stelle = Double.parseDouble(scanner.nextLine());
+                        
+                        String s ="";
+                        boolean controllo;
+                        
+                        do {
+                        	controllo = true;
+                        
+                        	System.out.print("Stelle (1-5): ");
+                        	s = scanner.nextLine();
+                        	
+                        	if(GestioneUtenti.campoNonVuoto(s)) {
+	                        	if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
+	                        		controllo = false;
+	                        		System.out.println("Numero di stelle inserite non valido, riprova.");
+	                        	}
+                        	}
+                        	
+                        }while(!GestioneUtenti.campoNonVuoto(s) || !controllo);
+                        
+                        double stelle = Double.parseDouble(s);
                         String data = java.time.LocalDate.now().toString();
 
                         Recensione rec = new Recensione(
@@ -105,8 +139,12 @@ public class Cliente extends Utente {
                     break;
 
                 case 8:
-                    System.out.print("Nome del ristorante: ");
-                    String nomeRistMenu = scanner.nextLine();
+                	String nomeRistMenu="";
+                	do {
+                		System.out.print("Nome del ristorante: ");
+                		nomeRistMenu = scanner.nextLine();
+                	}while(!GestioneUtenti.campoNonVuoto(nomeRistMenu));
+                	
                     Ristorante rMenu = gestioneRistoranti.cercaRistorantePerNome(nomeRistMenu);
                     if (rMenu != null) {
                         rMenu.caricaMenuRistorante();
@@ -186,8 +224,9 @@ public void visualizzaRecensioniPersonali() {
             // Stampa DATA correttamente
             System.out.println("Data: " + r.getData());
             
-            // Stampa RECENSIONE
-            System.out.println("Recensione: " + r.getTestoRecensione());
+            // Stampa TESTO RECENSIONE se non è vuoto 
+            if(!r.getTestoRecensione().isEmpty())
+            	System.out.println("Recensione: " + r.getTestoRecensione());
             
             // Stampa RISPOSTA solo se esiste ed è valida
             if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {

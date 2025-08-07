@@ -58,27 +58,27 @@ public class TheKnife {
                     	do {
                     		System.out.println("Inserisci il tuo nome:");
                     		nome = scanner.nextLine();
-                    	}while(!Utente.nominativoValido(nome));
+                    	}while(!GestioneUtenti.nominativoValido(nome));
                         
                         String cognome="";
                         do {
                         	System.out.println("Inserisci il tuo cognome:");
                         	cognome = scanner.nextLine();
-                        }while(!Utente.nominativoValido(cognome));
+                        }while(!GestioneUtenti.nominativoValido(cognome));
                         
                         String codFiscale="";
                        
                         do {
                         	System.out.println("Inserisci il tuo codice fiscale:");
                         	codFiscale = scanner.nextLine();
-                        }while(!Utente.campoNonVuoto(codFiscale) || !Utente.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
+                        }while(!GestioneUtenti.campoNonVuoto(codFiscale) || !GestioneUtenti.formatoValido(codFiscale,"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$"));  
                         // Regex: 6 lettere, 2 numeri, 1 lettera, 2 numeri, 1 lettera, 3 numeri o lettere
                         
                         String username = "";
                         do {
                         	System.out.println("Inserisci un username:");
                         	username = scanner.nextLine();
-                        }while(!Utente.campoNonVuoto(username));
+                        }while(!GestioneUtenti.campoNonVuoto(username));
                         
                         
                         String password="";
@@ -86,8 +86,8 @@ public class TheKnife {
                         do {
                         	System.out.println("Inserisci una password:");
                         	 password = scanner.nextLine();
-                        	password = Utente.cifraPassword(password);
-                        }while(!Utente.campoNonVuoto(password));	
+                        	password = GestioneUtenti.cifraPassword(password);
+                        }while(!GestioneUtenti.campoNonVuoto(password));	
                         
                         String dataNascita="";
                         
@@ -99,7 +99,7 @@ public class TheKnife {
                         	 // Controllo formato: due cifre / due cifre / quattro cifre
                         	
                         	if(!dataNascita.isEmpty()) {
-                        		if(!Utente.formatoValido(dataNascita, "^\\d{2}/\\d{2}/\\d{4}$"))
+                        		if(!GestioneUtenti.formatoValido(dataNascita, "^\\d{2}/\\d{2}/\\d{4}$"))
                         			controllo = false;
                         	}
                         	
@@ -111,7 +111,7 @@ public class TheKnife {
                         do {
                         	System.out.println("Inserisci il tuo luogo di domicilio:");
                         	luogoDomicilio = scanner.nextLine();
-                        }while(!Utente.campoNonVuoto(luogoDomicilio));
+                        }while(!GestioneUtenti.campoNonVuoto(luogoDomicilio));
                         
                         String ruolo ="";
                         
@@ -124,7 +124,7 @@ public class TheKnife {
                         		controllo = false;
                         		System.out.println("Ruolo inesistente, riprova");
                         	}
-                        }while(!controllo || !Utente.campoNonVuoto(ruolo));
+                        }while(!controllo || !GestioneUtenti.campoNonVuoto(ruolo));
 
                         // Crea l'utente con data di nascita opzionale
                          nuovoUtente = new Utente(
@@ -144,38 +144,38 @@ public class TheKnife {
                             	System.out.println("Inserisci il nome del ristorante:");
                             	nomeRistorante = scanner.nextLine();
                             	
-                            }while(!Utente.campoNonVuoto(nomeRistorante));
+                            }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
                             
 							String indirizzoRistorante ="";
 							do {
 								System.out.println("Inserisci l'indirizzo del ristorante:");
 								indirizzoRistorante = scanner.nextLine();
-							 }while(!Utente.campoNonVuoto(indirizzoRistorante));
+							 }while(!GestioneUtenti.campoNonVuoto(indirizzoRistorante));
 							
 							String cittaRistorante="";
 							do {
 								System.out.println("Inserisci città del ristorante:");
 								 cittaRistorante = scanner.nextLine();
-							}while(!Utente.campoNonVuoto(cittaRistorante));
+							}while(!GestioneUtenti.campoNonVuoto(cittaRistorante));
 							
 							String nazioneRistorante ="";
 							do {
 								System.out.println("Inserisci nazione del ristorante:");
 								nazioneRistorante = scanner.nextLine();
-							}while(!Utente.campoNonVuoto(nazioneRistorante));
+							}while(!GestioneUtenti.campoNonVuoto(nazioneRistorante));
 
 							String tipoCucina="";
 							do {
 								System.out.println("Inserisci il tipo di cucina del ristorante:");
 								tipoCucina = scanner.nextLine();
-							}while(!Utente.campoNonVuoto(tipoCucina));
+							}while(!GestioneUtenti.campoNonVuoto(tipoCucina));
 							
 							String prezzoRistorante="";
 							
 							do {
 								System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
 								prezzoRistorante = scanner.nextLine().replace("€", "").trim();
-							}while(!Utente.campoNonVuoto(prezzoRistorante));
+							}while(!GestioneUtenti.campoNonVuoto(prezzoRistorante));
 							
                             // Controllo per il servizio delivery
                             String delivery;
@@ -189,7 +189,7 @@ public class TheKnife {
                                 } else {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                 }
-                            } while (!Utente.campoNonVuoto(delivery) || !controllo );
+                            } while (!GestioneUtenti.campoNonVuoto(delivery) || !controllo );
 
                             // Controllo per la prenotazione online
                             String prenotazione;
@@ -202,7 +202,7 @@ public class TheKnife {
                                 } else {
                                     System.out.println("Hai inserito un valore non valido, riprova.");
                                 }
-                            } while (!Utente.campoNonVuoto(prenotazione) || !controllo);
+                            } while (!GestioneUtenti.campoNonVuoto(prenotazione) || !controllo);
                             
                             String longi, lati;
                             
@@ -210,19 +210,19 @@ public class TheKnife {
                                 System.out.print("Longitudine: ");
                                 longi = scanner.nextLine();
                                 longi = longi.replace(",", ".").trim();
-                                if (!Utente.isLongitudineValida(longi)) {
+                                if (!GestioneUtenti.isLongitudineValida(longi)) {
                                     System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
                                 }
-                            } while (!Utente.campoNonVuoto(longi) || !Utente.isLongitudineValida(longi));
+                            } while (!GestioneUtenti.campoNonVuoto(longi) || !GestioneUtenti.isLongitudineValida(longi));
 
                             do {
                                 System.out.print("Latitudine: ");
                                 lati = scanner.nextLine();
                                 lati = lati.replace(",", ".").trim();
-                                if (!Utente.isLatitudineValida(lati)) {
+                                if (!GestioneUtenti.isLatitudineValida(lati)) {
                                     System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
                                 }
-                            } while (!Utente.campoNonVuoto(lati) || !Utente.isLatitudineValida(lati));
+                            } while (!GestioneUtenti.campoNonVuoto(lati) || !GestioneUtenti.isLatitudineValida(lati));
                             
 
                             // Creazione e salvataggio ristorante
@@ -248,16 +248,16 @@ public class TheKnife {
                     	do {
                     		System.out.print("Username: ");
                     		user = scanner.nextLine();
-                    	}while(!Utente.campoNonVuoto(user));
+                    	}while(!GestioneUtenti.campoNonVuoto(user));
                     	
                     	String pass="";
                     	
                     	do {
                     		System.out.print("Password: ");
                     		pass = scanner.nextLine();
-                    	}while(!Utente.campoNonVuoto(pass));
+                    	}while(!GestioneUtenti.campoNonVuoto(pass));
                     	
-                        pass = Utente.cifraPassword(pass);
+                        pass = GestioneUtenti.cifraPassword(pass);
                         GestioneRecensioni gestioneRecensioni = new GestioneRecensioni();
 
                         ArrayList<String> utenti = gf.leggiDaFile("src/dati/utente.csv");
@@ -295,7 +295,7 @@ public class TheKnife {
                     	do {
                     		System.out.println("Inserire una città per continuare: ");
                     		luogo = scanner.nextLine();
-                    	}while(!Utente.campoNonVuoto(luogo));
+                    	}while(!GestioneUtenti.campoNonVuoto(luogo));
                     	
                     	gestioneRistoranti.menuCercaRistoranti(luogo);
                     	

@@ -33,18 +33,36 @@ public class GestioneRecensioni {
 
 public void modificaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
+    String nomeRistorante="";
+    do {
+    	System.out.print("Nome del ristorante di cui vuoi modificare la recensione: ");
+    	nomeRistorante = scanner.nextLine();
+    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
     
-    System.out.print("Nome del ristorante di cui vuoi modificare la recensione: ");
-    String nomeRistorante = scanner.nextLine();
-
     for (Recensione rec : tutteRecensioni) {
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
             rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
-            System.out.print("Nuovo testo recensione: ");
+            System.out.print("Nuovo testo recensione (opzionale) : ");
             String nuovoTesto = scanner.nextLine();
-            System.out.print("Nuovo voto (1-5): ");
-            double nuoveStelle = Double.parseDouble(scanner.nextLine());
-
+            boolean controllo;
+            String s="";
+            do {
+            	controllo = true;
+            
+            	System.out.print("Nuovo voto (1-5): ");
+            	s = scanner.nextLine();
+            	
+            	if(GestioneUtenti.campoNonVuoto(s)) {
+            		if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
+                		controllo = false;
+                		System.out.println("Numero di stelle inserite non valido, riprova.");
+                	}
+            	}
+            	
+            }while(!GestioneUtenti.campoNonVuoto(s) || !controllo);
+            
+            double nuoveStelle = Double.parseDouble(s);
+            
             rec.setTestoRecensione(nuovoTesto);
             rec.setStelle(nuoveStelle);
             riscriviRecensioni(tutteRecensioni);
@@ -59,10 +77,12 @@ public void modificaRecensione(Cliente cliente, Scanner scanner) {
 
 public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
-
-    System.out.print("Nome del ristorante di cui vuoi eliminare la recensione: ");
-    String nomeRistorante = scanner.nextLine();
-
+    String nomeRistorante="";
+    do {
+    	System.out.print("Nome del ristorante di cui vuoi eliminare la recensione: ");
+    	nomeRistorante = scanner.nextLine();
+    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
+    
     Iterator<Recensione> iterator = tutteRecensioni.iterator();
     boolean removed = false;
     
