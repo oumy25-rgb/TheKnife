@@ -319,33 +319,6 @@ public class Ristoratore extends Utente {
             System.out.println("Risposta inviata correttamente.");
        
     }
-    
-    public void modificaRecensione(Cliente cliente) {
-    ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
-    String nomeRistorante="";
-    do {
-    	System.out.print("Nome ristorante: ");
-    	nomeRistorante = scanner.nextLine();
-    } while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
-    
-    for (Recensione rec : tutteRecensioni) {
-        if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
-            rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
-            System.out.print("Nuovo testo: ");
-            String nuovoTesto = scanner.nextLine();
-            System.out.print("Nuovo voto (1-5): ");
-            int nuoveStelle = Integer.parseInt(scanner.nextLine());
-
-            rec.setTestoRecensione(nuovoTesto);
-            rec.setStelle(nuoveStelle);
-            riscriviRecensioni(tutteRecensioni);
-            System.out.println("Recensione aggiornata.");
-            return; // Esci dopo aver trovato e modificato la recensione
-        }
-    }
-    System.out.println("Recensione non trovata.");
-}
-
 
     private void aggiungiPiatto() {
         if (ristorante == null) {
