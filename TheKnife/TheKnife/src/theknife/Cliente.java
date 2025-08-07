@@ -28,7 +28,8 @@ public class Cliente extends Utente {
     }
 
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
-        int scelta;
+        int scelta = 0;
+        boolean controllo;
         do {
             System.out.println("===== MENU CLIENTE =====");
             System.out.println("1. Visualizza preferiti");
@@ -40,9 +41,19 @@ public class Cliente extends Utente {
             System.out.println("7. Elimina recensione");
             System.out.println("8. Visualizza menu di un ristorante");
             System.out.println("0. Logout");
-            System.out.print("Scelta: ");
-            scelta = Integer.parseInt(scanner.nextLine());
-
+            
+            do {
+            	controllo=true;
+            	try {
+	            	System.out.print("Scelta: ");
+	            	scelta = Integer.parseInt(scanner.nextLine());
+            	}catch(NumberFormatException e) {
+            		System.out.println("Valore inserito non valido, riprova.");
+            		controllo = false;
+            	}
+            	
+            }while(!controllo);
+            
             switch (scelta) {
                 case 1:
                     visualizzaPreferiti();
@@ -95,7 +106,7 @@ public class Cliente extends Utente {
                         String testo = scanner.nextLine();
                         
                         String s ="";
-                        boolean controllo;
+                        
                         
                         do {
                         	controllo = true;
@@ -108,9 +119,10 @@ public class Cliente extends Utente {
 	                        		controllo = false;
 	                        		System.out.println("Numero di stelle inserite non valido, riprova.");
 	                        	}
-                        	}
+                        	}else
+                        		controllo = false;
                         	
-                        }while(!GestioneUtenti.campoNonVuoto(s) || !controllo);
+                        }while(!controllo);
                         
                         double stelle = Double.parseDouble(s);
                         String data = java.time.LocalDate.now().toString();

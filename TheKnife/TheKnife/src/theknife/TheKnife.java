@@ -119,12 +119,15 @@ public class TheKnife {
                         	controllo = true;
                         	System.out.println("Inserisci il tuo ruolo (cliente/ristoratore):");
                         	ruolo = scanner.nextLine().toLowerCase();
-                        	
-                        	if(!ruolo.equalsIgnoreCase("cliente") && !ruolo.equalsIgnoreCase("ristoratore")) {
+                        	if(GestioneUtenti.campoNonVuoto(ruolo)) {
+	                        	if(!ruolo.equals("cliente") && !ruolo.equals("ristoratore")) {
+	                        		controllo = false;
+	                        		System.out.println("Ruolo inesistente, riprova");
+	                        	}
+                        	}else
                         		controllo = false;
-                        		System.out.println("Ruolo inesistente, riprova");
-                        	}
-                        }while(!controllo || !GestioneUtenti.campoNonVuoto(ruolo));
+                        	
+                        }while(!controllo);
 
                         // Crea l'utente con data di nascita opzionale
                          nuovoUtente = new Utente(
@@ -173,9 +176,22 @@ public class TheKnife {
 							String prezzoRistorante="";
 							
 							do {
+								controllo = true;
 								System.out.println("Inserisci il prezzo medio del ristorante (es. 25.25):");
 								prezzoRistorante = scanner.nextLine().replace("€", "").trim();
-							}while(!GestioneUtenti.campoNonVuoto(prezzoRistorante));
+								prezzoRistorante = prezzoRistorante.replace(",", ".");
+								
+								if(GestioneUtenti.campoNonVuoto(prezzoRistorante)) {
+									try {
+								        Double.parseDouble(prezzoRistorante);
+								    } catch (NumberFormatException e) {
+								        System.out.println("Devi inserire un numero valido, riprova.");
+								        controllo = false;
+								    }
+								}else
+									controllo = false;
+								
+							}while(!controllo);
 							
                             // Controllo per il servizio delivery
                             String delivery;
@@ -184,12 +200,16 @@ public class TheKnife {
                                 controllo = false;
                                 System.out.println("Inserisci opzione di servizio delivery (true/false): ");
                                 delivery = scanner.nextLine();
-                                if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
-                                    controllo = true;
-                                } else {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                
+                                if(GestioneUtenti.campoNonVuoto(delivery)) {
+	                                if (delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false")) {
+	                                    controllo = true;
+	                                } else {
+	                                    System.out.println("Hai inserito un valore non valido, riprova.");
+	                                }
                                 }
-                            } while (!GestioneUtenti.campoNonVuoto(delivery) || !controllo );
+                                
+                            } while (!controllo );
 
                             // Controllo per la prenotazione online
                             String prenotazione;
@@ -197,12 +217,16 @@ public class TheKnife {
                                 controllo = false;
                                 System.out.println("Inserisci opzione di prenotazione online (true/false): ");
                                 prenotazione = scanner.nextLine();
-                                if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {
-                                    controllo = true;
-                                } else {
-                                    System.out.println("Hai inserito un valore non valido, riprova.");
+                                
+                                if(GestioneUtenti.campoNonVuoto(prenotazione)) {
+	                                if (prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false")) {
+	                                    controllo = true;
+	                                } else {
+	                                    System.out.println("Hai inserito un valore non valido, riprova.");
+	                                }
                                 }
-                            } while (!GestioneUtenti.campoNonVuoto(prenotazione) || !controllo);
+                                
+                            } while (!controllo);
                             
                             String longi, lati;
                             
@@ -213,7 +237,7 @@ public class TheKnife {
                                 if (!GestioneUtenti.isLongitudineValida(longi)) {
                                     System.out.println("Valore non valido. Inserisci una longitudine tra -180 e 180.");
                                 }
-                            } while (!GestioneUtenti.campoNonVuoto(longi) || !GestioneUtenti.isLongitudineValida(longi));
+                            } while (!GestioneUtenti.isLongitudineValida(longi)); //il metodo controlla già che non sia vuota 
 
                             do {
                                 System.out.print("Latitudine: ");
@@ -222,7 +246,7 @@ public class TheKnife {
                                 if (!GestioneUtenti.isLatitudineValida(lati)) {
                                     System.out.println("Valore non valido. Inserisci una latitudine tra -90 e 90.");
                                 }
-                            } while (!GestioneUtenti.campoNonVuoto(lati) || !GestioneUtenti.isLatitudineValida(lati));
+                            } while (!GestioneUtenti.isLatitudineValida(lati)); //il metodo controlla già che non sia vuota
                             
 
                             // Creazione e salvataggio ristorante
