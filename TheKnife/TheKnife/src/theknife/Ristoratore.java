@@ -36,7 +36,7 @@ public class Ristoratore extends Utente {
 }
 
 
-    public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
+    public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni) {
         int scelta;
         do {
             System.out.println("===== MENU RISTORATORE =====");
@@ -62,7 +62,7 @@ public class Ristoratore extends Utente {
                     visualizzaRecensioni();
                     break;
                 case 4:
-                    rispondiARecensione(gestioneRecensioni, scanner);
+                    rispondiARecensione(gestioneRecensioni);
                     break;
                 case 5:  
                 	String nomeRistorante="";
@@ -271,7 +271,7 @@ public class Ristoratore extends Utente {
         ristorante.visualizzaRecensioni();
     }
 
-    private void rispondiARecensione(GestioneRecensioni gestioneRecensioni, Scanner scanner) {
+    private void rispondiARecensione(GestioneRecensioni gestioneRecensioni) {
         if (ristorante == null) {
             System.out.println("Nessun ristorante associato.");
             return;
@@ -292,11 +292,24 @@ public class Ristoratore extends Utente {
                 System.out.println("Risposta proprietario: " + rec.getRisposta());
             }
         }
-
-        System.out.print("A quale recensione vuoi rispondere? ");
-        int scelta = Integer.parseInt(scanner.nextLine()) - 1;
-
-        if (scelta >= 0 && scelta < recensioni.size()) {
+        
+        boolean controllo;
+        int scelta=0;
+		do {
+        	controllo=true;
+        	try {
+        		System.out.print("A quale recensione vuoi rispondere? ");
+        		scelta = Integer.parseInt(scanner.nextLine()) - 1;
+        		if(scelta<0 || scelta>=recensioni.size()) {
+        			System.out.println("Opzione non presente, riprova.");
+        			controllo=false;
+        		}
+        	}catch(NumberFormatException e) {
+        		System.out.println("Valore inserito non valido, riprova.");
+        		controllo=false;
+        	}
+        }while(!controllo);
+        
             Recensione selezionata = recensioni.get(scelta);
             String nomeCliente = GestioneFile.getNomeDaCodFiscale("src/dati/utente.csv", selezionata.getCliente());
             System.out.println("Rispondi al commento di " + nomeCliente + ":");
@@ -304,17 +317,17 @@ public class Ristoratore extends Utente {
 
             gestioneRecensioni.rispondiARisposta(ristorante.getName(), selezionata.getCliente(), risposta);
             System.out.println("Risposta inviata correttamente.");
-        } else {
-            System.out.println("Scelta non valida.");
-        }
+       
     }
     
-    public void modificaRecensione(Cliente cliente, Scanner scanner) {
+    public void modificaRecensione(Cliente cliente) {
     ArrayList<Recensione> tutteRecensioni = Recensione.leggiTutteLeRecensioni();
+    String nomeRistorante="";
+    do {
+    	System.out.print("Nome ristorante: ");
+    	nomeRistorante = scanner.nextLine();
+    } while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
     
-    System.out.print("Nome ristorante: ");
-    String nomeRistorante = scanner.nextLine();
-
     for (Recensione rec : tutteRecensioni) {
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
             rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
@@ -334,7 +347,7 @@ public class Ristoratore extends Utente {
 }
 
 
-    private void aggiungiPiatto(Scanner scanner) {
+    private void aggiungiPiatto() {
         if (ristorante == null) {
             System.out.println("Nessun ristorante associato.");
             return;
@@ -350,7 +363,7 @@ public class Ristoratore extends Utente {
         ristorante.aggiungiPiatto(nuovoPiatto);
     }
 
-    private void rimuoviPiatto(Scanner scanner) {
+    private void rimuoviPiatto() {
         if (ristorante == null) {
             System.out.println("Nessun ristorante associato.");
             return;

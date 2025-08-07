@@ -191,7 +191,6 @@ public class TheKnife {
                                 }
                                 break;
                             }
-
                         }
 
                         if (loggedUser == null) {
@@ -200,7 +199,7 @@ public class TheKnife {
                             ((Cliente) loggedUser).mostraMenu(gestioneRistoranti, gestioneRecensioni, scanner);
                         } else if (loggedUser instanceof Ristoratore) {
                             ((Ristoratore) loggedUser).caricaRistoranteAssociato(gestioneRistoranti);
-                            ((Ristoratore) loggedUser).mostraMenu(gestioneRistoranti, gestioneRecensioni, scanner);
+                            ((Ristoratore) loggedUser).mostraMenu(gestioneRistoranti, gestioneRecensioni);
                         }
                         break;
 
