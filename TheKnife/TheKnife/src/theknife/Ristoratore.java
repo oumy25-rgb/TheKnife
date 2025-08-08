@@ -72,36 +72,35 @@ public class Ristoratore extends Utente {
                     gestioneRistoranti.creaEMenuRistorante(nomeRistorante);
                     break;
                 case 6:
-                	String nomePiatto="";
-                	do {
-                		System.out.print("Nome del piatto: ");
-                		nomePiatto = scanner.nextLine().trim();
-                	}while(!GestioneUtenti.campoNonVuoto(nomePiatto));
-                	
-                	String descrizionePiatto="";
-                	do {
-	                    System.out.print("Descrizione del piatto: ");
-	                    descrizionePiatto = scanner.nextLine().trim();
-                	}while(!GestioneUtenti.campoNonVuoto(descrizionePiatto));
-                	
+                	String nomePiatto = "";
+				do {
+				    System.out.print("Nome del piatto: ");
+				    nomePiatto = scanner.nextLine().trim();
+				} while (!GestioneUtenti.campoNonVuoto(nomePiatto));
+				
+				String descrizionePiatto = "";
+				do {
+				    System.out.print("Descrizione del piatto: ");
+				    descrizionePiatto = scanner.nextLine().trim();
+				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto));
+				
 				boolean controllo;
 				double prezzoPiatto = 0.0;
+				do {
+				    try {
+				        controllo = true;
+				        System.out.print("Prezzo del piatto: ");
+				        prezzoPiatto = Double.parseDouble(scanner.nextLine().trim());
+				    } catch (NumberFormatException e) {
+				        System.out.println("Valore inserito non valido, riprova.");
+				        controllo = false;
+				    }
+				} while (!controllo);
 				
-					do {
-						try {
-	                		controllo = true;
-	                		System.out.print("Prezzo del piatto: ");
-	                		prezzoPiatto = Double.parseDouble(scanner.nextLine());
-						}catch(NumberFormatException e) {
-							System.out.println("Valore inserito non valido, riprova.");
-							controllo=false;
-						}
-						
-                	}while(!controllo);
-                	
-                    Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
-                    ristorante.aggiungiPiatto(nuovoPiatto);
-                    break;
+				Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
+				ristorante.aggiungiPiatto(nuovoPiatto);  // gestisce anche la scrittura su file internamente
+				break;
+
                 case 7:
                 	String piattoDaRimuovere="";
                 	do {
@@ -345,3 +344,4 @@ public class Ristoratore extends Utente {
         ristorante.rimuoviPiatto(nomePiatto);
     }
 }
+
