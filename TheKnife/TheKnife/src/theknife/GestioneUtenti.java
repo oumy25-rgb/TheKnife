@@ -4,8 +4,12 @@
  */
 package theknife;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import com.opencsv.CSVReader;
+
 import resources.GestioneFile;
 
 /**
@@ -32,19 +36,6 @@ public class GestioneUtenti {
         System.out.println("Registrazione avvenuta con successo!");
     }
 
-    /*public Utente login(String username, String password) {
-        ArrayList<String> dati=gf.leggiDaFile("src/dati/utente.csv");
-        
-        for (String s:dati) {
-        st=new StringTokenizer(s,",");
-        //public Utente(String nome, String cognome,String codFiscale ,String username, String password, String dataNascita, String luogoDomicilio, String ruolo)
-        Utente u=new Utente(st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken(),st.nextToken());
-            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
-                return u;
-            }
-        }
-        return null; // Login fallito
-    }*/
     
     public Utente login(String username, String password) {
     ArrayList<String> dati = gf.leggiDaFile("src/dati/utente.csv");
@@ -160,4 +151,21 @@ public class GestioneUtenti {
         }
     }
     
+    public static boolean cfEsiste(String cf) {
+    	
+    	try (CSVReader reader = new CSVReader(new FileReader("src/dati/proprietari.csv"))) {
+            String[] riga;
+            while ((riga = reader.readNext()) != null) {
+                
+            	if(riga[0].equals(cf)) {
+            		System.out.println("Questo codice fiscale è già presente!, riprova.");
+            		return true; //true se esiste già
+            	}
+            }
+        } catch (Exception e) {
+            System.err.println("Error searching : " + e.getMessage());
+        }
+        return false;
+    	
+    }
 }
