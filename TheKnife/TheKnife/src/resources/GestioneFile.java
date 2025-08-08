@@ -292,50 +292,39 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
         }
     }
 
-   public static ArrayList<Recensione> leggiTutteLeRecensioni() {
+  public static ArrayList<Recensione> leggiTutteLeRecensioni() {
     ArrayList<Recensione> recensioni = new ArrayList<>();
 
     try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
         String line;
         while ((line = reader.readLine()) != null) {
-            // Ignora righe vuote
-            if (line.trim().isEmpty()) {
-                continue;
-            }
+            line = line.trim();
+            if (line.isEmpty()) continue;
 
-            String[] tokens = line.split(",", -1); // Usa -1 per mantenere tutti i campi
-            if (tokens.length >= 6) { // Assicurati che ci siano almeno 6 campi
-                String nomeRistorante = tokens[0]; // Nome del ristorante
-                String codiceFiscale = tokens[1]; // Codice fiscale del cliente
-                String testoRecensione = tokens[2]; // Testo della recensione
-                double stelle;
-                String data = tokens[4]; // Data della recensione
-                String risposta = tokens.length == 6 ? tokens[5] : ""; // Risposta può essere vuota
+            // Usa split con limite per mantenere campi vuoti
+            String[] tokens = line.split(",", -1);
 
-                // Sostituisci la virgola con un punto per il campo delle stelle
-                String stelleString = tokens[3].replace(',', '.');
+            if (tokens.length >= 5) {
+                String nomeRistorante = tokens[0];
+                String codiceFiscale = tokens[1];
+                String testoRecensione = tokens[2];
+                double stelle = Double.parseDouble(tokens[3].replace(',', '.'));
+                String data = tokens[4];
 
-                try {
-                    stelle = Double.parseDouble(stelleString); // Stelle
-                } catch (NumberFormatException e) {
-                    System.err.println("Formato stelle non valido: " + tokens[3]);
-                    continue; // Salta questa riga se il formato non è corretto
-                }
+                // Campo risposta opzionale
+                String risposta = (tokens.length >= 6 && tokens[5] != null && !tokens[5].trim().isEmpty())
+                        ? tokens[5]
+                        : null;
 
-                // Crea un oggetto Recensione e aggiungilo alla lista
-                Recensione rec = new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta);
-                recensioni.add(rec);
-            } else {
-                System.out.println("Formato della riga non valido: " + line);
+                recensioni.add(new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta));
             }
         }
-    } catch (IOException e) {
-        System.err.println("Errore nella lettura delle recensioni: " + e.getMessage());
+    } catch (Exception e) {
+        System.err.println("Errore lettura recensioni: " + e.getMessage());
     }
 
     return recensioni;
 }
-
 
 
 public static String cercaRistoranteDaProprietario(String filePath, String codFiscale) {
@@ -378,3 +367,4 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
                
         
 }
+
