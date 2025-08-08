@@ -104,22 +104,26 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     }
 }
 
-
-    public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
-    ArrayList<Recensione> tutte = Recensione.cercaPerRistorante(nomeRistorante);
+ public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
+    ArrayList<Recensione> tutte = resources.GestioneFile.leggiTutteLeRecensioni(); // leggi TUTTE
+    boolean found = false;
     for (Recensione rec : tutte) {
-        if (rec.getCliente().equalsIgnoreCase(cliente)) {
+        if (rec.getNomeRistorante().equalsIgnoreCase(nomeRistorante) &&
+            rec.getCodiceFiscale().equalsIgnoreCase(cliente)) {
             rec.setRisposta(risposta);
-            System.out.println("Risposta salvata per la recensione di " + cliente);
-            riscriviRecensioni(tutte); // Assicurati di riscrivere il file dopo aver aggiornato la risposta
-            return;
+            found = true;
+            break;
         }
     }
-    System.out.println("Recensione non trovata per il cliente: " + cliente);
+    if (found) {
+        riscriviRecensioni(tutte); // riscrive tutto usando r.toCSV()
+        System.out.println("Risposta salvata per la recensione di " + cliente);
+    } else {
+        System.out.println("Recensione non trovata per il cliente: " + cliente);
+    }
 }
 
-
-
+  
 
     private void riscriviRecensioni(ArrayList<Recensione> recensioni) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -145,5 +149,6 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
 
 
 }
+
 
 
