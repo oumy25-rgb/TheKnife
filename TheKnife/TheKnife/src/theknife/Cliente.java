@@ -39,7 +39,7 @@ public class Cliente extends Utente {
             System.out.println("5. Aggiungi recensione");
             System.out.println("6. Modifica recensione");
             System.out.println("7. Elimina recensione");
-            System.out.println("8. Visualizza menu di un ristorante");
+            System.out.println("8. Cerca ristorante");
             System.out.println("0. Logout");
             
             do {
@@ -151,29 +151,9 @@ public class Cliente extends Utente {
                     break;
 
                 case 8:
-                	String nomeRistMenu="";
-                	do {
-                		System.out.print("Nome del ristorante: ");
-                		nomeRistMenu = scanner.nextLine();
-                	}while(!GestioneUtenti.campoNonVuoto(nomeRistMenu));
                 	
-                    Ristorante rMenu = gestioneRistoranti.cercaRistorantePerNome(nomeRistMenu);
-                    if (rMenu != null) {
-                        rMenu.caricaMenuRistorante();
-                        ArrayList<Piatto> menu = rMenu.getMenu();
-                        if (menu.isEmpty()) {
-                            System.out.println("Il menu di questo ristorante è vuoto.");
-                        } else {
-                            System.out.println("----- MENU DI " + rMenu.getName().toUpperCase() + " -----");
-                            for (Piatto p : menu) {
-                                System.out.println("🍽 " + p.getNome() + " - " + p.getPrezzo() + "€");
-                                System.out.println("   " + p.getDescrizione());
-                            }
-                            System.out.println("------------------------------------");
-                        }
-                    } else {
-                        System.out.println("Ristorante non trovato.");
-                    }
+                	gestioneRistoranti.menuCercaRistoranti(this.getLuogoDomicilio());
+                    
                     break;
                 case 0:
                     System.out.println("Logout effettuato.");

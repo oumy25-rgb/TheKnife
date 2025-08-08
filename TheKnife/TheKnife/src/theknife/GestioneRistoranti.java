@@ -393,7 +393,8 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 					System.out.print("\nCosa vuoi fare ora? \n");
 					System.out.println("a) Visualizza le informazioni del ristorante");
 					System.out.println("b) Visualizza le recensioni del ristorante");
-					System.out.println("c) Esci");
+					System.out.println("c) Visualizza menù del ristorante");
+					System.out.println("d) Esci");
 				
 					miniMenu = scanner.nextLine().toLowerCase();
 					
@@ -446,12 +447,53 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	        				break;
 	        				
 	        			case "c":
+	        				
+	        				do {
+	        			        System.out.print("Di quale ristorante vuoi visualizzare il menù? ");
+	        			        String scegliStr = scanner.nextLine();
+	        			        controllo = true;
+	        			        try {
+	        			            scegli = Integer.parseInt(scegliStr);
+	        			            if (scegli < 1 || scegli > listaRistorantiTrovati.size()) {
+	        			                System.out.println("Numero non valido, riprova.");
+	        			                controllo = false;
+	        			            }
+	        			        } catch (NumberFormatException e) {
+	        			            System.out.println("Inserisci un numero valido.");
+	        			            controllo = false;
+	        			        }
+	        			    } while (!controllo);
+	        				
+	        				
+	        				 System.out.println("");
+	        				 Ristorante rMenu = listaRistorantiTrovati.get(scegli - 1);
+		        			    
+	        				if (rMenu != null) {
+	                            rMenu.caricaMenuRistorante();
+	                            ArrayList<Piatto> menu = rMenu.getMenu();
+	                            if (menu.isEmpty()) {
+	                                System.out.println("Il menu di questo ristorante è vuoto.");
+	                            } else {
+	                                System.out.println("----- MENU DI " + rMenu.getName().toUpperCase() + " -----");
+	                                for (Piatto p : menu) {
+	                                    System.out.println("🍽 " + p.getNome() + " - " + p.getPrezzo() + "€");
+	                                    System.out.println("   " + p.getDescrizione());
+	                                }
+	                                System.out.println("------------------------------------");
+	                            }
+	                        } else {
+	                            System.out.println("Ristorante non trovato.");
+	                        }
+	        				
+	        				break;
+	        				
+	        			case "d":
 	        				break;
 	        				
 	        			default : 
 	        				System.out.println("Opzione inesistente.");
 	    			}
-				}while(!miniMenu.equals("c"));
+				}while(!miniMenu.equals("d"));
 				
 			}else
 				System.out.println("Nessun ristorante trovato con questo criterio.");
@@ -505,9 +547,9 @@ public void menuCercaRistoranti(String citta) {
 	ArrayList<Ristorante> listaRistorantiTrovati = null;
 	Scanner scanner = new Scanner(System.in);
 	do {	
-		System.out.println("Seleziona i criteri di ricerca dei ristoranti: ");
+		System.out.println("Seleziona i criteri di ricerca dei ristoranti ");
 		System.out.println("1) Per tipo di cucina e città");
-		System.out.println("2) città");
+		System.out.println("2) Per la mia città");
 		System.out.println("3) Per fascia di prezzo e città");
 		System.out.println("4) Disponibilità Delivery e città");
 		System.out.println("5) Disponibilità Prenotazione Online e città");
