@@ -6,6 +6,12 @@
 package theknife;
 
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import resources.Piatto;
 import resources.GestioneFile;
@@ -34,7 +40,29 @@ public class Ristoratore extends Utente {
     }
 }
 
+    public ArrayList<String> visualizzaNomeMieiRistoranti(String cf) {
+    	
+    	ArrayList<String> lista = new ArrayList<String>();
+    	
+        try (CSVReader reader = new CSVReader(new FileReader("src/dati/proprietari.csv"))) {
+        	String[] riga;
+            while ((riga = reader.readNext()) != null) {
+                if (cf.equals(riga[0])) {
+                    String s = riga[1];
+                    lista.add(s);
+                }
+            }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (CsvValidationException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return lista;
+    }
+    
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni) {
         int scelta;
         do {
@@ -64,12 +92,39 @@ public class Ristoratore extends Utente {
                     rispondiARecensione(gestioneRecensioni);
                     break;
                 case 5:  
-                	String nomeRistorante="";
-                    do {
-                    	System.out.print("Inserisci il nome del ristorante per cui vuoi creare il menu: ");
-                    	nomeRistorante = scanner.nextLine().trim();
-                    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
-                    gestioneRistoranti.creaEMenuRistorante(nomeRistorante);
+                	
+                	boolean controllo;
+                	int scegli = 0,i=1;;
+                	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+
+        	    	if(!lista.isEmpty()) {
+        				System.out.println("Lista ristoranti trovati: \n");
+        				System.out.println("----------------------------------------------------------------------");
+        				for(String s : lista) {
+        					System.out.print((i++)+") "+s+"\n");
+        					System.out.println("----------------------------------------------------------------------");
+        				}
+        	    	}
+        				
+                	do {
+    				    controllo = true;
+    				    System.out.print("Per quale ristorante vuoi creare il menù? ");
+    				    try {
+    				        scegli = Integer.parseInt(scanner.nextLine());
+    				        if (scegli < 1 || scegli > lista.size()) {
+    				            System.out.println("Scelta non presente, riprova.");
+    				            controllo = false;
+    				        }
+    				    } catch (NumberFormatException e) {
+    				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+    				        controllo = false;
+    				    }
+    				} while (!controllo);
+
+    				System.out.println("");
+                    gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
+                    
+                    
                     break;
                 case 6:
                 	String nomePiatto = "";
@@ -84,7 +139,7 @@ public class Ristoratore extends Utente {
 				    descrizionePiatto = scanner.nextLine().trim();
 				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto));
 				
-				boolean controllo;
+				
 				double prezzoPiatto = 0.0;
 				do {
 				    try {
