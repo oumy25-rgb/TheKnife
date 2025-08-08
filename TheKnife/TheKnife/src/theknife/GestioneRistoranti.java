@@ -268,66 +268,55 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     
  public void creaEMenuRistorante(String nomeRistorante) {
     Scanner scanner = new Scanner(System.in);
-    GestioneMenu gm = new GestioneMenu();
-    ArrayList<Piatto> menu = gm.leggiMenu(nomeRistorante + "Menu.csv"); // Legge il menu esistente
-
     String risposta;
 
     do {
-        try {
+        String nome;
+        do {
             System.out.print("Nome del piatto: ");
-            String nome = scanner.nextLine().trim();
-            if (nome.isEmpty()) throw new IllegalArgumentException("Il nome del piatto non può essere vuoto.");
+            nome = scanner.nextLine().trim();
+            if (nome.isEmpty()) {
+                System.out.println("❌ Il nome del piatto non può essere vuoto.");
+            }
+        } while (nome.isEmpty());
 
+        String descrizione;
+        do {
             System.out.print("Descrizione del piatto: ");
-            String descrizione = scanner.nextLine().trim();
-            if (descrizione.isEmpty()) throw new IllegalArgumentException("La descrizione non può essere vuota.");
+            descrizione = scanner.nextLine().trim();
+            if (descrizione.isEmpty()) {
+                System.out.println("❌ La descrizione non può essere vuota.");
+            }
+        } while (descrizione.isEmpty());
 
-            System.out.print("Prezzo del piatto: ");
-            double prezzo = Double.parseDouble(scanner.nextLine());
-            if (prezzo < 0) throw new IllegalArgumentException("Il prezzo non può essere negativo.");
-
-            Piatto piatto = new Piatto(nome, descrizione, prezzo);
-
-            // Verifica se già presente
-            boolean esiste = false;
-            for (Piatto p : menu) {
-                if (p.getNome().equalsIgnoreCase(nome)) {
-                    esiste = true;
-                    break;
+        double prezzo = -1;
+        do {
+            try {
+                System.out.print("Prezzo del piatto: ");
+                prezzo = Double.parseDouble(scanner.nextLine().trim());
+                if (prezzo < 0) {
+                    System.out.println("❌ Il prezzo non può essere negativo.");
+                    prezzo = -1;
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Valore inserito non valido, riprova.");
             }
+        } while (prezzo < 0);
 
-            if (esiste) {
-                System.out.println("⚠️ Il piatto è già presente nel menu.");
-            } else {
-                menu.add(piatto); // Aggiungi il nuovo piatto all'elenco
-                System.out.println("✅ Piatto aggiunto con successo, grazie!");
-            }
+        // Crea il piatto
+        Piatto piatto = new Piatto(nome, descrizione, prezzo);
 
-        } catch (NumberFormatException e) {
-            System.out.println("❌ Errore: inserisci un numero valido per il prezzo.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("❌ Errore: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("❌ Errore imprevisto: " + e.getMessage());
-        }
+        // Usa il metodo centralizzato per aggiungere piatto e salvare su file
+        aggiungiPiattoAlMenu(nomeRistorante, piatto);
 
         System.out.print("Vuoi aggiungere un altro piatto? (s/n): ");
-        risposta = scanner.nextLine();
+        risposta = scanner.nextLine().trim();
 
     } while (risposta.equalsIgnoreCase("s"));
 
-    // Salva il menu aggiornato nel file
-    try {
-        gm.scriviMenu(nomeRistorante + "Menu.csv", menu); // Sovrascrive con tutti i piatti vecchi + nuovi
-        System.out.println("✅ Menu creato e salvato con successo.");
-    } catch (Exception e) {
-        System.out.println("❌ Errore durante il salvataggio del menu: " + e.getMessage());
-    }
+    System.out.println("✅ Menu completato e salvato con successo.");
 }
-
-
+	
    public Ristorante cercaRistorantePerNome(String nome) {
     try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
         String[] riga;
@@ -350,18 +339,49 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     return null; 
 }
 
-
-
-    // Nuovo metodo per aggiungere un piatto al menu
+	
     public void aggiungiPiattoAlMenu(String nomeRistorante, Piatto piatto) {
-        Ristorante ristorante = cercaRistorantePerNome(nomeRistorante);
-        if (ristorante != null) {
-            ristorante.aggiungiPiatto(piatto);
-            System.out.println("Piatto aggiunto al menu di " + nomeRistorante);
-        } else {
-            System.out.println("Ristorante non trovato.");
+    Ristorante ristorante = cercaRistorantePerNome(nomeRistorante);
+
+    if (ristorante != null) {
+        // Controlla se il piatto esiste già
+        boolean esiste = false;
+        for (Piatto p : ristorante.getMenu()) {
+            if (p.getNome().equalsIgnoreCase(piatto.getNome())) {
+                esiste = true;
+                break;
+            }
         }
+
+        if (esiste) {
+            System.out.println(" Il piatto \"" + piatto.getNome() + "\" è già presente nel menu di " + nomeRistorante);
+            return;
+        }
+
+        // Aggiunge in memoria
+        ristorante.aggiungiPiatto(piatto);
+
+        // Aggiunge al file CSV (creandolo se non esiste)
+        String nomeFile = nomeRistorante + "Menu.csv";
+        File file = new File("src/dati/" + nomeFile);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            if (!file.exists() || file.length() == 0) {
+                writer.write("Nome,Descrizione,Prezzo");
+                writer.newLine();
+            }
+            writer.write(piatto.toCSV());
+            writer.newLine();
+            System.out.println("✅ Piatto aggiunto e menu salvato in " + nomeFile);
+        } catch (IOException e) {
+            System.err.println(" Errore durante il salvataggio del menu: " + e.getMessage());
+        }
+    } else {
+        System.out.println(" Ristorante \"" + nomeRistorante + "\" non trovato.");
     }
+}
+
+   
 
     // Nuovo metodo per rimuovere un piatto dal menu
     public void rimuoviPiattoDalMenu(String nomeRistorante, String nomePiatto) {
@@ -813,6 +833,7 @@ public void menuCercaRistoranti(String citta) {
 	}
    
 }
+
 
 
 
