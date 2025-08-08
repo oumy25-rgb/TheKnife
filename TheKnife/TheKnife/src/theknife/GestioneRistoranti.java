@@ -266,80 +266,93 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
         return lista;
     }
     
-   public void creaEMenuRistorante(String nomeRistorante) {
+public void creaEMenuRistorante(String nomeRistorante) {
     Scanner scanner = new Scanner(System.in);
-    ArrayList<Piatto> menu = new ArrayList<>();
+    GestioneMenu gm = new GestioneMenu();
+    ArrayList<Piatto> menu = gm.leggiMenu(nomeRistorante + "Menu.csv"); // Legge il menu esistente
+
     String risposta;
-    boolean controllo;
+
     do {
         try {
-        	String nome="";
-        	do {
-        		System.out.print("Nome del piatto: ");
-        		nome = scanner.nextLine().trim();
-        	}while(!GestioneUtenti.campoNonVuoto(nome));
-        	
-        	String descrizione="";
-        	do {
-        		System.out.print("Descrizione del piatto: ");
-        		descrizione = scanner.nextLine().trim();
-        	}while(!GestioneUtenti.campoNonVuoto(descrizione));
-        	
-        	String p = "";
-        	
-        	double prezzo = 0.0;
+            String nome = "";
+            do {
+                System.out.print("Nome del piatto: ");
+                nome = scanner.nextLine().trim();
+                if (!GestioneUtenti.campoNonVuoto(nome)) {
+                    System.out.println("❌ Il nome del piatto non può essere vuoto.");
+                }
+            } while (!GestioneUtenti.campoNonVuoto(nome));
 
-        	do {
-        	    controllo = true;
-        	    System.out.print("Prezzo del piatto: ");
-        	    p = scanner.nextLine().replace(",", ".").trim();
+            String descrizione = "";
+            do {
+                System.out.print("Descrizione del piatto: ");
+                descrizione = scanner.nextLine().trim();
+                if (!GestioneUtenti.campoNonVuoto(descrizione)) {
+                    System.out.println("❌ La descrizione non può essere vuota.");
+                }
+            } while (!GestioneUtenti.campoNonVuoto(descrizione));
 
-        	    if (GestioneUtenti.campoNonVuoto(p)) {
-        	    	try {
-            	        prezzo = Double.parseDouble(p);
-            	        if (prezzo < 0) {
-            	            System.out.println("Il prezzo non può essere negativo, riprova.");
-            	            controllo = false;
-            	        }
-            	    } catch (NumberFormatException e) {
-            	        System.out.println("Valore inserito non valido, riprova.");
-            	        controllo = false;
-            	    }
-        	    }else
-        	    	controllo = false;
+            double prezzo = 0.0;
+            boolean controlloPrezzo;
+            do {
+                controlloPrezzo = true;
+                System.out.print("Prezzo del piatto: ");
+                String inputPrezzo = scanner.nextLine().replace(",", ".").trim();
 
-        	} while (!controllo);
+                if (!GestioneUtenti.campoNonVuoto(inputPrezzo)) {
+                    System.out.println("❌ Il prezzo non può essere vuoto.");
+                    controlloPrezzo = false;
+                } else {
+                    try {
+                        prezzo = Double.parseDouble(inputPrezzo);
+                        if (prezzo < 0) {
+                            System.out.println("❌ Il prezzo non può essere negativo.");
+                            controlloPrezzo = false;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ Valore inserito non valido, riprova.");
+                        controlloPrezzo = false;
+                    }
+                }
+            } while (!controlloPrezzo);
 
-            Piatto piatto = new Piatto(nome, descrizione, prezzo);
-            menu.add(piatto);
+            // Controlla se il piatto esiste già (case insensitive)
+            boolean esiste = menu.stream()
+                .anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
 
-            System.out.println("✅ Piatto aggiunto con successo!");
+            if (esiste) {
+                System.out.println("⚠️ Il piatto è già presente nel menu.");
+            } else {
+                Piatto piatto = new Piatto(nome, descrizione, prezzo);
+                menu.add(piatto);
+                System.out.println("✅ Piatto aggiunto con successo!");
+            }
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("❌ Errore: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("❌ Errore imprevisto: " + e.getMessage());
         }
-        
+
+        // Chiedi se l'utente vuole continuare con validazione
         do {
-        	controllo = true;
-        	System.out.print("Vuoi aggiungere un altro piatto? (s/n): ");
-        	risposta = scanner.nextLine();
-        	if(!risposta.equalsIgnoreCase("s") && !risposta.equalsIgnoreCase("n")) {
-        		controllo = false;
-        		System.out.println("Risposta non valida, riprova!");
-        	}
-        }while(!controllo);
+            System.out.print("Vuoi aggiungere un altro piatto? (s/n): ");
+            risposta = scanner.nextLine().trim();
+            if (!risposta.equalsIgnoreCase("s") && !risposta.equalsIgnoreCase("n")) {
+                System.out.println("⚠️ Risposta non valida, riprova!");
+            }
+        } while (!risposta.equalsIgnoreCase("s") && !risposta.equalsIgnoreCase("n"));
 
     } while (risposta.equalsIgnoreCase("s"));
 
+    // Salva il menu aggiornato
     try {
-        new GestioneMenu().scriviMenu(nomeRistorante + "Menu.csv", menu);
-        System.out.println("Menu creato e salvato con successo.");
+        gm.scriviMenu(nomeRistorante + "Menu.csv", menu);
+        System.out.println("✅ Menu creato e salvato con successo.");
     } catch (Exception e) {
-        System.out.println("Errore durante il salvataggio del menu: " + e.getMessage());
+        System.out.println("❌ Errore durante il salvataggio del menu: " + e.getMessage());
     }
 }
+
 
 
    public Ristorante cercaRistorantePerNome(String nome) {
@@ -785,4 +798,5 @@ public void menuCercaRistoranti(String citta) {
 	}
    
 }
+
 
