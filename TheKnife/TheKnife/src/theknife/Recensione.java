@@ -67,15 +67,15 @@ public class Recensione {
     }
 
     public String toCSV() {
-        return String.format("%s,%s,%s,%.1f,%s,%s",
-            nomeRistorante,
-            codiceFiscale,
-            testoRecensione.replace(",", ";"),
-            stelle,
-            data,
-            risposta != null ? risposta.replace(",", ";") : ""
-        );
-    }
+    return String.format(Locale.US, "%s,%s,%s,%.1f,%s,%s",
+        nomeRistorante != null ? nomeRistorante : "",
+        codiceFiscale != null ? codiceFiscale : "",
+        testoRecensione != null ? testoRecensione.replace(",", ";") : "",
+        stelle,   // qui stelle è double, formato con 1 cifra decimale
+        data != null ? data : "",
+        (risposta != null && !risposta.trim().isEmpty()) ? risposta.replace(",", ";") : ""
+    );
+}
 
 
 
@@ -190,3 +190,4 @@ public class Recensione {
         return visualizzaPerCliente();
     }
 }
+
