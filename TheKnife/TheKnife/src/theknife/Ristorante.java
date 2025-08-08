@@ -231,20 +231,23 @@ public void caricaMenuRistorante() {
 }
 
 
-public void aggiungiPiatto(Piatto piatto) {
-    if (piatto == null) {
-        System.out.println("Errore: il piatto non può essere nullo.");
-        return;
-    }
-    for (Piatto p : menu) {
-        if (p.getNome().equalsIgnoreCase(piatto.getNome())) {
-            System.out.println("Il piatto è già presente nel menu.");
+public void aggiungiPiatto(Piatto nuovoPiatto) {
+    GestioneMenu gestioneMenu = new GestioneMenu();
+
+    String nomeFile = this.name + "Menu.csv"; // nome coerente con la creazione iniziale
+    ArrayList<Piatto> piattiEsistenti = gestioneMenu.leggiMenu(nomeFile);
+
+    // Controlla se esiste già
+    for (Piatto p : piattiEsistenti) {
+        if (p.getNome().equalsIgnoreCase(nuovoPiatto.getNome())) {
+            System.out.println(" Il piatto esiste già nel menu.");
             return;
         }
     }
-    menu.add(piatto);
-    new GestioneMenu().scriviMenu(name + "Menu.csv", menu); // salva tutto
-    System.out.println("Piatto aggiunto correttamente.");
+
+    piattiEsistenti.add(nuovoPiatto);
+    gestioneMenu.scriviMenu(nomeFile, piattiEsistenti);
+    System.out.println("✅ Piatto aggiunto con successo!");
 }
 
      
@@ -312,3 +315,4 @@ public String toCSV() {
 
      
 } 
+
