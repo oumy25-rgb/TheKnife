@@ -230,26 +230,6 @@ public void caricaMenuRistorante() {
     this.menu = new GestioneMenu().leggiMenu(name + "Menu.csv");
 }
 
-
-public void aggiungiPiatto(Piatto nuovoPiatto) {
-    GestioneMenu gestioneMenu = new GestioneMenu();
-
-    String nomeFile = this.name + "Menu.csv"; // nome coerente con la creazione iniziale
-    ArrayList<Piatto> piattiEsistenti = gestioneMenu.leggiMenu(nomeFile);
-
-    // Controlla se esiste già
-    for (Piatto p : piattiEsistenti) {
-        if (p.getNome().equalsIgnoreCase(nuovoPiatto.getNome())) {
-            System.out.println(" Il piatto esiste già nel menu.");
-            return;
-        }
-    }
-
-    piattiEsistenti.add(nuovoPiatto);
-    gestioneMenu.scriviMenu(nomeFile, piattiEsistenti);
-    System.out.println("✅ Piatto aggiunto con successo!");
-}
-
      
 public void rimuoviPiatto(String nomePiatto) {
     boolean rimosso = false;

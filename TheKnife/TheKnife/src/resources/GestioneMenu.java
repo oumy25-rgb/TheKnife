@@ -7,10 +7,14 @@ package resources;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 public class GestioneMenu {
     // Metodo per scrivere il menu di un ristorante in un file CSV
@@ -25,6 +29,16 @@ public class GestioneMenu {
     }
 }
 
+    public static boolean cercaMenu(String nome) {
+        
+        File file = new File("src/dati", nome);
+        if(file.exists()) {
+        	return true;
+        }else {
+        	return false;
+        }
+        
+    }
 
     // Metodo per leggere il menu da un file CSV
     public ArrayList<Piatto> leggiMenu(String nomeFile) {

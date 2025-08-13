@@ -7,13 +7,17 @@
 package theknife;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 
 import resources.GestioneFile;
 import resources.GestioneMenu;
@@ -269,7 +273,15 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
  public void creaEMenuRistorante(String nomeRistorante) {
     Scanner scanner = new Scanner(System.in);
     String risposta;
-
+    File file = new File("src/dati", nomeRistorante+"Menu.csv");
+    
+    try {
+		file.createNewFile();
+	} catch (IOException e1) {
+		System.out.println("Errore nella creazione del Menù.");
+		return;
+	}
+    
     do {
         String nome;
         do {
@@ -340,58 +352,95 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 }
 
 	
-    public void aggiungiPiattoAlMenu(String nomeRistorante, Piatto piatto) {
-    Ristorante ristorante = cercaRistorantePerNome(nomeRistorante);
+   public boolean aggiungiPiattoAlMenu(String nomeMenu, Piatto piatto) {
+	   
+	   
+	// aggiunge .csv al nome del menu (solo per il nome, non per usare CSV)
+	    String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
+	    File file = new File("src/dati", nomeFile);
 
-    if (ristorante != null) {
-        // Controlla se il piatto esiste già
-        boolean esiste = false;
-        for (Piatto p : ristorante.getMenu()) {
-            if (p.getNome().equalsIgnoreCase(piatto.getNome())) {
-                esiste = true;
-                break;
-            }
-        }
+	    // controlla che il file esista
+	    if (!file.exists()) {
+	        System.out.println("Errore: Menù inesistente!");
+	        return false;
+	    }
 
-        if (esiste) {
-            System.out.println(" Il piatto \"" + piatto.getNome() + "\" è già presente nel menu di " + nomeRistorante);
-            return;
-        }
+	    // controlla se il piatto esiste già
+	    if (cercaPiatto(piatto.getNome(), nomeFile)) {
+	        System.out.println("Il Piatto esiste già!");
+	        return false;
+	    }
 
-        // Aggiunge in memoria
-        ristorante.aggiungiPiatto(piatto);
+	    // scrive il piatto come riga di testo
+	    try (FileWriter fw = new FileWriter(file, true);
+	         BufferedWriter bw = new BufferedWriter(fw)) {
 
-        // Aggiunge al file CSV (creandolo se non esiste)
-        String nomeFile = nomeRistorante + "Menu.csv";
-        File file = new File("src/dati/" + nomeFile);
+	        
+	        String riga = piatto.toCSV();
+	        bw.write(riga);
+	        bw.newLine(); 
+	        System.out.println("Piatto aggiunto con successo.");
+	        return true;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            if (!file.exists() || file.length() == 0) {
-                writer.write("Nome,Descrizione,Prezzo");
-                writer.newLine();
-            }
-            writer.write(piatto.toCSV());
-            writer.newLine();
-            System.out.println("✅ Piatto aggiunto e menu salvato in " + nomeFile);
-        } catch (IOException e) {
-            System.err.println(" Errore durante il salvataggio del menu: " + e.getMessage());
-        }
-    } else {
-        System.out.println(" Ristorante \"" + nomeRistorante + "\" non trovato.");
-    }
-}
-
+	    } catch (IOException e) {
+	        System.out.println("Errore durante la scrittura del piatto: " + e.getMessage());
+	        return false;
+	    }
+	}
+   
+   public boolean cercaPiatto(String piatto,String nomeMenu) {
+	   
+	   try (CSVReader reader = new CSVReader(new FileReader("src/dati/"+nomeMenu))) {
+	        String[] riga;
+	        while ((riga = reader.readNext()) != null) {
+	            
+	            if (piatto.equalsIgnoreCase(riga[0])) {
+	                return true;
+	            }
+	        }
+	        
+	    } catch (Exception e) {
+	        System.err.println("Errore " + e.getMessage());
+	    }
+	   return false;
+   }
    
 
     // Nuovo metodo per rimuovere un piatto dal menu
-    public void rimuoviPiattoDalMenu(String nomeRistorante, String nomePiatto) {
-        Ristorante ristorante = cercaRistorantePerNome(nomeRistorante);
-        if (ristorante != null) {
-            ristorante.rimuoviPiatto(nomePiatto);
-            System.out.println("Piatto rimosso dal menu di " + nomeRistorante);
-        } else {
-            System.out.println("Ristorante non trovato.");
-        }
+    public void rimuoviPiattoDalMenu(String nomeMenu, String nomePiatto) {
+    	
+    	String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
+    	File file = new File("src/dati", nomeFile);
+    	
+    	 ArrayList<String> piattiAggiornati = new ArrayList<String>();
+    	 String unita;
+    	 
+    	 try (CSVReader reader = new CSVReader(new FileReader(file))) {
+    	        String[] riga;
+    	        while ((riga = reader.readNext()) != null) {
+    	          if(riga[0].equalsIgnoreCase(nomePiatto)) {
+    	        	  continue;
+    	          }else {
+    	        	  unita = String.join(",", riga);
+    	        	  piattiAggiornati.add(unita);
+    	          }  
+    	          
+    	        }
+    	    } catch (IOException | CsvValidationException e) {
+    	        System.out.println("Errore nella rimozione del piatto.");
+    	        return;
+    	    }
+    	 
+    	 try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+    	        for (String riga : piattiAggiornati) {
+    	            writer.write(riga);
+    	            writer.newLine();
+    	        }
+    	    } catch (IOException e) {
+    	    	System.out.println("Errore nella rimozione del piatto.");
+    	    }
+    	 System.out.println("Piatto rimosso con successo!");
+    	
     }
     
 	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
