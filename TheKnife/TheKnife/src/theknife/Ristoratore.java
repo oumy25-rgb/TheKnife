@@ -101,7 +101,7 @@ public class Ristoratore extends Utente {
                 	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
                 	scegli = 0;
         	    	if(!lista.isEmpty()) {
-        				System.out.println("Lista ristoranti trovati: \n");
+        				System.out.println("\nLista ristoranti trovati: \n");
         				System.out.println("----------------------------------------------------------------------");
         				for(String s : lista) {
         					System.out.print((i++)+") "+s+"\n");
@@ -141,7 +141,7 @@ public class Ristoratore extends Utente {
                 	ArrayList<String> listaMenu = visualizzaNomeMenu(this.getCodFiscale());
 
         	    	if(!listaMenu.isEmpty()) {
-        				System.out.println("Lista dei Menù trovati: \n");
+        				System.out.println("\nLista dei Menù trovati: \n");
         				System.out.println("----------------------------------------------------------------------");
         				for(String s : listaMenu) {
         					s = s.replace("Menu", "");
@@ -207,7 +207,7 @@ public class Ristoratore extends Utente {
                 	listaMenu = visualizzaNomeMenu(this.getCodFiscale());
 
         	    	if(!listaMenu.isEmpty()) {
-        				System.out.println("Lista dei Menù trovati: \n");
+        				System.out.println("\nLista dei Menù trovati: \n");
         				System.out.println("----------------------------------------------------------------------");
         				for(String s : listaMenu) {
         					s = s.replace("Menu", "");
@@ -237,7 +237,7 @@ public class Ristoratore extends Utente {
         				int scegliPiatto = 0; i=1;
         				
 	    				if(!listaPiatti.isEmpty()) {
-	        				System.out.println("Lista dei Piatti trovati: \n");
+	        				System.out.println("\nLista dei Piatti trovati: \n");
 	        				System.out.println("----------------------------------------------------------------------");
 	        				for(String s : listaPiatti) {
 	        				
@@ -348,7 +348,7 @@ public class Ristoratore extends Utente {
               if (cf.equals(riga[0])) {
                   String s = riga[1];
                   for(String menu : nomiMenu) {
-                	  System.out.println(menu);
+                	  
                 	  if((s+"menu").equalsIgnoreCase(menu)) {
                 		  listaMenu.add(menu);
                 	  }
