@@ -67,19 +67,27 @@ public class Ristoratore extends Utente {
     }
     
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni) {
-        int scelta;
+        int scelta = -1;   boolean controllo;
         do {
             System.out.println("===== MENU RISTORATORE =====");
             System.out.println("1. Aggiungi un ristorante");
             System.out.println("2. Visualizza riepilogo delle recensioni");
             System.out.println("3. Visualizza recensioni");
             System.out.println("4. Rispondi a una recensione");
-            System.out.println("5. Crea il menu del ristorante");
-            System.out.println("6. Aggiungi un piatto al menu");
-            System.out.println("7. Rimuovi un piatto dal menu");
+            System.out.println("5. Effettua operazioni sui menu");
             System.out.println("0. Logout");
-            System.out.print("Scelta: ");
-            scelta = Integer.parseInt(scanner.nextLine());
+            
+			do {
+            	controllo = true;
+            	System.out.print("Scelta: ");
+            	try {
+            		scelta = Integer.parseInt(scanner.nextLine());
+            		System.out.println();
+            	}catch(NumberFormatException e) {
+            		System.out.println("Valore inserito non valido, riprova.");
+            		controllo = false;
+            	}
+            }while(!controllo);
 
             switch (scelta) {
                 case 1:
@@ -94,183 +102,10 @@ public class Ristoratore extends Utente {
                 case 4:
                     rispondiARecensione(gestioneRecensioni);
                     break;
-                case 5:  
-                	
-                	boolean controllo;
-                	int scegli; int i=1;
-                	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
-                	scegli = 0;
-        	    	if(!lista.isEmpty()) {
-        				System.out.println("\nLista ristoranti trovati: \n");
-        				System.out.println("----------------------------------------------------------------------");
-        				for(String s : lista) {
-        					System.out.print((i++)+") "+s+"\n");
-        					System.out.println("----------------------------------------------------------------------");
-        				}
-        	    	}
-        				
-                	do {
-    				    controllo = true;
-    				    System.out.print("Per quale ristorante vuoi creare il menù? ");
-    				    try {
-    				        scegli = Integer.parseInt(scanner.nextLine());
-    				        if (scegli < 1 || scegli > lista.size()) {
-    				            System.out.println("Scelta non presente, riprova.");
-    				            controllo = false;
-    				        }
-    				    } catch (NumberFormatException e) {
-    				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
-    				        controllo = false;
-    				    }
-    				} while (!controllo);
-
-    				System.out.println("");
-    				
-    				if(GestioneMenu.cercaMenu(lista.get(scegli - 1)+"Menu.csv")) {
-                		System.out.println("Il menù per questo ristorante esiste già.\n");
-                	}else {
-                		gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
-                	}
-                    
-                    break;
-                    
-                case 6:
-                	
-                	
-                	scegli = 0; i=1;
-                	ArrayList<String> listaMenu = visualizzaNomeMenu(this.getCodFiscale());
-
-        	    	if(!listaMenu.isEmpty()) {
-        				System.out.println("\nLista dei Menù trovati: \n");
-        				System.out.println("----------------------------------------------------------------------");
-        				for(String s : listaMenu) {
-        					s = s.replace("Menu", "");
-        					System.out.print((i++)+") "+s+"\n");
-        					System.out.println("----------------------------------------------------------------------");
-        				}
-        				
-        				do {
-        				    controllo = true;
-        				    System.out.print("A quale menù vuoi aggiungere un piatto? ");
-        				    try {
-        				        scegli = Integer.parseInt(scanner.nextLine());
-        				        if (scegli < 1 || scegli > listaMenu.size()) {
-        				            System.out.println("Scelta non presente, riprova.");
-        				            controllo = false;
-        				        }
-        				    } catch (NumberFormatException e) {
-        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
-        				        controllo = false;
-        				    }
-        				} while (!controllo);
-
-        				System.out.println("");
-                    	
-                    	String nomePiatto = "";
-    				do {
-    				    System.out.print("Nome del piatto: ");
-    				    nomePiatto = scanner.nextLine().trim();
-    				} while (!GestioneUtenti.campoNonVuoto(nomePiatto));
-    				
-    				String descrizionePiatto = "";
-    				do {
-    				    System.out.print("Descrizione del piatto: ");
-    				    descrizionePiatto = scanner.nextLine().trim();
-    				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto));
-    				
-    				
-    				double prezzoPiatto = 0.0;
-    				do {
-    				    try {
-    				        controllo = true;
-    				        System.out.print("Prezzo del piatto: ");
-    				        prezzoPiatto = Double.parseDouble(scanner.nextLine().trim());
-    				    } catch (NumberFormatException e) {
-    				        System.out.println("Valore inserito non valido, riprova.");
-    				        controllo = false;
-    				    }
-    				} while (!controllo);
-    				
-    				Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
-    				
-					gestioneRistoranti.aggiungiPiattoAlMenu(listaMenu.get(scegli - 1),nuovoPiatto);  
-    				
-        	    	}else {
-        	    		System.out.println("Nessun Menù trovato.");
-        	    	}
-        				
-                	
-				break;
-
-                case 7:
-                	scegli = 0; i=1;
-                	listaMenu = visualizzaNomeMenu(this.getCodFiscale());
-
-        	    	if(!listaMenu.isEmpty()) {
-        				System.out.println("\nLista dei Menù trovati: \n");
-        				System.out.println("----------------------------------------------------------------------");
-        				for(String s : listaMenu) {
-        					s = s.replace("Menu", "");
-        					System.out.print((i++)+") "+s+"\n");
-        					System.out.println("----------------------------------------------------------------------");
-        				}
-        				
-        				do {
-        				    controllo = true;
-        				    System.out.print("Da quale menù vuoi rimuovere un piatto? ");
-        				    try {
-        				        scegli = Integer.parseInt(scanner.nextLine());
-        				        if (scegli < 1 || scegli > listaMenu.size()) {
-        				            System.out.println("Scelta non presente, riprova.");
-        				            controllo = false;
-        				        }
-        				    } catch (NumberFormatException e) {
-        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
-        				        controllo = false;
-        				    }
-        				} while (!controllo);
-
-        				System.out.println("");
-                    	
-                    	
-        				ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
-        				int scegliPiatto = 0; i=1;
-        				
-	    				if(!listaPiatti.isEmpty()) {
-	        				System.out.println("\nLista dei Piatti trovati: \n");
-	        				System.out.println("----------------------------------------------------------------------");
-	        				for(String s : listaPiatti) {
-	        				
-	        					System.out.print((i++)+") "+s+"\n");
-	        					System.out.println("----------------------------------------------------------------------");
-	        				}
-	        				
-	        				do {
-	        				    controllo = true;
-	        				    System.out.print("Quale piatto vuoi rimuovere? ");
-	        				    try {
-	        				        scegliPiatto = Integer.parseInt(scanner.nextLine());
-	        				        if (scegliPiatto < 1 || scegliPiatto > listaPiatti.size()) {
-	        				            System.out.println("Scelta non presente, riprova.");
-	        				            controllo = false;
-	        				        }
-	        				    } catch (NumberFormatException e) {
-	        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
-	        				        controllo = false;
-	        				    }
-	        				} while (!controllo);
-	        				
-	        				gestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
-	    				
-	    				}else {
-	    					System.out.println("Nessun piatto trovato.");
-	    				}
-    				
-        	    	}else {
-        	    		System.out.println("Nessun Menù trovato.");
-        	    	}
-        	    	
-                    break;
+                case 5:
+                	operazioniMenu();
+                break;
+                
                 case 0:
                     System.out.println("Logout effettuato.");
                     break;
@@ -280,6 +115,271 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
+    
+   private void operazioniMenu() {
+	   GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
+	   int scelta=-1;
+	  
+	do {
+		
+		System.out.println("\n===== OPERAZIONI SUI MIEI MENU' =====");
+		   System.out.println("1. Crea il menu del ristorante");
+	       System.out.println("2. Aggiungi un piatto al menu");
+	       System.out.println("3. Rimuovi un piatto dal menu");
+	       System.out.println("4. Visualizza menu dei miei ristoranti");
+	       System.out.println("5. Esci");
+		
+		boolean controllo;
+		do {
+	    	controllo = true;
+	    	System.out.print("Scelta: ");
+	    	try {
+	    		scelta = Integer.parseInt(scanner.nextLine());
+	    		System.out.println();
+	    	}catch(NumberFormatException e) {
+	    		System.out.println("Valore inserito non valido, riprova.");
+	    		controllo = false;
+	    	}
+	    }while(!controllo);
+		
+		switch(scelta) {	   
+		   case 1:  
+		   	
+		   	int scegli; int i=1;
+		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+		   	scegli = 0;
+		   	if(!lista.isEmpty()) {
+					System.out.println("\nLista ristoranti trovati: \n");
+					System.out.println("----------------------------------------------------------------------");
+					for(String s : lista) {
+						System.out.print((i++)+") "+s+"\n");
+						System.out.println("----------------------------------------------------------------------");
+					}
+		   	}
+					
+		   	do {
+				    controllo = true;
+				    System.out.print("Per quale ristorante vuoi creare il menù? ");
+				    try {
+				        scegli = Integer.parseInt(scanner.nextLine());
+				        if (scegli < 1 || scegli > lista.size()) {
+				            System.out.println("Scelta non presente, riprova.");
+				            controllo = false;
+				        }
+				    } catch (NumberFormatException e) {
+				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+				        controllo = false;
+				    }
+				} while (!controllo);
+		
+				System.out.println("");
+				
+				if(GestioneMenu.cercaMenu(lista.get(scegli - 1)+"Menu.csv")) {
+		   		System.out.println("Il menù per questo ristorante esiste già.\n");
+		   	}else {
+		   		gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
+		   	}
+		       
+		       break;
+		       
+		   case 2:
+		   	
+		   	
+		   	scegli = 0; i=1;
+		   	ArrayList<String> listaMenu = visualizzaNomeMenu(this.getCodFiscale());
+		
+		   	if(!listaMenu.isEmpty()) {
+					System.out.println("\nLista dei Menù trovati: \n");
+					System.out.println("----------------------------------------------------------------------");
+					for(String s : listaMenu) {
+						s = s.replace("Menu", "");
+						System.out.print((i++)+") "+s+"\n");
+						System.out.println("----------------------------------------------------------------------");
+					}
+					
+					do {
+					    controllo = true;
+					    System.out.print("A quale menù vuoi aggiungere un piatto? ");
+					    try {
+					        scegli = Integer.parseInt(scanner.nextLine());
+					        if (scegli < 1 || scegli > listaMenu.size()) {
+					            System.out.println("Scelta non presente, riprova.");
+					            controllo = false;
+					        }
+					    } catch (NumberFormatException e) {
+					        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+					        controllo = false;
+					    }
+					} while (!controllo);
+		
+					System.out.println("");
+		       	
+		       	String nomePiatto = "";
+				do {
+				    System.out.print("Nome del piatto: ");
+				    nomePiatto = scanner.nextLine().trim();
+				} while (!GestioneUtenti.campoNonVuoto(nomePiatto));
+				
+				String descrizionePiatto = "";
+				do {
+				    System.out.print("Descrizione del piatto: ");
+				    descrizionePiatto = scanner.nextLine().trim();
+				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto));
+				
+				
+				double prezzoPiatto = 0.0;
+				do {
+				    try {
+				        controllo = true;
+				        System.out.print("Prezzo del piatto: ");
+				        prezzoPiatto = Double.parseDouble(scanner.nextLine().trim());
+				    } catch (NumberFormatException e) {
+				        System.out.println("Valore inserito non valido, riprova.");
+				        controllo = false;
+				    }
+				} while (!controllo);
+				
+				Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
+				
+				gestioneRistoranti.aggiungiPiattoAlMenu(listaMenu.get(scegli - 1),nuovoPiatto);  
+				
+		   	}else {
+		   		System.out.println("Nessun Menù trovato.");
+		   	}
+					
+		   	
+			break;
+		
+		   case 3:
+		   	scegli = 0; i=1;
+		   	listaMenu = visualizzaNomeMenu(this.getCodFiscale());
+		
+		   	if(!listaMenu.isEmpty()) {
+					System.out.println("\nLista dei Menù trovati: \n");
+					System.out.println("----------------------------------------------------------------------");
+					for(String s : listaMenu) {
+						s = s.replace("Menu", "");
+						System.out.print((i++)+") "+s+"\n");
+						System.out.println("----------------------------------------------------------------------");
+					}
+					
+					do {
+					    controllo = true;
+					    System.out.print("Da quale menù vuoi rimuovere un piatto? ");
+					    try {
+					        scegli = Integer.parseInt(scanner.nextLine());
+					        if (scegli < 1 || scegli > listaMenu.size()) {
+					            System.out.println("Scelta non presente, riprova.");
+					            controllo = false;
+					        }
+					    } catch (NumberFormatException e) {
+					        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+					        controllo = false;
+					    }
+					} while (!controllo);
+		
+					System.out.println("");
+		       	
+		       	
+					ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
+					int scegliPiatto = 0; i=1;
+					
+					if(!listaPiatti.isEmpty()) {
+						System.out.println("\nLista dei Piatti trovati: \n");
+						System.out.println("----------------------------------------------------------------------");
+						for(String s : listaPiatti) {
+						
+							System.out.print((i++)+") "+s+"\n");
+							System.out.println("----------------------------------------------------------------------");
+						}
+						
+						do {
+						    controllo = true;
+						    System.out.print("Quale piatto vuoi rimuovere? ");
+						    try {
+						        scegliPiatto = Integer.parseInt(scanner.nextLine());
+						        if (scegliPiatto < 1 || scegliPiatto > listaPiatti.size()) {
+						            System.out.println("Scelta non presente, riprova.");
+						            controllo = false;
+						        }
+						    } catch (NumberFormatException e) {
+						        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+						        controllo = false;
+						    }
+						} while (!controllo);
+						
+						gestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
+					
+					}else {
+						System.out.println("Nessun piatto trovato.");
+					}
+				
+		   	}else {
+		   		System.out.println("Nessun Menù trovato.");
+		   	}
+		   	
+		       break;
+		    
+		   case 4:
+			   
+			   scegli = 0; i=1;
+			   	listaMenu = visualizzaNomeMenu(this.getCodFiscale());
+			
+			   	if(!listaMenu.isEmpty()) {
+						System.out.println("\nLista dei Menù trovati: \n");
+						System.out.println("----------------------------------------------------------------------");
+						for(String s : listaMenu) {
+							s = s.replace("Menu", "");
+							System.out.print((i++)+") "+s+"\n");
+							System.out.println("----------------------------------------------------------------------");
+						}
+						
+						do {
+						    controllo = true;
+						    System.out.print("Quale menu vuoi visualizzare? ");
+						    try {
+						        scegli = Integer.parseInt(scanner.nextLine());
+						        if (scegli < 1 || scegli > listaMenu.size()) {
+						            System.out.println("Scelta non presente, riprova.");
+						            controllo = false;
+						        }
+						    } catch (NumberFormatException e) {
+						        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+						        controllo = false;
+						    }
+						} while (!controllo);
+			
+						System.out.println("");
+						
+						ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
+						if(!listaPiatti.isEmpty()) {
+							System.out.println("\nLista dei Piatti trovati: \n");
+							System.out.println("----------------------------------------------------------------------");
+							for(String s : listaPiatti) {
+							
+								System.out.print((i++)+") "+s+"\n");
+								System.out.println("----------------------------------------------------------------------");
+							}
+						}else {
+							System.out.println("Nessun piatto trovato.");
+							
+						}		
+				}else {
+			   		System.out.println("Nessun Menù trovato.");
+			   	}
+			   break;
+			   
+			   
+		   case 5:
+			   break;
+			   
+		   default:
+			   System.out.println("Scelta non presente,riprova.");
+		   }
+	   
+	   }while(scelta!=5);
+}
+   
    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
     // Aggiungi il ristorante al sistema
     gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti,cf), cf);
