@@ -463,7 +463,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 					System.out.println("b) Visualizza le recensioni del ristorante");
 					System.out.println("c) Visualizza menù del ristorante");
 					System.out.println("d) Esci");
-				
+					System.out.println("Scelta:");
 					miniMenu = scanner.nextLine().toLowerCase();
 					
 	    			switch(miniMenu) {
@@ -540,7 +540,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	                            rMenu.caricaMenuRistorante();
 	                            ArrayList<Piatto> menu = rMenu.getMenu();
 	                            if (menu.isEmpty()) {
-	                                System.out.println("Il menu di questo ristorante è vuoto.");
+	                                break;
 	                            } else {
 	                                System.out.println("----- MENU DI " + rMenu.getName().toUpperCase() + " -----");
 	                                for (Piatto p : menu) {
@@ -615,13 +615,14 @@ public void menuCercaRistoranti(String citta) {
 	ArrayList<Ristorante> listaRistorantiTrovati = null;
 	Scanner scanner = new Scanner(System.in);
 	do {	
+		
 		System.out.println("Seleziona i criteri di ricerca dei ristoranti ");
-		System.out.println("1) Per tipo di cucina e città");
-		System.out.println("2) Per la mia città");
-		System.out.println("3) Per fascia di prezzo e città");
-		System.out.println("4) Disponibilità Delivery e città");
-		System.out.println("5) Disponibilità Prenotazione Online e città");
-		System.out.println("6) Per media stelle e città");
+		System.out.println("1) Per tipo di cucina e vicini a me");
+		System.out.println("2) Vicini a me ");
+		System.out.println("3) Per fascia di prezzo e vicini a me");
+		System.out.println("4) Disponibilità Delivery e vicini a me");
+		System.out.println("5) Disponibilità Prenotazione vicini a me");
+		System.out.println("6) Per media stelle e vicini a me");
 		System.out.println("7) Per tutti i criteri");
 		System.out.println("8) Esci");
 		

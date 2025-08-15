@@ -31,6 +31,7 @@ public class Cliente extends Utente {
         int scelta = 0;
         boolean controllo;
         do {
+        	
             System.out.println("===== MENU CLIENTE =====");
             System.out.println("1. Visualizza preferiti");
             System.out.println("2. Aggiungi ristorante ai preferiti");
@@ -59,20 +60,41 @@ public class Cliente extends Utente {
                     visualizzaPreferiti();
                     break;
                 case 2:
+                	ArrayList<Ristorante> listaRistorantiTrovati;
+                	int i=1; int scegli=-1;
                 	
-                	String nomeAdd="";
+                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
-                	do {
-                		System.out.print("Nome ristorante: ");
-                		nomeAdd = scanner.nextLine();
-                	}while(!GestioneUtenti.campoNonVuoto(nomeAdd));
-                	
-                    Ristorante rAdd = gestioneRistoranti.cercaRistorantePerNome(nomeAdd);
-                    if (rAdd != null) {
-                        aggiungiPreferito(rAdd);
-                    } else {
-                        System.out.println("Ristorante non trovato.");
-                    }
+                	if(!listaRistorantiTrovati.isEmpty()) {
+                		System.out.println("Ristoranti trovati vicino a me: \n");
+        				System.out.println("----------------------------------------------------------------------");
+        				for(Ristorante r : listaRistorantiTrovati) {
+        					System.out.print((i++)+") "+r.getName()+"\n");
+        					System.out.println("----------------------------------------------------------------------");
+        				}
+        				
+        				do {
+        				    controllo = true;
+        				    System.out.print("Quale ristorante vuoi aggiungere ai preferiti? ");
+        				    try {
+        				        scegli = Integer.parseInt(scanner.nextLine());
+        				        if (scegli < 1 || scegli > listaRistorantiTrovati.size()) {
+        				            System.out.println("Scelta non presente, riprova.");
+        				            controllo = false;
+        				        }
+        				    } catch (NumberFormatException e) {
+        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+        				        controllo = false;
+        				    }
+        				} while (!controllo);
+        		
+        				System.out.println("");
+                        aggiungiPreferito(listaRistorantiTrovati.get(scegli - 1));
+        				
+        			}else {
+        				System.out.println("Nessun ristorante trovato vicino a me.");
+        			}
+
                     break;
                 case 3:
                 	
@@ -161,7 +183,7 @@ public class Cliente extends Utente {
                 default:
                     System.out.println("Scelta non valida.");
             }
-
+        
         } while (scelta != 0);
     }
 

@@ -55,7 +55,7 @@ public class GestioneMenu {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Errore durante la lettura del menu: " + e.getMessage());
+            System.out.println("Il Menù di questo ristorante non esiste." + e.getMessage());
         }
         return menu;
     }

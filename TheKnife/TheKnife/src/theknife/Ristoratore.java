@@ -69,7 +69,8 @@ public class Ristoratore extends Utente {
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni) {
         int scelta = -1;   boolean controllo;
         do {
-            System.out.println("===== MENU RISTORATORE =====");
+        	
+            System.out.println("\n===== MENU RISTORATORE =====");
             System.out.println("1. Aggiungi un ristorante");
             System.out.println("2. Effettua operazioni sulle recensioni"); //puoi accedere a queste opzioni solo se hai almeno un ristorante
             System.out.println("3. Effettua operazioni sui menu"); //puoi accedere a queste opzioni solo se hai almeno un ristorante
@@ -809,7 +810,7 @@ public class Ristoratore extends Utente {
 	
 
     private void rispondiARecensione(GestioneRecensioni gestioneRecensioni,String ristorante) {
-
+    	
         ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);
 
         if (recensioni.isEmpty()) {

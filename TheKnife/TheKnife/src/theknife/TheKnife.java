@@ -36,6 +36,7 @@ public class TheKnife {
     	System.out.println("");
         System.out.println("Benvenuto su TheKnife!");
         do {
+        	
             try { //l'utente che non effettua il login può:
                 System.out.println("1. Registrati"); //registrarsi
                 System.out.println("2. Login"); //fare l'accesso
@@ -231,6 +232,7 @@ public class TheKnife {
             } catch (Exception e) {
                 System.out.println("Si è verificato un errore: " + e.getMessage());
             }
+           
         }while(scelta!=4);
     }
     
