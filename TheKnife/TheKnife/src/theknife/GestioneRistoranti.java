@@ -319,7 +319,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
         Piatto piatto = new Piatto(nome, descrizione, prezzo);
 
         // Usa il metodo centralizzato per aggiungere piatto e salvare su file
-        aggiungiPiattoAlMenu(nomeRistorante, piatto);
+        aggiungiPiattoAlMenu(nomeRistorante+"Menu.csv", piatto);
 
         System.out.print("Vuoi aggiungere un altro piatto? (s/n): ");
         risposta = scanner.nextLine().trim();

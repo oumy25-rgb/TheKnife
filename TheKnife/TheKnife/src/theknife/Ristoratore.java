@@ -304,7 +304,8 @@ public class Ristoratore extends Utente {
 	       System.out.println("2. Aggiungi un piatto al menu");
 	       System.out.println("3. Rimuovi un piatto dal menu");
 	       System.out.println("4. Visualizza menu dei miei ristoranti");
-	       System.out.println("5. Esci");
+	       System.out.println("5. Elimina menu ristorante");
+	       System.out.println("6. Esci");
 		
 		boolean controllo;
 		do {
@@ -546,15 +547,51 @@ public class Ristoratore extends Utente {
 			   	}
 			   break;
 			   
-			   
 		   case 5:
+			   listaMenu = visualizzaNomeMenu(this.getCodFiscale());
+			   scegli = 0;i=1;
+			   	if(!listaMenu.isEmpty()) {
+						System.out.println("\nLista dei Menù trovati: \n");
+						System.out.println("----------------------------------------------------------------------");
+						for(String s : listaMenu) {
+							s = s.replace("Menu", "");
+							System.out.print((i++)+") "+s+"\n");
+							System.out.println("----------------------------------------------------------------------");
+						}
+						
+						do {
+						    controllo = true;
+						    System.out.print("Quale menu vuoi eliminare? ");
+						    try {
+						        scegli = Integer.parseInt(scanner.nextLine());
+						        if (scegli < 1 || scegli > listaMenu.size()) {
+						            System.out.println("Scelta non presente, riprova.");
+						            controllo = false;
+						        }
+						    } catch (NumberFormatException e) {
+						        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+						        controllo = false;
+						    }
+						} while (!controllo);
+			
+						System.out.println("");
+						if(GestioneFile.eliminaMenu("src/dati", listaMenu.get(scegli - 1)+".csv"))
+							System.out.println("Rimozione Menu avvenuta con successo!");
+			   	}else {
+			   		System.out.println("Nessun Menù trovato.");
+			   	}
+					
+					
+			   break;
+			   
+		   case 6:
 			   break;
 			   
 		   default:
 			   System.out.println("Scelta non presente,riprova.");
 		   }
 	   
-	   }while(scelta!=5);
+	   }while(scelta!=6);
 }
    
    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {

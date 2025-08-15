@@ -420,17 +420,18 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         }
 
         File fileDaEliminare = new File(cartella, nomeMenu);
-        if (!fileDaEliminare.exists()) {
-            System.err.println("Il menu " + nomeMenu + " non esiste nella cartella.");
-            return false;
+        
+        if(fileDaEliminare.exists()) {
+	
+	        if (fileDaEliminare.delete()) {
+	            return true;
+	        } else {
+	            System.err.println("Impossibile eliminare il menu " + nomeMenu);
+	            return false;
+	        }
         }
-
-        if (fileDaEliminare.delete()) {
-            return true;
-        } else {
-            System.err.println("Impossibile eliminare il menu " + nomeMenu);
-            return false;
-        }
+        
+        return true;
     }     
 }
 
