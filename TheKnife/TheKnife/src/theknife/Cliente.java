@@ -32,7 +32,7 @@ public class Cliente extends Utente {
         boolean controllo;
         do {
         	
-            System.out.println("===== MENU CLIENTE =====");
+            System.out.println("\n===== MENU CLIENTE =====");
             System.out.println("1. Visualizza preferiti");
             System.out.println("2. Aggiungi ristorante ai preferiti");
             System.out.println("3. Rimuovi ristorante dai preferiti");
@@ -98,13 +98,28 @@ public class Cliente extends Utente {
                     break;
                 case 3:
                 	
-                	String nomeRem ="";
-                	do {
-                		System.out.print("Nome ristorante: ");
-                		nomeRem = scanner.nextLine();
-                	}while(!GestioneUtenti.campoNonVuoto(nomeRem));	
-                	
-                    rimuoviPreferito(nomeRem);
+                	i=1; scegli=-1;
+                	System.out.println("Ristoranti trovati vicino a me: \n");
+                	GestioneRistoranti.visualizzaLista(preferiti);	
+        				do {
+        				    controllo = true;
+        				    System.out.print("Quale ristorante preferito vuoi rimuovere? ");
+        				    try {
+        				        scegli = Integer.parseInt(scanner.nextLine());
+        				        if (scegli < 1 || scegli > preferiti.size()) {
+        				            System.out.println("Scelta non presente, riprova.");
+        				            controllo = false;
+        				        }
+        				    } catch (NumberFormatException e) {
+        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+        				        controllo = false;
+        				    }
+        				} while (!controllo);
+        		
+        				System.out.println("");
+        				
+        				rimuoviPreferito(preferiti.get(scegli - 1));
+                    
                     break;
                 case 4:
                     aggiornaRecensioniPersonali();

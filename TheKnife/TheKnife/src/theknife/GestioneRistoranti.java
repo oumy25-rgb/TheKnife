@@ -46,6 +46,18 @@ public class GestioneRistoranti {
     }
 }
     
+    public static void visualizzaLista(ArrayList<String> lista) {
+    	
+    	int i=1;
+    	if(!lista.isEmpty()) {
+			System.out.println("----------------------------------------------------------------------");
+			for(String s : lista) {
+				System.out.print((i++)+") "+s+"\n");
+				System.out.println("----------------------------------------------------------------------");
+			}
+    	}else
+    		System.out.println("Nessun elemento trovato.");
+    }
     
     public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
     	

@@ -114,14 +114,9 @@ public class Ristoratore extends Utente {
                 		int scegli; int i=1;
             		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
             		   	scegli = 0;
-            		   	if(!lista.isEmpty()) {
             					System.out.println("\nLista ristoranti trovati: \n");
-            					System.out.println("----------------------------------------------------------------------");
-            					for(String s : lista) {
-            						System.out.print((i++)+") "+s+"\n");
-            						System.out.println("----------------------------------------------------------------------");
-            					}
-            		   	}
+            			
+            		   	GestioneRistoranti.visualizzaLista(lista);	
             		   	
             		   	do {
         				    controllo = true;
@@ -190,14 +185,8 @@ public class Ristoratore extends Utente {
     			int scegli; int i=1;
     		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
-    		   	if(!lista.isEmpty()) {
-    					System.out.println("\nLista ristoranti trovati: \n");
-    					System.out.println("----------------------------------------------------------------------");
-    					for(String s : lista) {
-    						System.out.print((i++)+") "+s+"\n");
-    						System.out.println("----------------------------------------------------------------------");
-    					}
-    		   	}
+    		   	System.out.println("\nLista ristoranti trovati: \n");
+    		   	GestioneRistoranti.visualizzaLista(lista);	
     		   	
     		   	do {
 				    controllo = true;
@@ -223,15 +212,9 @@ public class Ristoratore extends Utente {
     			scegli=-1; i=1;
     		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
-    		   	if(!lista.isEmpty()) {
-    					System.out.println("\nLista ristoranti trovati: \n");
-    					System.out.println("----------------------------------------------------------------------");
-    					for(String s : lista) {
-    						System.out.print((i++)+") "+s+"\n");
-    						System.out.println("----------------------------------------------------------------------");
-    					}
-    		   	}
+    		   	System.out.println("\nLista ristoranti trovati: \n");
     		   	
+    		   	GestioneRistoranti.visualizzaLista(lista);
     		   	do {
 				    controllo = true;
 				    System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
@@ -256,14 +239,8 @@ public class Ristoratore extends Utente {
     			scegli=-1; i=1;
     		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
-    		   	if(!lista.isEmpty()) {
-    					System.out.println("\nLista ristoranti trovati: \n");
-    					System.out.println("----------------------------------------------------------------------");
-    					for(String s : lista) {
-    						System.out.print((i++)+") "+s+"\n");
-    						System.out.println("----------------------------------------------------------------------");
-    					}
-    		   	}
+    		   	System.out.println("\nLista ristoranti trovati: \n");
+    		   	GestioneRistoranti.visualizzaLista(lista);
     		   	
     		   	do {
 				    controllo = true;
@@ -327,14 +304,8 @@ public class Ristoratore extends Utente {
 		   	int scegli; int i=1;
 		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
 		   	scegli = 0;
-		   	if(!lista.isEmpty()) {
-					System.out.println("\nLista ristoranti trovati: \n");
-					System.out.println("----------------------------------------------------------------------");
-					for(String s : lista) {
-						System.out.print((i++)+") "+s+"\n");
-						System.out.println("----------------------------------------------------------------------");
-					}
-		   	}
+		   	System.out.println("\nLista ristoranti trovati: \n");
+		   	GestioneRistoranti.visualizzaLista(lista);
 					
 		   	do {
 				    controllo = true;
@@ -355,9 +326,9 @@ public class Ristoratore extends Utente {
 				
 				if(GestioneMenu.cercaMenu(lista.get(scegli - 1)+"Menu.csv")) {
 		   		System.out.println("Il menù per questo ristorante esiste già.\n");
-		   	}else {
-		   		gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
-		   	}
+				}else {
+					gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
+				}
 		       
 		       break;
 		       
@@ -462,15 +433,8 @@ public class Ristoratore extends Utente {
 		       	
 					ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
 					int scegliPiatto = 0; i=1;
-					
-					if(!listaPiatti.isEmpty()) {
-						System.out.println("\nLista dei Piatti trovati: \n");
-						System.out.println("----------------------------------------------------------------------");
-						for(String s : listaPiatti) {
-						
-							System.out.print((i++)+") "+s+"\n");
-							System.out.println("----------------------------------------------------------------------");
-						}
+					System.out.println("\nLista dei Piatti trovati: \n");
+					GestioneRistoranti.visualizzaLista(listaPiatti);
 						
 						do {
 						    controllo = true;
@@ -490,12 +454,8 @@ public class Ristoratore extends Utente {
 						gestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
 					
 					}else {
-						System.out.println("Nessun piatto trovato.");
+						System.out.println("Nessun Menù trovato.");
 					}
-				
-		   	}else {
-		   		System.out.println("Nessun Menù trovato.");
-		   	}
 		   	
 		       break;
 		    
@@ -531,19 +491,8 @@ public class Ristoratore extends Utente {
 						System.out.println("");
 						
 						ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
-						if(!listaPiatti.isEmpty()) {
-							System.out.println("\nLista dei Piatti trovati: \n");
-							System.out.println("----------------------------------------------------------------------");
-							i=1;
-							for(String s : listaPiatti) {
-							
-								System.out.print((i++)+") "+s+"\n");
-								System.out.println("----------------------------------------------------------------------");
-							}
-						}else {
-							System.out.println("Nessun piatto trovato.");
-							
-						}		
+						System.out.println("\nLista dei Piatti trovati: \n");
+						GestioneRistoranti.visualizzaLista(listaPiatti);
 				}else {
 			   		System.out.println("Nessun Menù trovato.");
 			   	}
