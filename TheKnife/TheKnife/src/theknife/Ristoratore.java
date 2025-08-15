@@ -533,6 +533,7 @@ public class Ristoratore extends Utente {
 						if(!listaPiatti.isEmpty()) {
 							System.out.println("\nLista dei Piatti trovati: \n");
 							System.out.println("----------------------------------------------------------------------");
+							i=1;
 							for(String s : listaPiatti) {
 							
 								System.out.print((i++)+") "+s+"\n");
