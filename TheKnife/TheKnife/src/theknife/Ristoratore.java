@@ -71,10 +71,9 @@ public class Ristoratore extends Utente {
         do {
             System.out.println("===== MENU RISTORATORE =====");
             System.out.println("1. Aggiungi un ristorante");
-            System.out.println("2. Visualizza riepilogo delle recensioni");
-            System.out.println("3. Visualizza recensioni");
-            System.out.println("4. Rispondi a una recensione");
-            System.out.println("5. Effettua operazioni sui menu");
+            System.out.println("2. Effettua operazioni sulle recensioni"); //puoi accedere a queste opzioni solo se hai almeno un ristorante
+            System.out.println("3. Effettua operazioni sui menu"); //puoi accedere a queste opzioni solo se hai almeno un ristorante
+            System.out.println("4. Elimina un ristorante"); //puoi accedere a queste opzioni solo se hai almeno un ristorante
             System.out.println("0. Logout");
             
 			do {
@@ -93,19 +92,61 @@ public class Ristoratore extends Utente {
                 case 1:
                     aggiungiRistorante(gestioneRistoranti,this.getCodFiscale());
                     break;
+               
                 case 2:
-                    visualizzaRiepilogo();
-                    break;
-                case 3:
-                    visualizzaRecensioni();
-                    break;
-                case 4:
-                    rispondiARecensione(gestioneRecensioni);
-                    break;
-                case 5:
-                	operazioniMenu();
+                	if(!visualizzaNomeMieiRistoranti(this.getCodFiscale()).isEmpty())
+                		operazioniRecensioni();
+                	else 
+                		System.out.println("Devi prima aggiungere almeno un ristorante, riprova.");
+                	
                 break;
                 
+                case 3:
+                	if(!visualizzaNomeMieiRistoranti(this.getCodFiscale()).isEmpty())
+                		operazioniMenu();
+                	else 
+                		System.out.println("Devi prima aggiungere almeno un ristorante, riprova.");
+                break;
+                
+                case 4:
+                	if(!visualizzaNomeMieiRistoranti(this.getCodFiscale()).isEmpty()) {
+                		int scegli; int i=1;
+            		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+            		   	scegli = 0;
+            		   	if(!lista.isEmpty()) {
+            					System.out.println("\nLista ristoranti trovati: \n");
+            					System.out.println("----------------------------------------------------------------------");
+            					for(String s : lista) {
+            						System.out.print((i++)+") "+s+"\n");
+            						System.out.println("----------------------------------------------------------------------");
+            					}
+            		   	}
+            		   	
+            		   	do {
+        				    controllo = true;
+        				    System.out.print("Quale ristorante vuoi eliminare? ");
+        				    try {
+        				        scegli = Integer.parseInt(scanner.nextLine());
+        				        if (scegli < 1 || scegli > lista.size()) {
+        				            System.out.println("Scelta non presente, riprova.");
+        				            controllo = false;
+        				        }
+        				    } catch (NumberFormatException e) {
+        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+        				        controllo = false;
+        				    }
+        				} while (!controllo);
+        		
+        				System.out.println("");
+        				
+        				if(GestioneFile.rimuoviRistorante("src/dati/ristoranti.csv", gestioneRistoranti.cercaRistorantePerNome(lista.get(scegli - 1)))) 
+        					if(GestioneFile.rimuoviRistorante("src/dati/proprietari.csv",this.getCodFiscale(),lista.get(scegli - 1)))
+        						if(GestioneFile.eliminaMenu("src/dati", (lista.get(scegli - 1)+"Menu.csv")))
+        							System.out.println("Rimozione avvenuta con successo!");
+        				
+        			}else 
+        				System.out.println("Devi prima aggiungere almeno un ristorante, riprova.");
+                	break;
                 case 0:
                     System.out.println("Logout effettuato.");
                     break;
@@ -115,6 +156,142 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
+    
+    private void operazioniRecensioni() {
+    	
+    	int scelta=-1;
+    	GestioneRecensioni gestioneRecensioni = new GestioneRecensioni();
+    	
+    	do {
+    		
+    		System.out.println("\n===== OPERAZIONI SULLE RECENSIONI =====");
+    		System.out.println("1. Visualizza riepilogo delle recensioni");
+            System.out.println("2. Visualizza recensioni");
+            System.out.println("3. Rispondi a una recensione");
+    	    System.out.println("4. Esci");
+    		
+    		boolean controllo;
+    		do {
+    	    	controllo = true;
+    	    	System.out.print("Scelta: ");
+    	    	try {
+    	    		scelta = Integer.parseInt(scanner.nextLine());
+    	    		System.out.println();
+    	    	}catch(NumberFormatException e) {
+    	    		System.out.println("Valore inserito non valido, riprova.");
+    	    		controllo = false;
+    	    	}
+    	    }while(!controllo);
+    		
+    		switch(scelta) {	 
+    		
+    		case 1:
+    			int scegli; int i=1;
+    		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+    		   	scegli = 0;
+    		   	if(!lista.isEmpty()) {
+    					System.out.println("\nLista ristoranti trovati: \n");
+    					System.out.println("----------------------------------------------------------------------");
+    					for(String s : lista) {
+    						System.out.print((i++)+") "+s+"\n");
+    						System.out.println("----------------------------------------------------------------------");
+    					}
+    		   	}
+    		   	
+    		   	do {
+				    controllo = true;
+				    System.out.print("Di quale ristorante vuoi visualizzare il riepilogo delle recensioni? ");
+				    try {
+				        scegli = Integer.parseInt(scanner.nextLine());
+				        if (scegli < 1 || scegli > lista.size()) {
+				            System.out.println("Scelta non presente, riprova.");
+				            controllo = false;
+				        }
+				    } catch (NumberFormatException e) {
+				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+				        controllo = false;
+				    }
+				} while (!controllo);
+		
+				System.out.println("");
+				
+    			Ristorante.visualizzaRiepilogo(lista.get(scegli - 1));
+    			
+    			break;
+    		case 2:
+    			scegli=-1; i=1;
+    		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+    		   	scegli = 0;
+    		   	if(!lista.isEmpty()) {
+    					System.out.println("\nLista ristoranti trovati: \n");
+    					System.out.println("----------------------------------------------------------------------");
+    					for(String s : lista) {
+    						System.out.print((i++)+") "+s+"\n");
+    						System.out.println("----------------------------------------------------------------------");
+    					}
+    		   	}
+    		   	
+    		   	do {
+				    controllo = true;
+				    System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
+				    try {
+				        scegli = Integer.parseInt(scanner.nextLine());
+				        if (scegli < 1 || scegli > lista.size()) {
+				            System.out.println("Scelta non presente, riprova.");
+				            controllo = false;
+				        }
+				    } catch (NumberFormatException e) {
+				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+				        controllo = false;
+				    }
+				} while (!controllo);
+		
+				System.out.println("");
+			
+    			Ristorante.visualizzaRecensioni(lista.get(scegli - 1));
+    			
+    			break;
+    		case 3:
+    			scegli=-1; i=1;
+    		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
+    		   	scegli = 0;
+    		   	if(!lista.isEmpty()) {
+    					System.out.println("\nLista ristoranti trovati: \n");
+    					System.out.println("----------------------------------------------------------------------");
+    					for(String s : lista) {
+    						System.out.print((i++)+") "+s+"\n");
+    						System.out.println("----------------------------------------------------------------------");
+    					}
+    		   	}
+    		   	
+    		   	do {
+				    controllo = true;
+				    System.out.print("Di quale ristorante? ");
+				    try {
+				        scegli = Integer.parseInt(scanner.nextLine());
+				        if (scegli < 1 || scegli > lista.size()) {
+				            System.out.println("Scelta non presente, riprova.");
+				            controllo = false;
+				        }
+				    } catch (NumberFormatException e) {
+				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+				        controllo = false;
+				    }
+				} while (!controllo);
+		
+				System.out.println("");
+				
+				rispondiARecensione(gestioneRecensioni,lista.get(scegli - 1));
+    			break;
+    		case 4:
+    			break;
+    		default:
+ 			   System.out.println("Scelta non presente,riprova.");
+ 		   }
+ 	   
+ 	   }while(scelta!=4);
+ }
+    
     
    private void operazioniMenu() {
 	   GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
@@ -592,30 +769,10 @@ public class Ristoratore extends Utente {
 	        );
 	}
 	
-	
-    private void visualizzaRiepilogo() {
-        if (ristorante == null) {
-            System.out.println("Nessun ristorante associato.");
-            return;
-        }
-        ristorante.visualizzaRiepilogo();
-    }
 
-    private void visualizzaRecensioni() {
-        if (ristorante == null) {
-            System.out.println("Nessun ristorante associato.");
-            return;
-        }
-        ristorante.visualizzaRecensioni();
-    }
+    private void rispondiARecensione(GestioneRecensioni gestioneRecensioni,String ristorante) {
 
-    private void rispondiARecensione(GestioneRecensioni gestioneRecensioni) {
-        if (ristorante == null) {
-            System.out.println("Nessun ristorante associato.");
-            return;
-        }
-
-        ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante.getName());
+        ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);
 
         if (recensioni.isEmpty()) {
             System.out.println("Nessuna recensione trovata per questo ristorante.");
@@ -653,7 +810,7 @@ public class Ristoratore extends Utente {
             System.out.println("Rispondi al commento di " + nomeCliente + ":");
             String risposta = scanner.nextLine();
 
-            gestioneRecensioni.rispondiARisposta(ristorante.getName(), selezionata.getCliente(), risposta);
+            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
             System.out.println("Risposta inviata correttamente.");
        
     }

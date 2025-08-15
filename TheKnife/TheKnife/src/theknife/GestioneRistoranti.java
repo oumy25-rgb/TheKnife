@@ -444,7 +444,6 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     }
     
 	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
-	    	
 	    	String miniMenu;
 	    	int scegli = 0,i=1;
 	    	Scanner scanner = new Scanner(System.in);
@@ -511,7 +510,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	        			    } while (!controllo);
 
 	        			    System.out.println("");
-	        			    listaRistorantiTrovati.get(scegli - 1).visualizzaRecensioni();
+	        			   Ristorante.visualizzaRecensioni(listaRistorantiTrovati.get(scegli - 1).getName());
 	        				
 	        				break;
 	        				

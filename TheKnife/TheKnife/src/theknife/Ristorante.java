@@ -186,13 +186,13 @@ public class Ristorante {
     
     }
 
-    public void visualizzaRecensioni() {
-    ArrayList<Recensione> recs = Recensione.cercaPerRistorante(this.name);
+    public static void visualizzaRecensioni(String ristorante) {
+    ArrayList<Recensione> recs = Recensione.cercaPerRistorante(ristorante);
     
     if (recs.isEmpty()) {
-        System.out.println("Nessuna recensione presente per " + this.name);
+        System.out.println("Nessuna recensione presente per " + ristorante);
     } else {
-        System.out.println("Recensioni per " + this.name + ":");
+        System.out.println("Recensioni per " + ristorante + ":");
         for (Recensione r : recs) {
             System.out.println("- " + r.getTestoRecensione() + " (" + r.getStelle() + " stelle)");
             // Nessuna stampa della risposta
@@ -206,10 +206,10 @@ public class Ristorante {
     }
     
     
-    public void visualizzaRiepilogo() {
-    ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(this.name);
+    public static void visualizzaRiepilogo(String ristorante) {
+    ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);
     if (recensioni.isEmpty()) {
-        System.out.println("Nessuna recensione disponibile per " + this.name);
+        System.out.println("Nessuna recensione disponibile per " + ristorante);
         return;
     }
 
@@ -220,7 +220,7 @@ public class Ristorante {
 
     double mediaStelle = sommaStelle / recensioni.size();
 
-    System.out.println("Riepilogo per " + this.name + ":");
+    System.out.println("Riepilogo per " + ristorante + ":");
     System.out.println("Numero di recensioni: " + recensioni.size());
     System.out.println("Media stelle: " + mediaStelle);
 }

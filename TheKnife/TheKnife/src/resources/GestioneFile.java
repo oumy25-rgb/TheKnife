@@ -11,7 +11,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import theknife.Preferiti;
 import theknife.Recensione;
@@ -364,7 +366,71 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
     }
 }
 
+    public static boolean rimuoviRistorante(String percorso, String codFiscale, String nomeRistorante) {
+        try {
+            File file = new File(percorso);
+            List<String> righe = Files.readAllLines(file.toPath());
+
+            List<String> righeFiltrate = new ArrayList<>();
+            for (String linea : righe) {
+                if (!linea.trim().equals(codFiscale + "," + nomeRistorante)) {
+                    righeFiltrate.add(linea);
+                }
+            }
+
+            // Sovrascrivo direttamente il file
+            Files.write(file.toPath(), righeFiltrate);
+
+        } catch (IOException e) {
+            System.err.println("Errore durante la modifica del file: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean rimuoviRistorante(String percorso, Ristorante ristorante) {
+        try {
+            File file = new File(percorso);
+            List<String> righe = Files.readAllLines(file.toPath());
+
+            List<String> righeFiltrate = new ArrayList<>();
+            String rigaDaRimuovere = ristorante.toCSV();
+
+            for (String linea : righe) {
+                if (!linea.trim().equals(rigaDaRimuovere)) {
+                    righeFiltrate.add(linea);
+                }
+            }
+
+            // Sovrascrivo direttamente il file
+            Files.write(file.toPath(), righeFiltrate);
+            return true;
+
+        } catch (IOException e) {
+            System.err.println("Errore durante la modifica del file: " + e.getMessage());
+            return false;
+        }
+    }
                
-        
+    public static boolean eliminaMenu(String percorsoCartella, String nomeMenu) {
+        File cartella = new File(percorsoCartella);
+        if (!cartella.exists() || !cartella.isDirectory()) {
+            System.err.println("La cartella specificata non esiste o non è valida.");
+            return false;
+        }
+
+        File fileDaEliminare = new File(cartella, nomeMenu);
+        if (!fileDaEliminare.exists()) {
+            System.err.println("Il menu " + nomeMenu + " non esiste nella cartella.");
+            return false;
+        }
+
+        if (fileDaEliminare.delete()) {
+            return true;
+        } else {
+            System.err.println("Impossibile eliminare il menu " + nomeMenu);
+            return false;
+        }
+    }     
 }
 
