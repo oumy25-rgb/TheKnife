@@ -103,11 +103,34 @@ public void modificaRecensione(Cliente cliente, Scanner scanner) {
 
 public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
-    String nomeRistorante="";
-    do {
-    	System.out.print("Nome del ristorante di cui vuoi eliminare la recensione: ");
-    	nomeRistorante = scanner.nextLine();
-    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
+    ArrayList<Recensione> mie = Recensione.cercaPerCliente(cliente.getCodFiscale());
+
+    int i=1; int scegli=-1;
+	boolean controllo;
+	if(!mie.isEmpty()) {
+		System.out.println(" \nRistoranti che ho recensito:");
+		System.out.println("----------------------------------------------------------------------");
+		for(Recensione r : mie) {
+			System.out.print((i++)+") "+r+"\n");
+			System.out.println("----------------------------------------------------------------------");
+		}
+	
+		do {
+		    controllo = true;
+		    System.out.print("Quale recensione vuoi eliminare? ");
+		    try {
+		        scegli = Integer.parseInt(scanner.nextLine());
+		        if (scegli < 1 || scegli > mie.size()) {
+		            System.out.println("Scelta non presente, riprova.");
+		            controllo = false;
+		        }
+		    } catch (NumberFormatException e) {
+		        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+		        controllo = false;
+		    }
+		} while (!controllo);
+		
+		Recensione r = mie.get(scegli - 1);
     
     Iterator<Recensione> iterator = tutteRecensioni.iterator();
     boolean removed = false;
@@ -115,7 +138,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     while (iterator.hasNext()) {
         Recensione rec = iterator.next();
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
-            rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
+            rec.getRistorante().equalsIgnoreCase(r.getNomeRistorante())) {
             iterator.remove();
             removed = true;
             break; // Esci dopo aver eliminato la prima (e unica) recensione
@@ -125,7 +148,9 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     if (removed) {
         riscriviRecensioni(tutteRecensioni);
         System.out.println("Recensione eliminata con successo.");
-    } else {
+    }else
+    	System.out.println("Errore nella rimozione.");
+	}else {
         System.out.println("Nessuna recensione trovata per questo ristorante.");
     }
 }
