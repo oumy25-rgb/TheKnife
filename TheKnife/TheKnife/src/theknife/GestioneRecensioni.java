@@ -168,7 +168,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     }
     if (found) {
         riscriviRecensioni(tutte); // riscrive tutto usando r.toCSV()
-        System.out.println("Risposta salvata per la recensione di " + cliente);
+       
     } else {
         System.out.println("Recensione non trovata per il cliente: " + cliente);
     }
