@@ -780,7 +780,7 @@ public class Ristoratore extends Utente {
 		do {
         	controllo=true;
         	try {
-        		System.out.print("A quale recensione vuoi rispondere? ");
+        		System.out.print("\nA quale recensione vuoi rispondere? ");
         		scelta = Integer.parseInt(scanner.nextLine()) - 1;
         		if(scelta<0 || scelta>=recensioni.size()) {
         			System.out.println("Opzione non presente, riprova.");
@@ -794,12 +794,38 @@ public class Ristoratore extends Utente {
         
             Recensione selezionata = recensioni.get(scelta);
             String nomeCliente = GestioneFile.getNomeDaCodFiscale("src/dati/utente.csv", selezionata.getCliente());
-            System.out.println("Rispondi al commento di " + nomeCliente + ":");
-            String risposta = scanner.nextLine();
-
-            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
-            System.out.println("Risposta inviata correttamente.");
-       
+            String s;
+            
+            if(selezionata.getRisposta()!=null && !selezionata.getRisposta().isEmpty() && !selezionata.getRisposta().equalsIgnoreCase("")) {
+            	do {
+            		controllo=true;
+            		System.out.println("Hai già risposto a questa recensione, vuoi modificarla? (s/n) ");
+            		s = scanner.nextLine();
+            		
+            		if(!s.equalsIgnoreCase("s") && !s.equalsIgnoreCase("n")) {
+            			System.out.println("Scelta non valida, riprova.");
+            			controllo=false;
+            		}
+            		
+            	}while(!controllo);
+            	
+            	if(s.equalsIgnoreCase("s")) {
+            		
+            		System.out.println("\nRispondi al commento di " + nomeCliente + ":");
+    	            String risposta = scanner.nextLine();
+    	
+    	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
+    	            System.out.println("Risposta inviata correttamente.");
+            		
+            	}
+            }else {
+            
+	            System.out.println("\nRispondi al commento di " + nomeCliente + ":");
+	            String risposta = scanner.nextLine();
+	
+	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
+	            System.out.println("Risposta inviata correttamente.");
+            }
     }
 }
 
