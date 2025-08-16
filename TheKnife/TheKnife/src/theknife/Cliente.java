@@ -279,7 +279,7 @@ public void visualizzaRecensioniPersonali() {
             
             // Stampa RISPOSTA solo se esiste ed è valida
             if (r.getRisposta() != null && !r.getRisposta().isEmpty()) {
-                System.out.println("\n[Risposta del ristoratore]");
+                System.out.print("\nRisposta del ristoratore: ");
                 System.out.println(r.getRisposta());
             }
         }

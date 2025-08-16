@@ -117,7 +117,7 @@ public class Recensione {
                 // Data sarà tokens[5] se c'è lo 0, altrimenti tokens[4]
                 String data = (tokens.length > 5 && tokens[4].equals("0")) ? tokens[5] : tokens[4];
                 
-                String risposta = tokens.length > 6 ? tokens[6] : "";
+                String risposta = tokens.length > 5 ? tokens[5] : "";
 
                 recensioni.add(new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta));
             }
@@ -172,7 +172,7 @@ public class Recensione {
                       "\nRecensione: \"" + testoRecensione + "\"" +
                       "\nData: " + data;
         if (risposta != null && !risposta.isEmpty()) {
-            base += "\n[Risposta del ristoratore]: \"" + risposta + "\"";
+            base += "\nRisposta del ristoratore: \"" + risposta + "\"";
         }
         return base;
     }
