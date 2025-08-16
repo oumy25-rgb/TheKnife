@@ -18,8 +18,6 @@ import resources.Piatto;
 import resources.GestioneFile;
 import resources.GestioneMenu;
 
-import static theknife.Recensione.riscriviRecensioni;
-
 public class Ristoratore extends Utente {
     private Ristorante ristorante;
     public static Scanner scanner = new Scanner(System.in);
@@ -111,12 +109,12 @@ public class Ristoratore extends Utente {
                 
                 case 4:
                 	if(!visualizzaNomeMieiRistoranti(this.getCodFiscale()).isEmpty()) {
-                		int scegli; int i=1;
+                		int scegli; 
             		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
             		   	scegli = 0;
-            					System.out.println("\nLista ristoranti trovati: \n");
+            			System.out.println("\nLista ristoranti trovati: \n");
             			
-            		   	GestioneRistoranti.visualizzaLista(lista);	
+            		   	if(GestioneRistoranti.visualizzaLista(lista)) {
             		   	
             		   	do {
         				    controllo = true;
@@ -139,7 +137,7 @@ public class Ristoratore extends Utente {
         					if(GestioneFile.rimuoviRistorante("src/dati/proprietari.csv",this.getCodFiscale(),lista.get(scegli - 1)))
         						if(GestioneFile.eliminaMenu("src/dati", (lista.get(scegli - 1)+"Menu.csv")))
         							System.out.println("Rimozione avvenuta con successo!");
-        				
+            		   	}	
         			}else 
         				System.out.println("Devi prima aggiungere almeno un ristorante, riprova.");
                 	break;
@@ -182,11 +180,11 @@ public class Ristoratore extends Utente {
     		switch(scelta) {	 
     		
     		case 1:
-    			int scegli; int i=1;
+    			int scegli; 
     		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
     		   	System.out.println("\nLista ristoranti trovati: \n");
-    		   	GestioneRistoranti.visualizzaLista(lista);	
+    		   	if(GestioneRistoranti.visualizzaLista(lista)) {	
     		   	
     		   	do {
 				    controllo = true;
@@ -206,15 +204,15 @@ public class Ristoratore extends Utente {
 				System.out.println("");
 				
     			Ristorante.visualizzaRiepilogo(lista.get(scegli - 1));
-    			
+    		   	}
     			break;
     		case 2:
-    			scegli=-1; i=1;
+    			scegli=-1; 
     		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
     		   	System.out.println("\nLista ristoranti trovati: \n");
     		   	
-    		   	GestioneRistoranti.visualizzaLista(lista);
+    		   	if(GestioneRistoranti.visualizzaLista(lista)) {
     		   	do {
 				    controllo = true;
 				    System.out.print("Di quale ristorante vuoi visualizzare le recensioni? ");
@@ -233,14 +231,14 @@ public class Ristoratore extends Utente {
 				System.out.println("");
 			
     			Ristorante.visualizzaRecensioni(lista.get(scegli - 1));
-    			
+    		   	}
     			break;
     		case 3:
-    			scegli=-1; i=1;
+    			scegli=-1; 
     		   	lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
     		   	scegli = 0;
     		   	System.out.println("\nLista ristoranti trovati: \n");
-    		   	GestioneRistoranti.visualizzaLista(lista);
+    		   	if(GestioneRistoranti.visualizzaLista(lista)) {
     		   	
     		   	do {
 				    controllo = true;
@@ -260,6 +258,7 @@ public class Ristoratore extends Utente {
 				System.out.println("");
 				
 				rispondiARecensione(gestioneRecensioni,lista.get(scegli - 1));
+    		   	}
     			break;
     		case 4:
     			break;
@@ -305,7 +304,7 @@ public class Ristoratore extends Utente {
 		   	ArrayList<String> lista = visualizzaNomeMieiRistoranti(this.getCodFiscale());
 		   	scegli = 0;
 		   	System.out.println("\nLista ristoranti trovati: \n");
-		   	GestioneRistoranti.visualizzaLista(lista);
+		   	if(GestioneRistoranti.visualizzaLista(lista)) {
 					
 		   	do {
 				    controllo = true;
@@ -329,7 +328,7 @@ public class Ristoratore extends Utente {
 				}else {
 					gestioneRistoranti.creaEMenuRistorante(lista.get(scegli - 1));
 				}
-		       
+		   	}
 		       break;
 		       
 		   case 2:
@@ -434,7 +433,7 @@ public class Ristoratore extends Utente {
 					ArrayList<String> listaPiatti = visualizzaPiattiMenu(listaMenu.get(scegli - 1));
 					int scegliPiatto = 0; i=1;
 					System.out.println("\nLista dei Piatti trovati: \n");
-					GestioneRistoranti.visualizzaLista(listaPiatti);
+					if(GestioneRistoranti.visualizzaLista(listaPiatti)) {
 						
 						do {
 						    controllo = true;
@@ -452,7 +451,7 @@ public class Ristoratore extends Utente {
 						} while (!controllo);
 						
 						gestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
-					
+					}
 					}else {
 						System.out.println("Nessun Menù trovato.");
 					}

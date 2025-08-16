@@ -13,24 +13,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 
 import resources.GestioneFile;
-import resources.GestioneMenu;
 import resources.Piatto;
 
 public class GestioneRistoranti {
     private ArrayList<Ristorante> ristoranti;
-    private GestioneFile gf;
-
+    Scanner scanner = new Scanner(System.in);
+    
     public GestioneRistoranti() {
         ristoranti = new ArrayList<>();
-        gf = new GestioneFile();
-       // caricaRistoranti(); // Carica i ristoranti all'inizializzazione
+        new GestioneFile();
     }
 
     public void aggiungiRistorante(Ristorante ristorante, String codFiscale) {
@@ -46,7 +43,7 @@ public class GestioneRistoranti {
     }
 }
     
-    public static void visualizzaLista(ArrayList<String> lista) {
+    public static boolean visualizzaLista(ArrayList<String> lista) {
     	
     	int i=1;
     	if(!lista.isEmpty()) {
@@ -55,8 +52,11 @@ public class GestioneRistoranti {
 				System.out.print((i++)+") "+s+"\n");
 				System.out.println("----------------------------------------------------------------------");
 			}
-    	}else
+    	}else {
     		System.out.println("Nessun elemento trovato.");
+    		return false;
+    	}
+    	return true;
     }
     
     public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
@@ -283,7 +283,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     }
     
  public void creaEMenuRistorante(String nomeRistorante) {
-    Scanner scanner = new Scanner(System.in);
+   
     String risposta;
     File file = new File("src/dati", nomeRistorante+"Menu.csv");
     
@@ -458,7 +458,6 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
 	    	String miniMenu;
 	    	int scegli = 0,i=1;
-	    	Scanner scanner = new Scanner(System.in);
 	    	boolean controllo;
 	    	
 	    	if(!listaRistorantiTrovati.isEmpty()) {
@@ -625,16 +624,16 @@ public void menuCercaRistoranti(String citta) {
 	String tipo;
 	boolean controllo;
 	ArrayList<Ristorante> listaRistorantiTrovati = null;
-	Scanner scanner = new Scanner(System.in);
+
 	do {	
-		
+		System.out.println("\n===== CERCA RISTORANTI VICINI A ME =====");
 		System.out.println("Seleziona i criteri di ricerca dei ristoranti ");
-		System.out.println("1) Per tipo di cucina e vicini a me");
+		System.out.println("1) Per tipo di cucina");
 		System.out.println("2) Vicini a me ");
-		System.out.println("3) Per fascia di prezzo e vicini a me");
-		System.out.println("4) Disponibilità Delivery e vicini a me");
-		System.out.println("5) Disponibilità Prenotazione vicini a me");
-		System.out.println("6) Per media stelle e vicini a me");
+		System.out.println("3) Per fascia di prezzo");
+		System.out.println("4) Disponibilità Delivery");
+		System.out.println("5) Disponibilità Prenotazione");
+		System.out.println("6) Per media stelle");
 		System.out.println("7) Per tutti i criteri");
 		System.out.println("8) Esci");
 		

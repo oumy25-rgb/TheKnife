@@ -271,19 +271,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
         }
     }
         
-     private static void salvaRistoranteSuFile(String nomeFile, String nome, String indirizzo, String citta, String cucina) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
-        String riga = String.format("%s,%s,%s,%s", nome, indirizzo, citta, cucina);
-        writer.write(riga);
-        writer.newLine();
-        System.out.println("Segnalazione salvata correttamente.");
-    } catch (IOException e) {
-        System.out.println("Errore durante il salvataggio della segnalazione: " + e.getMessage());
-    }    
-    
-    }
-    
-      public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
+     public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
             String riga = String.format("%s,%s,%s,%s", nome, indirizzo, locazione, cucina);
             writer.write(riga);

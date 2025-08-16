@@ -11,8 +11,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import resources.GestioneFile;
-import resources.Piatto;
 
 public class Cliente extends Utente {
     private ArrayList<String> preferiti;
@@ -40,7 +38,7 @@ public class Cliente extends Utente {
             System.out.println("5. Aggiungi recensione");
             System.out.println("6. Modifica recensione");
             System.out.println("7. Elimina recensione");
-            System.out.println("8. Cerca ristorante");
+            System.out.println("8. Cerca ristoranti vicini a me");
             System.out.println("0. Logout");
             
             do {
@@ -98,9 +96,10 @@ public class Cliente extends Utente {
                     break;
                 case 3:
                 	
-                	i=1; scegli=-1;
-                	System.out.println("Ristoranti trovati vicino a me: \n");
-                	GestioneRistoranti.visualizzaLista(preferiti);	
+                	scegli=-1;
+                	System.out.println(" \nRistoranti trovati nei miei preferiti:");
+                	if(GestioneRistoranti.visualizzaLista(preferiti)) {
+                	
         				do {
         				    controllo = true;
         				    System.out.print("Quale ristorante preferito vuoi rimuovere? ");
@@ -119,6 +118,7 @@ public class Cliente extends Utente {
         				System.out.println("");
         				
         				rimuoviPreferito(preferiti.get(scegli - 1));
+                	}
                     
                     break;
                 case 4:
@@ -126,15 +126,35 @@ public class Cliente extends Utente {
                     visualizzaRecensioniPersonali();
                     break;
                 case 5:
-                	String nome="";
-                	do {
-                		System.out.print("Nome ristorante: ");
-                		nome = scanner.nextLine();
-                	}while(!GestioneUtenti.campoNonVuoto(nome));
+                	scegli = -1;i=1;
+                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
-                    Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nome);
-                    if (r != null) {
-                        if (gestioneRecensioni.recensioneEsistente(nome, getCodFiscale())) {
+                	if(!listaRistorantiTrovati.isEmpty()) {
+                		System.out.println(" \nRistoranti trovati vicino a me:");
+        				System.out.println("----------------------------------------------------------------------");
+        				for(Ristorante r : listaRistorantiTrovati) {
+        					System.out.print((i++)+") "+r.getName()+"\n");
+        					System.out.println("----------------------------------------------------------------------");
+        				}
+                	
+        				do {
+        				    controllo = true;
+        				    System.out.print("A quale ristorante vuoi dare una recensione? ");
+        				    try {
+        				        scegli = Integer.parseInt(scanner.nextLine());
+        				        if (scegli < 1 || scegli > listaRistorantiTrovati.size()) {
+        				            System.out.println("Scelta non presente, riprova.");
+        				            controllo = false;
+        				        }
+        				    } catch (NumberFormatException e) {
+        				        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+        				        controllo = false;
+        				    }
+        				} while (!controllo);
+        		
+        				Ristorante r = listaRistorantiTrovati.get(scegli - 1);
+        				
+                        if (gestioneRecensioni.recensioneEsistente(r.getName(), getCodFiscale())) {
                             System.out.println("Hai già recensito questo ristorante. Usa l'opzione 6 per modificarla.");
                             break;
                         }
@@ -174,9 +194,9 @@ public class Cliente extends Utente {
                         );
                         gestioneRecensioni.aggiungiRecensione(rec);
                         System.out.println("Recensione aggiunta con successo.");
-                    } else {
-                        System.out.println("Ristorante non trovato.");
-                    }
+                	}else {
+        				System.out.println("Nessun ristorante trovato vicino a me.");
+        			}
                     break;
                 case 6:
                     gestioneRecensioni.modificaRecensione(this, scanner);

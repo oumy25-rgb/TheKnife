@@ -13,9 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
-
 public class GestioneMenu {
     // Metodo per scrivere il menu di un ristorante in un file CSV
     public void scriviMenu(String nomeFile, ArrayList<Piatto> piatti) {

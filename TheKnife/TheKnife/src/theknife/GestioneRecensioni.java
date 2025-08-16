@@ -33,19 +33,43 @@ public class GestioneRecensioni {
 
 public void modificaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
-    String nomeRistorante="";
-    do {
-    	System.out.print("Nome del ristorante di cui vuoi modificare la recensione: ");
-    	nomeRistorante = scanner.nextLine();
-    }while(!GestioneUtenti.campoNonVuoto(nomeRistorante));
+    ArrayList<Recensione> mie = Recensione.cercaPerCliente(cliente.getCodFiscale());
+
+    int i=1; int scegli=-1;
+	boolean controllo;
+	if(!mie.isEmpty()) {
+		System.out.println(" \nRistoranti che ho recensito:");
+		System.out.println("----------------------------------------------------------------------");
+		for(Recensione r : mie) {
+			System.out.print((i++)+") "+r+"\n");
+			System.out.println("----------------------------------------------------------------------");
+		}
+	
+		do {
+		    controllo = true;
+		    System.out.print("Quale recensione vuoi modificare? ");
+		    try {
+		        scegli = Integer.parseInt(scanner.nextLine());
+		        if (scegli < 1 || scegli > mie.size()) {
+		            System.out.println("Scelta non presente, riprova.");
+		            controllo = false;
+		        }
+		    } catch (NumberFormatException e) {
+		        System.out.println("Formato non valido, riprova."); // gestisce anche il caso in cui viene lasciata vuota
+		        controllo = false;
+		    }
+		} while (!controllo);
+		
+		Recensione r = mie.get(scegli - 1);
     
     for (Recensione rec : tutteRecensioni) {
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
-            rec.getRistorante().equalsIgnoreCase(nomeRistorante)) {
+            rec.getRistorante().equalsIgnoreCase(r.getNomeRistorante())) {
+        	
             System.out.print("Nuovo testo recensione (opzionale) : ");
             String nuovoTesto = scanner.nextLine();
-            boolean controllo;
             String s="";
+            
             do {
             	controllo = true;
             
@@ -70,7 +94,9 @@ public void modificaRecensione(Cliente cliente, Scanner scanner) {
             return;
         }
     }
-    System.out.println("Nessuna recensione trovata per questo ristorante.");
+    }else {
+		System.out.println("Nessun ristorante trovato vicino a me.");
+	}
 }
 
 
