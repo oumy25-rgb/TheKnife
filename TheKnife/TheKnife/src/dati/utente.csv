@@ -2,3 +2,4 @@ nome,cognome,codFiscale,username,password,dataNascita,luogoDomicilio,ruolo
 
 ele,rossi,RSSMRA95A41H501Z,ele,jqj,N/A,milano,ristoratore
 franco,bianchi,VRDLGU03C15F205K,fra,kwf,N/A,milano,cliente
+fra,non so,RSSFNC95C12F205T,fra,kwf,N/A,chicago,cliente

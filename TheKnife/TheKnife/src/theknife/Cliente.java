@@ -212,7 +212,7 @@ public class Cliente extends Utente {
                 	String luogo=""; String risp="";
                 	do {
                 		controllo=true;
-                		System.out.println("Vuoi cercare ristoranti vicini a te? (nel tuo luogo di domicilio) (s/n) ");
+                		System.out.println("Vuoi cercare ristoranti vicini a te? (nel tuo luogo di domicilio) (s = si /n = no) ");
                 		risp = scanner.nextLine();
                 		
                 		if(!risp.equalsIgnoreCase("s") && !risp.equalsIgnoreCase("n")) {
