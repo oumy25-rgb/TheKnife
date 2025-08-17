@@ -799,7 +799,7 @@ public class Ristoratore extends Utente {
             if(selezionata.getRisposta()!=null && !selezionata.getRisposta().isEmpty() && !selezionata.getRisposta().equalsIgnoreCase("")) {
             	do {
             		controllo=true;
-            		System.out.println("Hai già risposto a questa recensione, vuoi modificarla? (s/n) ");
+            		System.out.println("Hai già risposto a questa recensione, vuoi modificarla? (s = si /n = no) ");
             		s = scanner.nextLine();
             		
             		if(!s.equalsIgnoreCase("s") && !s.equalsIgnoreCase("n")) {

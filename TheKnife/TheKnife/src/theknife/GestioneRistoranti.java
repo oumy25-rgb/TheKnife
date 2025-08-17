@@ -334,7 +334,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
         // Usa il metodo centralizzato per aggiungere piatto e salvare su file
         aggiungiPiattoAlMenu(nomeRistorante+"Menu.csv", piatto);
 
-        System.out.print("Vuoi aggiungere un altro piatto? (s/n): ");
+        System.out.print("Vuoi aggiungere un altro piatto? (s = si/n = no): ");
         risposta = scanner.nextLine().trim();
 
     } while (risposta.equalsIgnoreCase("s"));
