@@ -43,6 +43,7 @@ public class GestioneRistoranti {
     }
 }
     
+    
     public static boolean visualizzaLista(ArrayList<String> lista) {
     	
     	int i=1;
@@ -626,10 +627,10 @@ public void menuCercaRistoranti(String citta) {
 	ArrayList<Ristorante> listaRistorantiTrovati = null;
 
 	do {	
-		System.out.println("\n===== CERCA RISTORANTI VICINI A ME =====");
+		System.out.println("\n===== CERCA RISTORANTI =====");
 		System.out.println("Seleziona i criteri di ricerca dei ristoranti ");
 		System.out.println("1) Per tipo di cucina");
-		System.out.println("2) Vicini a me ");
+		System.out.println("2) Per città ");
 		System.out.println("3) Per fascia di prezzo");
 		System.out.println("4) Disponibilità Delivery");
 		System.out.println("5) Disponibilità Prenotazione");

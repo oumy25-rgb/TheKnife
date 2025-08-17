@@ -38,7 +38,7 @@ public class Cliente extends Utente {
             System.out.println("5. Aggiungi recensione");
             System.out.println("6. Modifica recensione");
             System.out.println("7. Elimina recensione");
-            System.out.println("8. Cerca ristoranti vicini a me");
+            System.out.println("8. Cerca ristoranti");
             System.out.println("0. Logout");
             
             do {
@@ -64,7 +64,7 @@ public class Cliente extends Utente {
                 	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
                 	if(!listaRistorantiTrovati.isEmpty()) {
-                		System.out.println("Ristoranti trovati vicino a me: \n");
+                		System.out.println("Ristoranti trovati: \n");
         				System.out.println("----------------------------------------------------------------------");
         				for(Ristorante r : listaRistorantiTrovati) {
         					System.out.print((i++)+") "+r.getName()+"\n");
@@ -130,7 +130,7 @@ public class Cliente extends Utente {
                 	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
                 	if(!listaRistorantiTrovati.isEmpty()) {
-                		System.out.println(" \nRistoranti trovati vicino a me:");
+                		System.out.println(" \nRistoranti trovati:");
         				System.out.println("----------------------------------------------------------------------");
         				for(Ristorante r : listaRistorantiTrovati) {
         					System.out.print((i++)+") "+r.getName()+"\n");
@@ -209,7 +209,30 @@ public class Cliente extends Utente {
 
                 case 8:
                 	
-                	gestioneRistoranti.menuCercaRistoranti(this.getLuogoDomicilio());
+                	String luogo=""; String risp="";
+                	do {
+                		controllo=true;
+                		System.out.println("Vuoi cercare ristoranti vicini a te? (nel tuo luogo di domicilio) (s/n) ");
+                		risp = scanner.nextLine();
+                		
+                		if(!risp.equalsIgnoreCase("s") && !risp.equalsIgnoreCase("n")) {
+                			controllo = false;
+                			System.out.println("Scelta non valida, inserire (s = si) (n = no)");
+                		}
+                		
+                	}while(!controllo);
+                	
+                	if(risp.equalsIgnoreCase("n")) {
+                	
+	                	do {
+	                		System.out.println("Inserire una città per continuare: ");
+	                		luogo = scanner.nextLine().trim();
+	                	}while(!GestioneUtenti.campoNonVuoto(luogo));
+	                	
+	                	gestioneRistoranti.menuCercaRistoranti(luogo);
+	                	
+                	}else
+                		gestioneRistoranti.menuCercaRistoranti(this.getLuogoDomicilio());
                     
                     break;
                 case 0:
