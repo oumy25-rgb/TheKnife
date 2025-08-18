@@ -860,6 +860,9 @@ public void menuCercaRistoranti(String citta) {
 
 		 break;
 		 
+	 	case 8:
+		 break;
+		 
 		 default : 
 			 System.out.println("Opzione non presente, riprova.\n");
 	} 
