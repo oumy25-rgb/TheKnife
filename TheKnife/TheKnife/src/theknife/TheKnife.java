@@ -87,7 +87,7 @@ public class TheKnife {
                         do {
                         	System.out.println("Inserisci un username:");
                         	username = scanner.nextLine().trim();
-                        }while(!GestioneUtenti.campoNonVuoto(username));
+                        }while(!GestioneUtenti.campoNonVuoto(username) || GestioneUtenti.userEsiste(username));
                         
                         
                         String password="";

@@ -153,12 +153,30 @@ public class GestioneUtenti {
     
     public static boolean cfEsiste(String cf) {
     	
-    	try (CSVReader reader = new CSVReader(new FileReader("src/dati/proprietari.csv"))) {
+    	try (CSVReader reader = new CSVReader(new FileReader("src/dati/utente.csv"))) {
             String[] riga;
             while ((riga = reader.readNext()) != null) {
                 
-            	if(riga[0].equals(cf)) {
+            	if(riga[2].equals(cf)) {
             		System.out.println("Questo codice fiscale è già presente!, riprova.");
+            		return true; //true se esiste già
+            	}
+            }
+        } catch (Exception e) {
+            System.err.println("Error searching : " + e.getMessage());
+        }
+        return false;
+    	
+    }
+    
+public static boolean userEsiste(String user) {
+    	
+    	try (CSVReader reader = new CSVReader(new FileReader("src/dati/utente.csv"))) {
+            String[] riga;
+            while ((riga = reader.readNext()) != null) {
+                
+            	if(riga[3].equals(user)) {
+            		System.out.println("Questo user è già presente!, riprova.");
             		return true; //true se esiste già
             	}
             }

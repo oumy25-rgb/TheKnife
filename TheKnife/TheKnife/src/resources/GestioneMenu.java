@@ -52,7 +52,7 @@ public class GestioneMenu {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Il Menù di questo ristorante non esiste." + e.getMessage());
+            System.out.println("Il ristorante non ha nessun menù");
         }
         return menu;
     }
