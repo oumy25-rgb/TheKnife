@@ -165,9 +165,8 @@ public class Recensione {
     }
 
     // Visualizzazione per cliente
-    public String visualizzaPerCliente() {
+      public String visualizzaPerCliente() {
         String base = "Ristorante: " + nomeRistorante +
-                      "\nIndirizzo: " + indirizzo + ", " + citta +
                       "\nVoto: " + stelle + " stelle" +
                       "\nRecensione: \"" + testoRecensione + "\"" +
                       "\nData: " + data;
@@ -191,4 +190,5 @@ public class Recensione {
         return visualizzaPerCliente();
     }
 }
+
 
