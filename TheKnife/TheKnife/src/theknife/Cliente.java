@@ -338,7 +338,7 @@ public void visualizzaRecensioniPersonali() {
             System.out.print("Voto: ");
             int stelleIntere = (int) r.getStelle();
             for (int i = 0; i < stelleIntere; i++) {
-                System.out.print("★");
+                System.out.print("*");
             }
             System.out.println(" (" + r.getStelle() + "/5)");
             

@@ -301,7 +301,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
             System.out.print("Nome del piatto: ");
             nome = scanner.nextLine().trim();
             if (nome.isEmpty()) {
-                System.out.println("❌ Il nome del piatto non può essere vuoto.");
+                System.out.println("Il nome del piatto non può essere vuoto.");
             }
         } while (nome.isEmpty());
 
@@ -310,7 +310,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
             System.out.print("Descrizione del piatto: ");
             descrizione = scanner.nextLine().trim();
             if (descrizione.isEmpty()) {
-                System.out.println("❌ La descrizione non può essere vuota.");
+                System.out.println("La descrizione non può essere vuota.");
             }
         } while (descrizione.isEmpty());
 
@@ -320,11 +320,11 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
                 System.out.print("Prezzo del piatto: ");
                 prezzo = Double.parseDouble(scanner.nextLine().trim());
                 if (prezzo < 0) {
-                    System.out.println("❌ Il prezzo non può essere negativo.");
+                    System.out.println("Il prezzo non può essere negativo.");
                     prezzo = -1;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("❌ Valore inserito non valido, riprova.");
+                System.out.println("Valore inserito non valido, riprova.");
             }
         } while (prezzo < 0);
 
@@ -339,7 +339,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 
     } while (risposta.equalsIgnoreCase("s"));
 
-    System.out.println("✅ Menu completato e salvato con successo.");
+    System.out.println("Menu completato e salvato con successo.");
 }
 	
    public Ristorante cercaRistorantePerNome(String nome) {
@@ -556,7 +556,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	                            } else {
 	                                System.out.println("----- MENU DI " + rMenu.getName().toUpperCase() + " -----");
 	                                for (Piatto p : menu) {
-	                                    System.out.println("🍽 " + p.getNome() + " - " + p.getPrezzo() + "€");
+	                                    System.out.println("" + p.getNome() + " - " + p.getPrezzo() + "€");
 	                                    System.out.println("   " + p.getDescrizione());
 	                                }
 	                                System.out.println("------------------------------------");
