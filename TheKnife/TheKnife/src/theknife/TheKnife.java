@@ -148,7 +148,7 @@ public class TheKnife {
                         // Se ruolo ristoratore, crea il ristorante
                         if (ruolo.equals("ristoratore")) {
                             Ristorante nuovoRistorante;
-                            nuovoRistorante = Ristoratore.menuAggiuntaRistorante(gestioneRistoranti,nuovoUtente.getCodFiscale());
+                            nuovoRistorante = Ristoratore.menuAggiuntaRistorante(gestioneRistoranti);
 
                             // Salva ristorante e associazione
                             GestioneFile.scriviRistorante("src/dati/ristoranti.csv", nuovoRistorante);

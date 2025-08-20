@@ -546,7 +546,7 @@ public class Ristoratore extends Utente {
    
    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
     // Aggiungi il ristorante al sistema
-    gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti,cf), cf);
+    gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti), cf);
     System.out.println("Ristorante aggiunto e associato con successo!");
 }
    
@@ -631,7 +631,7 @@ public class Ristoratore extends Utente {
 	   
    }
    
-	public static Ristorante menuAggiuntaRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
+	public static Ristorante menuAggiuntaRistorante(GestioneRistoranti gestioneRistoranti) {
 		
 		System.out.println("Inserisci i dettagli del ristorante");
 	    boolean controllo;
@@ -643,9 +643,9 @@ public class Ristoratore extends Utente {
 	    	System.out.println("Inserisci il nome del ristorante:");
 	    	 nome = scanner.nextLine().trim();
 	    	if(GestioneUtenti.campoNonVuoto(nome)) {
-		    	if(gestioneRistoranti.verificaEsistenzaRistorantePerRistoratore(cf, nome)) {
+		    	if(gestioneRistoranti.verificaEsistenzaRistorante(nome)) {
 		    		controllo=false;
-		    		System.out.println("il ristorante '"+nome+"' esiste già per questo ristoratore! riprova.");
+		    		System.out.println("il ristorante '"+nome+"' esiste già, riprova.");
 		    	}
 	    	}else
 	    		controllo=false;
