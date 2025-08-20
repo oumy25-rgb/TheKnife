@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 package theknife;
 
 import java.util.Scanner;
-
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,15 +12,42 @@ import resources.Piatto;
 import resources.GestioneFile;
 import resources.GestioneMenu;
 
+/**
+ * Rappresenta un ristoratore, utente proprietario di uno o più ristoranti.
+ * Estende la classe {@link Utente}.
+ * @author Giuseppina Salvati
+ * @author Omema Gharsellaoui
+ */
+
 public class Ristoratore extends Utente {
     private Ristorante ristorante;
     public static Scanner scanner = new Scanner(System.in);
+    
+    /**
+     * Costruttore della classe Ristoratore.
+     *
+     * @param nome <code>nome</code> del ristoratore
+     * @param cognome <code>cognome</code> del ristoratore
+     * @param codFiscale <code>codFiscale</code> del ristoratore
+     * @param username <code>username</code> del ristoratore
+     * @param password <code>password</code> del ristoratore
+     * @param dataNascita <code>dataNascita</code> del ristoratore
+     * @param luogoDomicilio <code>luogoDomicilio</code> del ristoratore
+     * @param ristorante <code>ristorante</code> associato al ristoratore
+     */
+    
     public Ristoratore(String nome, String cognome, String codFiscale, String username, String password,
                        String dataNascita, String luogoDomicilio, Ristorante ristorante) {
         super(nome, cognome, codFiscale, username, password, dataNascita, luogoDomicilio, "ristoratore");
         this.ristorante = ristorante;
     }
 
+    /**
+     * Carica il ristorante associato al ristoratore se non già presente.
+     *
+     * @param gestioneRistoranti istanza di {@link GestioneRistoranti} per cercare il ristorante
+     */
+    
     public void caricaRistoranteAssociato(GestioneRistoranti gestioneRistoranti) {
     if (this.ristorante != null) {
         return; // Già associato
@@ -41,6 +62,13 @@ public class Ristoratore extends Utente {
     }
 }
 
+    /**
+     * Restituisce la lista dei nomi dei ristoranti associati al ristoratore.
+     *
+     * @param cf <code>codFiscale</code> del ristoratore
+     * @return lista dei nomi dei ristoranti
+     */
+    
     public ArrayList<String> visualizzaNomeMieiRistoranti(String cf) {
     	
     	ArrayList<String> lista = new ArrayList<String>();
@@ -63,6 +91,14 @@ public class Ristoratore extends Utente {
         }
         return lista;
     }
+    
+    /**
+     * Mostra il menu principale del ristoratore, permettendo
+     * di gestire ristoranti, menu e recensioni.
+     *
+     * @param gestioneRistoranti istanza di {@link GestioneRistoranti}
+     * @param gestioneRecensioni istanza di {@link GestioneRecensioni}
+     */
     
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni) {
         int scelta = -1;   boolean controllo;
@@ -150,7 +186,9 @@ public class Ristoratore extends Utente {
         } while (scelta != 0);
     }
 
-    
+    /**
+     * Operazioni sulle recensioni dei ristoranti.
+     */
     private void operazioniRecensioni() {
     	
     	int scelta=-1;
@@ -269,7 +307,9 @@ public class Ristoratore extends Utente {
  	   }while(scelta!=4);
  }
     
-    
+    /**
+     * Operazioni sui menu dei ristoranti del ristoratore.
+     */
    private void operazioniMenu() {
 	   GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
 	   int scelta=-1;
@@ -544,12 +584,25 @@ public class Ristoratore extends Utente {
 	   }while(scelta!=6);
 }
    
+   /**
+    * Aggiunge un ristorante al sistema associato al ristoratore.
+    *
+    * @param gestioneRistoranti istanza di {@link GestioneRistoranti}
+    * @param cf <code>codFiscale</code> del ristoratore
+    */
+   
    private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
     // Aggiungi il ristorante al sistema
     gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti), cf);
     System.out.println("Ristorante aggiunto e associato con successo!");
 }
    
+   /**
+    * Restituisce la lista dei piatti di un menu.
+    *
+    * @param nomeMenu nome del menu
+    * @return lista dei nomi dei piatti
+    */
    public ArrayList<String> visualizzaPiattiMenu(String nomeMenu){
 	   
 	   String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
@@ -574,7 +627,12 @@ public class Ristoratore extends Utente {
 	    return listaPiatti;
    }
    
-   
+   /**
+    * Restituisce la lista dei nomi dei menu associati al ristoratore.
+    *
+    * @param cf <code>codFiscale</code> del ristoratore
+    * @return lista dei nomi dei menu
+    */  
   public  ArrayList<String> visualizzaNomeMenu(String cf){
 	   
 	  File cartella = new File("src/dati");
@@ -631,6 +689,13 @@ public class Ristoratore extends Utente {
 	   
    }
    
+  /**
+   * Crea un nuovo ristorante leggendo i dati da input utente.
+   *
+   * @param gestioneRistoranti istanza di {@link GestioneRistoranti}
+   * @return nuova istanza di {@link Ristorante}
+   */
+  
 	public static Ristorante menuAggiuntaRistorante(GestioneRistoranti gestioneRistoranti) {
 		
 		System.out.println("Inserisci i dettagli del ristorante");
@@ -756,7 +821,12 @@ public class Ristoratore extends Utente {
 	        );
 	}
 	
-
+	/**
+     * Permette di rispondere a una recensione di un ristorante.
+     *
+     * @param gestioneRecensioni istanza di {@link GestioneRecensioni}
+     * @param ristorante nome del ristorante
+     */
     private void rispondiARecensione(GestioneRecensioni gestioneRecensioni,String ristorante) {
     	
         ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);

@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package theknife;
 /**
- *
- * @author HEW4K7Z2EA
+ * Classe astratta che rappresenta un utente del sistema TheKnife.
+ * <p>
+ * Ogni utente possiede dati anagrafici, credenziali e informazioni di contatto.
+ * La classe viene estesa da specifiche tipologie di utenti, come Cliente o Ristoratore.
+ * </p>
+ * 
+ * @author Giuseppina Salvati
+ * @author Omema Gharsellaoui
  */
-
 public abstract class Utente {
     private String nome;
     private String cognome;
@@ -18,6 +20,23 @@ public abstract class Utente {
     private String luogoDomicilio;
     private String ruolo;
 
+    
+    /**
+     * Costruisce un nuovo utente con tutte le informazioni fornite.
+     * <p>
+     * Se <code>dataNascita</code> è vuota o nulla, viene impostata a "N/A".
+     * </p>
+     * 
+     * @param nome <code>nome</code> dell'utente
+     * @param cognome <code>cognome</code> dell'utente
+     * @param codFiscale <code>codFiscale</code> dell'utente
+     * @param username <code>username</code> scelto dall'utente
+     * @param password <code>password</code> dell'utente
+     * @param dataNascita <code>dataNascita</code> dell'utente, opzionale
+     * @param luogoDomicilio <code>luogoDomicilio</code> dell'utente
+     * @param ruolo <code>ruolo</code> dell'utente
+     */
+    
     public Utente(String nome, String cognome, String codFiscale, String username, String password,
                   String dataNascita, String luogoDomicilio, String ruolo) {
         this.nome = nome;

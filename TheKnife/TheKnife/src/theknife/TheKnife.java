@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package theknife;
 
 import java.util.ArrayList;
@@ -9,31 +6,99 @@ import java.util.Scanner;
 import resources.GestioneFile;
 
 /**
- *
- * @author HEW4K7Z2EA
+ * Classe principale dell'applicazione TheKnife.
+ * <p>
+ * Gestisce il menu iniziale e coordina le funzionalità principali:
+ * registrazione, login, login come guest e uscita dal programma.
+ * </p>
+ * 
+ * @author Giuseppina Salvati
+ * @author Omema Gharsellaoui
  */
+
 public class TheKnife {
 
     /**
-     * @param args the command line arguments
+     * <code>gestioneFile</code> è l'istanza della classe GestioneFile
+     * utilizzata per leggere e scrivere dati su file.
      */
-    // Dichiarazione globale
-    static GestioneFile gestioneFile = new GestioneFile();// Creazione dell'istanza di GestioneFile
+  
+    static GestioneFile gestioneFile = new GestioneFile();
+    
+    /**
+     * <code>gestioneRistoranti</code> è l'istanza della classe GestioneRistoranti
+     * utilizzata per gestire i ristoranti registrati nel sistema.
+     */
+    
     static GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
+    
+    /**
+     * <code>scanner</code> è lo scanner globale usato per leggere l'input da console.
+     */
+    
     public static Scanner scanner = new Scanner(System.in);
-
+    /**
+     * Metodo principale che avvia l'applicazione.
+     * <p>
+     * Mostra il menu iniziale con le seguenti opzioni:
+     * <ul>
+     *     <li>Registrazione utente</li>
+     *     <li>Login</li>
+     *     <li>Login come guest</li>
+     *     <li>Uscita dall'applicazione</li>
+     * </ul>
+     * Per ogni scelta viene gestita la logica corrispondente.
+     * </p>
+     * 
+     * @param args Argomenti della riga di comando (non utilizzati).
+     * @throws NumberFormatException Se l'input numerico dell'utente non è valido.
+     * @throws Exception Per qualsiasi errore imprevisto durante l'esecuzione.
+     */
+    
     public static void main(String[] args) {
-        // TODO code application logic here
-    	boolean controllo; //variabile usata per fare controlli sugli input
+     
+    	/**
+         * <code>controllo</code> variabile booleana usata per verificare
+         * la validità degli input inseriti dall'utente nei cicli.
+         */
+    	
+    	boolean controllo; 
         
+    	/**
+         * <code>gestioneRistoranti</code> istanza per la gestione dei ristoranti.
+         */
         GestioneRistoranti gestioneRistoranti = new GestioneRistoranti();
+        
+        /**
+         * <code>gestioneUtenti</code> istanza per la gestione degli utenti.
+         */
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
+        
+        /**
+         * <code>gf</code> istanza per la gestione della lettura e scrittura dei file.
+         */
         GestioneFile gf = new GestioneFile();
+        
+        /**
+         * <code>nuovoUtente</code> variabile temporanea che mantiene l'utente appena creato.
+         */
+        
         Utente nuovoUtente = null;
+        
+        /**
+         * <code>scelta</code> variabile intera per memorizzare l'opzione scelta
+         * dall'utente nel menu principale.
+         */
+        
         int scelta = 0;
-		// Menu iniziale
+		
     	System.out.println("");
         System.out.println("Benvenuto su TheKnife!");
+        
+        /**
+         * Stampa il menu principale e gestisce le scelte dell'utente.
+         */
+        
         do {
         	
             try { //l'utente che non effettua il login può:
@@ -44,7 +109,7 @@ public class TheKnife {
 
                 System.out.print("Cosa vuoi fare? : "); // <-- QUI l'input sarà su una nuova riga
 
-                // Gestione dell'input dell'utente
+                
                 do {
                 	controllo = true;
                 	try {
@@ -56,8 +121,25 @@ public class TheKnife {
                 	}
                 }while(!controllo);
                 
+                /**
+                 * Gestione delle azioni in base alla scelta dell'utente.
+                 * <p>
+                 * I case gestiscono la registrazione, il login, l'accesso come guest e l'uscita.
+                 * </p>
+                 * <code>scelta</code>
+                 */
                 
                 switch (scelta) {
+                
+                /**
+                 * Registrazione di un nuovo utente.
+                 * <p>
+                 * Vengono richiesti i seguenti dati:
+                 * <code>nome</code>, <code>cognome</code>, <code>codFiscale</code>,
+                 * <code>username</code>, <code>password</code>, <code>dataNascita</code> (opzionale),
+                 * <code>luogoDomicilio</code> e <code>ruolo</code> (cliente/ristoratore).
+                 * </p>
+                 */
                     case 1:
                         
                         // Registrazione utente
@@ -160,6 +242,16 @@ public class TheKnife {
                         gestioneUtenti.registraUtente(nuovoUtente);
                         System.out.println("\nComplimenti " + ruolo + "! Registrazione completata con successo!");
                         break;
+                        
+                        /**
+                         * Login di un utente esistente.
+                         * <p>
+                         * Vengono richiesti: <code>user</code> e <code>pass</code>.
+                         * Se le credenziali sono corrette, si mostra il menu relativo al ruolo
+                         * dell'utente (Cliente o Ristoratore).
+                         * </p>
+                         */
+                        
                     case 2:
                     	
                     	String user="";
@@ -204,8 +296,15 @@ public class TheKnife {
                         }
                         break;
 
-
+                        /**
+                         * Login come guest.
+                         * <p>
+                         * Viene richiesto di inserire un <code>luogo</code> (città), quindi
+                         * si mostrano i ristoranti presenti nella città indicata.
+                         * </p>
+                         */
                     case 3:
+                    	
                     	
                     	String luogo="";
                     	

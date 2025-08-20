@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package theknife;
 
 import java.io.FileReader;
@@ -12,10 +9,6 @@ import resources.GestioneFile;
 import resources.GestioneMenu;
 import resources.Piatto;
 
-/**
- *
- * @author HEW4K7Z2EA
- */
 public class Ristorante {
     //Name,Address,city,nation,price,Cuisine,Longitude,Latitude,delivery,reservation,stars
 //modificare gli attributi e i metodi
