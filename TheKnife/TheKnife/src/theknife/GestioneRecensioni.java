@@ -21,7 +21,6 @@ public class GestioneRecensioni {
      private final String filePath = "src/dati/recensioni.csv";
 
     public void aggiungiRecensione(Recensione rec) {
-		 rec.scriviSuFile();
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
         writer.write(rec.toCSV());
         writer.newLine();
