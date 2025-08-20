@@ -285,7 +285,7 @@ public class Cliente extends Utente {
                     
                     break;
                 case 0:
-                    System.out.println("Logout effettuato.");
+                    System.out.println("Logout effettuato.\n\n");
                     break;
                 default:
                     System.out.println("Scelta non valida.");
