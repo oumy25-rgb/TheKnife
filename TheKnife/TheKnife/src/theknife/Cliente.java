@@ -8,10 +8,36 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 
+/**
+ * La classe <strong>Cliente</strong> rappresenta un utente registrato della piattaforma
+ * <em>TheKnife</em> con ruolo di cliente.
+ * <p>
+ * Un cliente può:
+ * <ul>
+ *   <li>Gestire una lista di ristoranti preferiti (aggiungere, rimuovere, visualizzare)</li>
+ *   <li>Inserire, modificare ed eliminare le proprie recensioni</li>
+ *   <li>Visualizzare le proprie recensioni personali e quelle dei ristoranti</li>
+ *   <li>Cercare ristoranti per località o vicino al proprio domicilio</li>
+ * </ul>
+ * La persistenza dei dati relativi ai preferiti viene gestita tramite file CSV,
+ * identificato dal codice fiscale del cliente.
+ *
+ * @author omema gharsellaoui
+ * @author 
+ */
+
 public class Cliente extends Utente {
+	/* Lista dei nomi dei ristoranti preferiti del cliente.*/
     private ArrayList<String> preferiti;
+	/*Lista delle recensioni scritte dal cliente.*/
     private ArrayList<Recensione> recensioni;
+	/* Percorso del file CSV in cui vengono salvati i ristoranti preferiti
+      dell'utente (associato al suo codice fiscale).*/
     private final String filePreferiti;
+
+	/*Costruttore della classe <code>Cliente</code>.
+     Inizializza i dati dell'utente, carica i ristoranti preferiti da file
+     e recupera le recensioni già scritte dal cliente.*/
 
     public Cliente(String nome, String cognome, String codFiscale, String username, String password,
                    String dataNascita, String luogoDomicilio) {
@@ -20,6 +46,15 @@ public class Cliente extends Utente {
         this.preferiti = caricaPreferiti();
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
     }
+
+	/** Mostra il menu interattivo del cliente e gestisce le sue operazioni:
+     * <ul>
+     *   <li>Gestione preferiti</li>
+     *   <li>Gestione recensioni</li>
+     *   <li>Ricerca ristoranti</li>
+     *   <li>Logout</li>
+     * </ul>
+     **/
 
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
         int scelta = 0;
@@ -290,6 +325,13 @@ public class Cliente extends Utente {
         } while (scelta != 0);
     }
 
+	 /**
+     * Aggiunge un ristorante alla lista dei preferiti, se non già presente.
+     * Aggiorna anche il file dei preferiti.
+     *
+     * @param ristorante ristorante da aggiungere
+     */
+
     public void aggiungiPreferito(Ristorante ristorante) {
         if (!preferiti.contains(ristorante.getName())) {
             preferiti.add(ristorante.getName());
@@ -300,6 +342,13 @@ public class Cliente extends Utente {
         }
     }
 
+	/**
+     * Rimuove un ristorante dai preferiti.
+     * Aggiorna anche il file dei preferiti.
+     *
+     * @param nome nome del ristorante da rimuovere
+     */
+
     public void rimuoviPreferito(String nome) {
         if (preferiti.remove(nome)) {
             salvaPreferiti();
@@ -308,6 +357,9 @@ public class Cliente extends Utente {
             System.out.println("Ristorante non nei preferiti.");
         }
     }
+
+	/*Visualizza la lista dei ristoranti preferiti dell'utente.
+                    * Se la lista è vuota, notifica che non sono presenti preferiti.*/
 
     public void visualizzaPreferiti() {
         if (preferiti.isEmpty()) {
@@ -319,6 +371,11 @@ public class Cliente extends Utente {
             }
         }
     }
+
+	/**
+     * Visualizza tutte le recensioni personali scritte dal cliente,
+     * mostrando anche eventuali risposte dei ristoratori.
+     */
 
 public void visualizzaRecensioniPersonali() {
     this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
@@ -358,6 +415,12 @@ public void visualizzaRecensioniPersonali() {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
     }
 
+	/**
+     * Carica da file CSV i ristoranti preferiti del cliente.
+     *
+     * @return lista di stringhe contenente i nomi dei ristoranti preferiti
+     */
+
     private ArrayList<String> caricaPreferiti() {
         ArrayList<String> lista = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filePreferiti))) {
@@ -369,7 +432,9 @@ public void visualizzaRecensioniPersonali() {
         }
         return lista;
     }
-
+    /**
+     * Salva la lista dei ristoranti preferiti nel file CSV associato al cliente.
+     */
     private void salvaPreferiti() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePreferiti))) {
             for (String ristorante : preferiti) {
@@ -380,6 +445,16 @@ public void visualizzaRecensioniPersonali() {
             System.err.println("Errore nel salvataggio dei preferiti: " + e.getMessage());
         }
     }
+
+	/**
+     * Permette al cliente di aggiungere una recensione a un ristorante,
+     * verificando che non ne esista già una.
+     *
+     * @param gestioneRecensioni gestore delle recensioni
+     * @param nomeRistorante nome del ristorante da recensire
+     * @param testo testo della recensione (opzionale)
+     * @param stelle voto in stelle (1–5)
+     */
     
     public void aggiungiRecensione(GestioneRecensioni gestioneRecensioni, String nomeRistorante, String testo, double stelle) {
     if (gestioneRecensioni.recensioneEsistente(nomeRistorante, getCodFiscale())) {
@@ -393,3 +468,4 @@ public void visualizzaRecensioniPersonali() {
 }
 
 }
+
