@@ -23,7 +23,7 @@ import java.io.File;
  * identificato dal codice fiscale del cliente.
  *
  * @author omema gharsellaoui
- * @author 
+ * @author Giuseppina Salvati
  */
 
 public class Cliente extends Utente {
@@ -468,4 +468,5 @@ public void visualizzaRecensioniPersonali() {
 }
 
 }
+
 
