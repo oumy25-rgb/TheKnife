@@ -10,17 +10,43 @@ import com.opencsv.CSVReader;
 import resources.GestioneFile;
 
 /**
+ * La classe <strong>GestioneUtenti</strong> fornisce i metodi
+ * per gestire gli utenti della piattaforma <em>TheKnife</em>.
+ * <p>
+ * Le principali funzionalità includono:
+ * <ul>
+ *   <li>Registrazione di un nuovo utente</li>
+ *   <li>Login con credenziali (username e password)</li>
+ *   <li>Verifica della validità di campi e formati inseriti</li>
+ *   <li>Cifratura della password</li>
+ *   <li>Controllo dell’esistenza di codice fiscale o username già registrati</li>
+ * </ul>
+ * Gli utenti vengono memorizzati in un file CSV (<code>src/dati/utente.csv</code>).
  *
- * @author HEW4K7Z2EA
+ * @author Giuseppina Salvati
+ * @author omema Gharsellaoui
  */
+
 public class GestioneUtenti {
+    /** Lista di utenti registrati nella piattaforma. */
     private ArrayList<Utente> utenti;
+    /** Gestore dei file per la lettura/scrittura da CSV. */
     GestioneFile gf=new GestioneFile();
+    /** Tokenizer usato per suddividere i dati letti da file. */
     StringTokenizer st;
+    /**
+     * Costruttore della classe <code>GestioneUtenti</code>.
+     * Inizializza la lista degli utenti vuota.
+     */
     public GestioneUtenti() {
         utenti = new ArrayList<>();
     }
-
+     /**
+     * Registra un nuovo utente nella piattaforma, verificando che
+     * l'username non sia già stato utilizzato.
+     *
+     * @param utente utente da registrare
+     */
     public void registraUtente(Utente utente) {
         // Controllo se l'username è già in uso
         for (Utente u : utenti) {
@@ -33,6 +59,15 @@ public class GestioneUtenti {
         System.out.println("Registrazione avvenuta con successo!");
     }
 
+    /**
+     * Effettua il login di un utente verificando le credenziali
+     * (username e password) con i dati memorizzati nel file CSV.
+     *
+     * @param username username inserito
+     * @param password password inserita
+     * @return oggetto <code>Utente</code> se le credenziali sono corrette,
+     *         altrimenti <code>null</code>
+     */
     
     public Utente login(String username, String password) {
     ArrayList<String> dati = gf.leggiDaFile("src/dati/utente.csv");
@@ -60,7 +95,13 @@ public class GestioneUtenti {
     }
     return null; // Login fallito
 }
-
+    /**
+     * Cifra una password utilizzando una semplice cifratura a scorrimento
+     * con chiave fissa (+5 posizioni ASCII).
+     *
+     * @param input password in chiaro
+     * @return password cifrata
+     */
     public static String cifraPassword(String input) {
         int chiave = 5; // Chiave di cifratura fissa: ogni carattere verrà spostato di 5 posizioni
         String risultato = ""; // Stringa che conterrà il risultato finale
@@ -84,6 +125,14 @@ public class GestioneUtenti {
 
         return risultato; // Restituisce la stringa cifrata
     }
+
+    /**
+     * Verifica se un nominativo (nome/cognome) è valido:
+     * non vuoto e composto solo da lettere o spazi.
+     *
+     * @param nominativo stringa da verificare
+     * @return true se valido, false altrimenti
+     */
     
     public static boolean nominativoValido(String nominativo) {
     	
@@ -106,7 +155,13 @@ public class GestioneUtenti {
         
         return controllo; 
     }
-    
+     /**
+     * Verifica se una stringa rispetta un determinato formato (regex).
+     *
+     * @param s stringa da verificare
+     * @param regex espressione regolare da rispettare
+     * @return true se valido, false altrimenti
+     */
     public static boolean formatoValido(String s,String regex) {
        
         boolean controllo = true;
@@ -119,6 +174,13 @@ public class GestioneUtenti {
     	   
        return controllo;
     }
+
+    /**
+     * Verifica che una stringa non sia vuota o nulla.
+     *
+     * @param s stringa da controllare
+     * @return true se non vuota, false altrimenti
+     */
     
     public static boolean campoNonVuoto(String s) {
     	
@@ -129,7 +191,12 @@ public class GestioneUtenti {
     	
     	return true; // non è vuoto
     }
-    
+     /**
+     * Controlla se una stringa rappresenta una longitudine valida (-180 ≤ x ≤ 180).
+     *
+     * @param longi stringa con il valore di longitudine
+     * @return true se valida, false altrimenti
+     */
     public static boolean isLongitudineValida(String longi) {
         try {
             double val = Double.parseDouble(longi.replace(",", ".").trim());
@@ -138,7 +205,13 @@ public class GestioneUtenti {
             return false;
         }
     }
-
+     /**
+     * Controlla se una stringa rappresenta una latitudine valida (-90 ≤ x ≤ 90).
+     *
+     * @param lati stringa con il valore di latitudine
+     * @return true se valida, false altrimenti
+     */
+    
     public static boolean isLatitudineValida(String lati) {
         try {
             double val = Double.parseDouble(lati.replace(",", ".").trim());
@@ -147,7 +220,12 @@ public class GestioneUtenti {
             return false;
         }
     }
-    
+    /**
+     * Verifica se un codice fiscale è già registrato nel file degli utenti.
+     *
+     * @param cf codice fiscale da controllare
+     * @return true se esiste già, false altrimenti
+     */
     public static boolean cfEsiste(String cf) {
     	
     	try (CSVReader reader = new CSVReader(new FileReader("src/dati/utente.csv"))) {
@@ -166,6 +244,12 @@ public class GestioneUtenti {
     	
     }
     
+     /**
+     * Verifica se uno username è già registrato nel file degli utenti.
+     *
+     * @param user username da controllare
+     * @return true se esiste già, false altrimenti
+     */
 public static boolean userEsiste(String user) {
     	
     	try (CSVReader reader = new CSVReader(new FileReader("src/dati/utente.csv"))) {
@@ -184,3 +268,4 @@ public static boolean userEsiste(String user) {
     	
     }
 }
+
