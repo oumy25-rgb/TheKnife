@@ -10,13 +10,36 @@ import java.util.Scanner;
 import static resources.GestioneFile.leggiTutteLeRecensioni;
 
 /**
+ * La classe <strong>GestioneRecensioni</strong> gestisce tutte le operazioni
+ * relative alle recensioni lasciate dai clienti sui ristoranti.
+ * <p>
+ * Le principali funzionalità sono:
+ * <ul>
+ *   <li>Aggiungere nuove recensioni</li>
+ *   <li>Modificare recensioni già inserite</li>
+ *   <li>Eliminare recensioni esistenti</li>
+ *   <li>Rispondere alle recensioni (funzionalità per i ristoratori)</li>
+ *   <li>Verificare se una recensione esiste già</li>
+ * </ul>
+ * I dati vengono salvati nel file CSV <code>recensioni.csv</code>.
+ * </p>
  *
- * @author HEW4K7Z2EA
+ * @see Recensione
+ * @see Cliente
+ * @see resources.GestioneFile
+ * 
+ * @author omema gharsellaoui
+ * @author Giuseppina Salvati
  */
 public class GestioneRecensioni {
-    
+     /** Percorso del file CSV contenente le recensioni. */
      private final String filePath = "src/dati/recensioni.csv";
-
+	
+     /**
+     * Aggiunge una nuova recensione al file delle recensioni.
+     *
+     * @param rec recensione da salvare
+     */
     public void aggiungiRecensione(Recensione rec) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
         writer.write(rec.toCSV());
@@ -27,7 +50,20 @@ public class GestioneRecensioni {
     }
 }
 
-
+ /**
+     * Permette a un cliente di modificare una delle proprie recensioni.
+     * <p>
+     * Viene mostrata la lista dei ristoranti recensiti e l’utente può:
+     * <ul>
+     *   <li>modificare il testo della recensione</li>
+     *   <li>cambiare il voto (da 1 a 5 stelle)</li>
+     * </ul>
+     * </p>
+     *
+     * @param cliente cliente che vuole modificare la recensione
+     * @param scanner oggetto per la lettura da console
+     */
+	
 public void modificaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
     ArrayList<Recensione> mie = Recensione.cercaPerCliente(cliente.getCodFiscale());
@@ -96,7 +132,12 @@ public void modificaRecensione(Cliente cliente, Scanner scanner) {
 	}
 }
 
-
+/**
+     * Permette a un cliente di eliminare una recensione precedentemente inserita.
+     *
+     * @param cliente cliente che vuole eliminare la recensione
+     * @param scanner oggetto per la lettura da console
+     */
 
 public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
@@ -151,7 +192,13 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
         System.out.println("Nessuna recensione trovata per questo ristorante.");
     }
 }
-
+  /**
+     * Consente al proprietario di un ristorante di rispondere a una recensione lasciata da un cliente.
+     *
+     * @param nomeRistorante nome del ristorante
+     * @param cliente codice fiscale del cliente che ha scritto la recensione
+     * @param risposta testo della risposta
+     */
  public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
     ArrayList<Recensione> tutte = resources.GestioneFile.leggiTutteLeRecensioni(); // leggi TUTTE
     boolean found = false;
@@ -171,7 +218,11 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
     }
 }
 
-  
+   /**
+     * Sovrascrive completamente il file delle recensioni con una nuova lista aggiornata.
+     *
+     * @param recensioni lista di recensioni da salvare
+     */
 
     private void riscriviRecensioni(ArrayList<Recensione> recensioni) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -183,7 +234,14 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
         System.err.println("Errore riscrittura file recensioni: " + e.getMessage());
     }
 }
-    
+     /**
+     * Verifica se un cliente ha già recensito un determinato ristorante.
+     *
+     * @param nomeRistorante nome del ristorante
+     * @param codiceFiscale codice fiscale del cliente
+     * @return true se la recensione esiste già, false altrimenti
+     */
+	
     public boolean recensioneEsistente(String nomeRistorante, String codiceFiscale) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
     for (Recensione rec : tutteRecensioni) {
@@ -197,6 +255,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
 
 
 }
+
 
 
 
