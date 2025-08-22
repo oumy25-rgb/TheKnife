@@ -1,3 +1,5 @@
 nome,cognome,codFiscale,username,password,dataNascita,luogoDomicilio,ruolo
 ele,rossi,RSSMRA95A41H501Z,ele,jqj,N/A,milano,ristoratore
 franco,bianchi,VRDLGU03C15F205K,fra,kwf,N/A,milano,cliente
+gloria,rossi,RSSGLR88S58F205X,glo,lqt,05/08/1990,chicago,ristoratore
+loris,neri,NERLRS95D23H501Y,lor,qtw,N/A,chicago,cliente
