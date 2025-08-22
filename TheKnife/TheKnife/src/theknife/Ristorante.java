@@ -8,6 +8,21 @@ import com.opencsv.CSVReader;
 import resources.GestioneFile;
 import resources.GestioneMenu;
 import resources.Piatto;
+/*
+ * La classe <strong>Ristorante</strong> rappresenta un ristorante registrato
+ * nella piattaforma <em>TheKnife</em>.
+ * <p>
+ * Ogni ristorante contiene informazioni anagrafiche (nome, indirizzo, città, nazione),
+ * caratteristiche (tipo di cucina, fascia di prezzo, coordinate geografiche),
+ * servizi disponibili (delivery e prenotazione online) e dati dinamici
+ * come il menu, le promozioni e le recensioni degli utenti.
+ * <p>
+ * I metodi offrono funzionalità di consultazione, gestione del menu,
+ * calcolo della valutazione media e riepilogo delle recensioni.
+ *
+ * @author omema gharsellaoui
+	@author Giuseppina salvati
+ */
 
 public class Ristorante {
     //Name,Address,city,nation,price,Cuisine,Longitude,Latitude,delivery,reservation,stars
@@ -29,7 +44,18 @@ public class Ristorante {
     // Nuovi attributi per gestire menu e promozioni
     private ArrayList<String> promozioni; // Lista delle promozioni
     private ArrayList<Piatto> menu; // Lista di piatti
-    //Costruttore
+    /*Costruttore principale della classe <code>Ristorante</code>.*/
+	/** @param name nome del ristorante
+     * @param address indirizzo del ristorante
+     * @param city città del ristorante
+     * @param price fascia di prezzo
+     * @param nation nazione in cui si trova
+     * @param cuisine tipologia di cucina
+     * @param longitude coordinata longitudinale
+     * @param latitude coordinata latitudinale
+     * @param delivery disponibilità del servizio delivery
+     * @param reservation disponibilità del servizio di prenotazione
+     * @param recensioni lista di recensioni iniziali*/
 
     public Ristorante(String name, String address, String city, String price,String nation, String cuisine, double longitude, double latitude, boolean delivery,boolean reservation,ArrayList<Recensione> recensioni) {
         this.name = name;
@@ -47,6 +73,13 @@ public class Ristorante {
         this.menu = new ArrayList<>();
 
     }
+
+	/**
+     * Costruttore alternativo che inizializza il menu del ristorante da un gestore file.
+     *
+     * @param gf gestore file (non usato direttamente in questo costruttore)
+     * @param menu lista dei piatti che compongono il menu
+     */
 
     public Ristorante(GestioneFile gf, ArrayList<Piatto> menu) {
         this.menu = menu;
@@ -152,7 +185,12 @@ public class Ristorante {
     public void setPromozioni(ArrayList<String> promozioni) {
         this.promozioni = promozioni;
     }
-    
+	
+    /**
+     * Calcola la media delle stelle ricevute dalle recensioni.
+     *
+     * @return media delle stelle, 0.0 se non ci sono recensioni
+     */
     
      public double getMediaStelle() {
         if (recensioni.isEmpty()||recensioni == null ) return 0.0;
@@ -162,7 +200,9 @@ public class Ristorante {
         }
         return somma / recensioni.size();
     }
-     
+      /**
+     * Visualizza a terminale le informazioni anagrafiche e i servizi del ristorante.
+     */
     public void visualizzaRistorante() {
 	    System.out.println("Nome Ristorante: " + name);
 	    System.out.println("Indirizzo: " + address);
@@ -175,6 +215,12 @@ public class Ristorante {
 	    System.out.println("Prenotazione Online: " + reservation);
     
     }
+
+	 /**
+     * Mostra a terminale tutte le recensioni relative a un ristorante.
+     *
+     * @param ristorante nome del ristorante
+     */
 
     public static void visualizzaRecensioni(String ristorante) {
     ArrayList<Recensione> recs = Recensione.cercaPerRistorante(ristorante);
@@ -190,11 +236,23 @@ public class Ristorante {
     }
 }
 
+	/**
+     * Aggiunge una recensione alla lista del ristorante.
+     *
+     * @param recensione recensione da aggiungere
+     */
     
     public void aggiungiRecensione(Recensione recensione) {
         recensioni.add(recensione);
     }
-    
+
+	
+     /**
+     * Mostra un riepilogo delle recensioni per un ristorante:
+     * numero totale e media delle stelle.
+     *
+     * @param ristorante nome del ristorante
+     */
     
     public static void visualizzaRiepilogo(String ristorante) {
     ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);
@@ -215,12 +273,18 @@ public class Ristorante {
     System.out.println("Media stelle: " + mediaStelle);
 }
 
-    
+     /**
+     * Carica il menu del ristorante leggendo da file CSV dedicato.
+     */
 public void caricaMenuRistorante() {
     this.menu = new GestioneMenu().leggiMenu(name + "Menu.csv");
 }
 
-     
+     /**
+     * Rimuove un piatto dal menu e aggiorna il file CSV.
+     *
+     * @param nomePiatto nome del piatto da rimuovere
+     */     
 public void rimuoviPiatto(String nomePiatto) {
     boolean rimosso = false;
     for (int i = 0; i < menu.size(); i++) {
@@ -239,6 +303,15 @@ public void rimuoviPiatto(String nomePiatto) {
     }
 }
 
+	/**
+     * Calcola la media delle stelle leggendo direttamente dal file CSV delle recensioni.
+     *
+     * @param nome nome del ristorante
+     * @param citta città del ristorante
+     * @param indirizzo indirizzo del ristorante
+     * @return media delle stelle trovate, oppure 0.0 se nessuna recensione valida
+     */
+	
     public double calcoloMediaStelle(String nome, String citta, String indirizzo) {
     double somma = 0.0;
     int cont = 0;
@@ -265,7 +338,13 @@ public void rimuoviPiatto(String nomePiatto) {
 
     return cont > 0 ? somma / cont : 0.0; // Evita divisione per zero
 }
-    
+
+/**
+     * Esporta le informazioni principali del ristorante in formato CSV.
+     *
+     * @return stringa CSV con i dati del ristorante
+     */
+	
     // In Ristorante.java
 public String toCSV() {
     return String.join(",",
@@ -285,4 +364,5 @@ public String toCSV() {
 
      
 } 
+
 
