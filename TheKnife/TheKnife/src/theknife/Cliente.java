@@ -21,7 +21,7 @@ import java.io.File;
  * </ul>
  * La persistenza dei dati relativi ai preferiti viene gestita tramite file CSV,
  * identificato dal codice fiscale del cliente.
- *
+ * </p>
  * @author omema gharsellaoui
  * @author Giuseppina Salvati
  */

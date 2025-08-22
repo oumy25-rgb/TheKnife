@@ -8,7 +8,7 @@ package theknife;
  * <p>
  * È una struttura dati semplice (DTO - Data Transfer Object)
  * utilizzata per memorizzare coppie <code>(nomeUtente, nomeRistorante)</code>.
- *
+ *</p>
  * @author omema gharsellaoui
  * @author Giuseppina Salvati
  */

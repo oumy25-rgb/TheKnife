@@ -22,7 +22,7 @@ import resources.GestioneFile;
  *   <li>Controllo dell’esistenza di codice fiscale o username già registrati</li>
  * </ul>
  * Gli utenti vengono memorizzati in un file CSV (<code>src/dati/utente.csv</code>).
- *
+ *</p>
  * @author Giuseppina Salvati
  * @author omema Gharsellaoui
  */

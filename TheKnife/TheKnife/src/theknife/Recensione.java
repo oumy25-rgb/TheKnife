@@ -23,7 +23,7 @@ import java.util.Locale;
  *   <li>Un’eventuale risposta del ristoratore</li>
  * </ul>
  * Le recensioni sono persistenti e vengono salvate/lette da file CSV.
- *
+ *</p>
  * @author omema gharsellaoui
    @author Giuseppina Salvati
  */
@@ -100,8 +100,9 @@ public class Recensione {
      * Converte la recensione in formato CSV.
      * <p>
      * Campi salvati: ristorante, codice fiscale, testo recensione, stelle, data, risposta.
-     *
+     *</p>
      * @return stringa CSV rappresentante la recensione
+     * 
      */
     public String toCSV() {
     return String.format(Locale.US, "%s,%s,%s,%.1f,%s,%s",
