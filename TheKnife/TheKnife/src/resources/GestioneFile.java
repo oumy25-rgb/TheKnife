@@ -21,25 +21,38 @@ import theknife.Ristorante;
 import theknife.Utente;
 
 /**
- *
- * @author HEW4K7Z2EA
+ * La classe <strong>GestioneFile</strong> fornisce metodi di supporto per la
+ * lettura e scrittura di dati su file CSV e di testo. 
+ * <p>
+ * Gestisce in particolare:
+ * <ul>
+ *   <li>Utenti</li>
+ *   <li>Ristoranti</li>
+ *   <li>Recensioni</li>
+ *   <li>Preferiti</li>
+ *   <li>Menu e piatti</li>
+ *   <li>Associazioni tra ristoratori e ristoranti</li>
+ * </ul>
+ * Tutti i dati sono memorizzati in file all’interno della cartella <code>src/dati/</code>.
+ * </p>
+ * * @author omema gharsellaoui
+ * @author Giuseppina Salvati
  */
+
 public class GestioneFile {
     
-
+     /**
+     * Divide una riga CSV in colonne.
+     *
+     * @param linea riga CSV da dividere
+     * @return array di stringhe con i valori della riga
+     */
 
     public String[] dividereCsv(String linea) {
         //System.out.println("Nel metodo ricevo la linea: "+linea);
         // Definisci il delimitatore
         String delimitatore = ","; // Nuovo delimitatore (?=([^\"]*\"[^\"]*\")[^\"]*$)
-        
-        //// Creo uno StringTokenizer
-        //String[] colonne = linea.split(delimitatore, -1); // Utilizza split con il nuovo delimitatore
-        // Rimuovo eventuali spazi
-        //for (int i = 0; i < colonne.length; i++) {
-       // colonne[i] = colonne[i].trim();
-       // }
-
+	
         // Crea uno StringTokenizer
         StringTokenizer tokenizer = new StringTokenizer(linea, delimitatore);
 
@@ -56,6 +69,13 @@ public class GestioneFile {
         return colonne; // Restituisce l'array di stringhe
     }
     
+	 /**
+     * Verifica se esiste un utente con uno specifico username nel file.
+     *
+     * @param nomeFile file CSV degli utenti
+     * @param username username da cercare
+     * @return true se esiste, false altrimenti
+     */
 	
     //il metodo per controllare se l'utente esiste o no 
     public boolean utenteEsiste(String nomeFile, String username) {
@@ -75,6 +95,13 @@ public class GestioneFile {
     }
     
     // Metodo per la scrittura su file
+	 /**
+     * Scrive un insieme di righe su file.
+     *
+     * @param nomeFile percorso del file
+     * @param dati dati da scrivere
+     * @param method true per appendere, false per sovrascrivere
+     */
     public void scriviSuFile(String nomeFile, ArrayList<String> dati, boolean method) {
 
         if (dati == null || dati.isEmpty()) {
@@ -94,6 +121,12 @@ public class GestioneFile {
     }
 
     // Metodo per la lettura da un file che va bene per leggere tutte le recensioni
+	 /**
+     * Legge tutte le righe da un file di testo.
+     *
+     * @param nomeFile percorso del file
+     * @return lista di righe lette
+     */
     public ArrayList<String> leggiDaFile(String nomeFile) {
         ArrayList<String> dati = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
@@ -106,7 +139,14 @@ public class GestioneFile {
         }
         return dati; // Restituisci la lista di dati letti
     }
-    
+/**
+     * Cerca una stringa all’interno di un file CSV e restituisce la riga trovata.
+     *
+     * @param nomeFile percorso del file
+     * @param ricerca valore da cercare
+     * @return array con i campi della riga, oppure null se non trovato
+     */
+	
     public String[] cercaNelFile(String nomeFile, String ricerca) {
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
             String linea;
@@ -123,7 +163,7 @@ public class GestioneFile {
         }
         return null; // Se non c'è corrispondenza ritorno null
     }
-
+ /** Scrive un ristorante su file CSV. */
 public static void scriviRistorante(String filePath, Ristorante ristorante) {
     try {
         // Verifica se il file esiste già
@@ -148,7 +188,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
     }
 }
 
-    
+    /** Scrive un preferito (utente, ristorante) su file CSV. */
     public void scriviPreferiti(String nomeFile, Preferiti f) {
         FileWriter fw = null;
         try {
@@ -245,7 +285,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
         }
     }
         
-    // Metodo per salvare l'associazione tra proprietario e ristorante in PROPRIETARI.CSV
+	/** Salva l’associazione tra un proprietario (codice fiscale) e il suo ristorante. */
     public void salvaAssociazioneProprietarioRistorante(String nomeFile, String proprietario, Ristorante ristorante) {
         FileWriter fw = null;
         try {
@@ -270,7 +310,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
             System.err.println("Errore durante lo svuotamento del buffer " + ex);
         }
     }
-        
+     /** Salva la segnalazione di un nuovo ristorante proposto da un utente. */
      public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
             String riga = String.format("%s,%s,%s,%s", nome, indirizzo, locazione, cucina);
@@ -281,7 +321,11 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
             System.out.println("Errore durante il salvataggio della segnalazione: " + e.getMessage());
         }
     }
-
+ /**
+     * Legge tutte le recensioni dal file delle recensioni.
+     *
+     * @return lista di oggetti {@link Recensione}
+     */
   public static ArrayList<Recensione> leggiTutteLeRecensioni() {
     ArrayList<Recensione> recensioni = new ArrayList<>();
 
@@ -316,7 +360,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
     return recensioni;
 }
 
-
+/** Trova il nome del ristorante dato il codice fiscale del proprietario. */
 public static String cercaRistoranteDaProprietario(String filePath, String codFiscale) {
         GestioneFile gf = new GestioneFile();
         ArrayList<String> righe = gf.leggiDaFile(filePath);
@@ -328,7 +372,7 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         }
         return null;
     }
-
+    /** Trova il nome di un utente dato il suo codice fiscale. */
     public static String getNomeDaCodFiscale(String filePath, String codFiscale) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         String line;
@@ -343,7 +387,7 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
     }
     return codFiscale; // Se non trovato ritorna comunque il codice fiscale
 }
-
+     /** Aggiunge un’associazione tra codice fiscale e nome del ristorante. */
     public static void aggiungiRistoranteProprietario(String filePath, String codFiscale, String nomeRistorante) {
     try (FileWriter writer = new FileWriter(filePath, true);
          BufferedWriter bw = new BufferedWriter(writer);
@@ -353,7 +397,7 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         System.err.println("Errore durante la scrittura nel file: " + e.getMessage());
     }
 }
-
+    /** Rimuove un ristorante da un file di associazioni. */
     public static boolean rimuoviRistorante(String percorso, String codFiscale, String nomeRistorante) {
         try {
             File file = new File(percorso);
@@ -375,7 +419,7 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         }
         return true;
     }
-
+    /*** Rimuove un ristorante direttamente dal file dei ristoranti. */
     public static boolean rimuoviRistorante(String percorso, Ristorante ristorante) {
         try {
             File file = new File(percorso);
@@ -399,7 +443,7 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
             return false;
         }
     }
-               
+    /** Elimina un menu (file) dalla cartella dei menu. */           
     public static boolean eliminaMenu(String percorsoCartella, String nomeMenu) {
         File cartella = new File(percorsoCartella);
         if (!cartella.exists() || !cartella.isDirectory()) {
@@ -422,4 +466,5 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         return true;
     }     
 }
+
 
