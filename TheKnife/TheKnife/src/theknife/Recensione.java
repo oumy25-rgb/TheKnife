@@ -114,19 +114,6 @@ public class Recensione {
     );
 }
 
-     /**
-     * Scrive la recensione corrente nel file CSV <code>recensioni.csv</code>.
-     */
-
-    // Scrittura su file
-    public void scriviSuFile() {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv", true))) {
-        writer.write(this.toCSV());
-        writer.newLine();
-    } catch (IOException e) {
-        System.err.println("Errore durante la scrittura della recensione: " + e.getMessage());
-    }
-}
 
      /**
      * Legge tutte le recensioni dal file CSV <code>recensioni.csv</code>.
@@ -134,7 +121,7 @@ public class Recensione {
      * @return lista di oggetti <code>Recensione</code>
      */
 
-    public static ArrayList<Recensione> leggiTutteLeRecensioni() {
+    private static ArrayList<Recensione> leggiTutteLeRecensioni() {
     ArrayList<Recensione> recensioni = new ArrayList<>();
 
     try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
@@ -232,7 +219,7 @@ public class Recensione {
      */
 
     // Visualizzazione per cliente
-      public String visualizzaPerCliente() {
+      private String visualizzaPerCliente() {
         String base = "Ristorante: " + nomeRistorante +
                       "\nVoto: " + stelle + " stelle" +
                       "\nRecensione: \"" + testoRecensione + "\"" +
@@ -241,22 +228,6 @@ public class Recensione {
             base += "\nRisposta del ristoratore: \"" + risposta + "\"";
         }
         return base;
-    }
-
-    /**
-     * Restituisce una rappresentazione leggibile della recensione
-     * per la visualizzazione lato ristoratore.
-     *
-     * @return stringa con dettagli della recensione e autore
-     */
-
-    // Visualizzazione per ristoratore
-    public String visualizzaPerRistoratore() {
-        return "Cliente: " + codiceFiscale +
-               "\nVoto: " + stelle + " stelle" +
-               "\nRecensione: \"" + testoRecensione + "\"" +
-               "\nData: " + data +
-               (risposta != null && !risposta.isEmpty() ? "\nRisposta: \"" + risposta + "\"" : "");
     }
 
     /**

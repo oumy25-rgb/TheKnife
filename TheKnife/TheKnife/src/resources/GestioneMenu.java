@@ -46,7 +46,7 @@ public class GestioneMenu {
      * @param nomeFile nome del file (senza percorso)
      * @param piatti lista di piatti da scrivere
      */
-    public void scriviMenu(String nomeFile, ArrayList<Piatto> piatti) {
+    public static void scriviMenu(String nomeFile, ArrayList<Piatto> piatti) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/" + nomeFile, false))) {
         for (Piatto piatto : piatti) {
             writer.write(piatto.toCSV());
@@ -83,7 +83,7 @@ public class GestioneMenu {
      * @return lista di {@link Piatto} caricati dal file
      */
     // Metodo per leggere il menu da un file CSV
-    public ArrayList<Piatto> leggiMenu(String nomeFile) {
+    public static ArrayList<Piatto> leggiMenu(String nomeFile) {
         ArrayList<Piatto> menu = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/" + nomeFile))) {
             String line;

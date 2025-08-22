@@ -39,6 +39,24 @@ public class Cliente extends Utente {
      Inizializza i dati dell'utente, carica i ristoranti preferiti da file
      e recupera le recensioni già scritte dal cliente.*/
 
+    /**
+     * Costruisce un oggetto {@link Cliente} inizializzando i dati personali,
+     * il file dei preferiti e le recensioni associate.
+     * <p>
+     * Richiama il costruttore della superclasse {@link Utente} impostando il ruolo come "cliente".
+     * Viene creato il percorso del file dei preferiti specifico per il cliente 
+     * e vengono caricati i ristoranti preferiti e le recensioni precedenti del cliente.
+     * </p>
+     *
+     * @param nome il nome del cliente
+     * @param cognome il cognome del cliente
+     * @param codFiscale il codice fiscale del cliente
+     * @param username lo username del cliente
+     * @param password la password del cliente
+     * @param dataNascita la data di nascita del cliente
+     * @param luogoDomicilio il luogo di domicilio del cliente
+     */
+    
     public Cliente(String nome, String cognome, String codFiscale, String username, String password,
                    String dataNascita, String luogoDomicilio) {
         super(nome, cognome, codFiscale, username, password, dataNascita, luogoDomicilio, "cliente");
@@ -47,15 +65,25 @@ public class Cliente extends Utente {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
     }
 
-	/** Mostra il menu interattivo del cliente e gestisce le sue operazioni:
+    /**
+     * Mostra il menu principale per un cliente e gestisce le interazioni con l'utente.
+     * <p>
+     * Il menu permette di:
      * <ul>
-     *   <li>Gestione preferiti</li>
-     *   <li>Gestione recensioni</li>
-     *   <li>Ricerca ristoranti</li>
-     *   <li>Logout</li>
+     *   <li>Visualizzare i ristoranti preferiti</li>
+     *   <li>Aggiungere o rimuovere ristoranti dai preferiti</li>
+     *   <li>Visualizzare, aggiungere, modificare o eliminare recensioni personali</li>
+     *   <li>Cercare ristoranti in base alla città o al luogo di domicilio</li>
+     *   <li>Effettuare il logout</li>
      * </ul>
-     **/
-
+     * Il metodo gestisce l'input dell'utente tramite {@link Scanner} e convalida le scelte, 
+     * ripetendo la richiesta in caso di input non valido.
+     * </p>
+     *
+     * @param gestioneRistoranti l'oggetto {@link GestioneRistoranti} utilizzato per le operazioni sui ristoranti
+     * @param gestioneRecensioni l'oggetto {@link GestioneRecensioni} utilizzato per le operazioni sulle recensioni
+     * @param scanner lo {@link Scanner} utilizzato per leggere l'input dell'utente da console
+     */
     public void mostraMenu(GestioneRistoranti gestioneRistoranti, GestioneRecensioni gestioneRecensioni, Scanner scanner) {
         int scelta = 0;
         boolean controllo;
@@ -114,10 +142,10 @@ public class Cliente extends Utente {
 	                		
 	                	}while(!GestioneUtenti.nominativoValido(luogo));
 	                	
-	                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(luogo);
+	                	listaRistorantiTrovati = GestioneRistoranti.cercaRistoranti(luogo);
 	                	
                 	}else
-                		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
+                		listaRistorantiTrovati = GestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
                 	
                 	if(!listaRistorantiTrovati.isEmpty()) {
@@ -207,10 +235,10 @@ public class Cliente extends Utente {
 	                		
 	                	}while(!GestioneUtenti.nominativoValido(luogo));
 	                	
-	                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(luogo);
+	                	listaRistorantiTrovati = GestioneRistoranti.cercaRistoranti(luogo);
 	                	
                 	}else
-                		listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
+                		listaRistorantiTrovati = GestioneRistoranti.cercaRistoranti(this.getLuogoDomicilio());
                 	
                 	
                 	if(!listaRistorantiTrovati.isEmpty()) {
@@ -238,7 +266,7 @@ public class Cliente extends Utente {
         		
         				Ristorante r = listaRistorantiTrovati.get(scegli - 1);
         				
-                        if (gestioneRecensioni.recensioneEsistente(r.getName(), getCodFiscale())) {
+                        if (GestioneRecensioni.recensioneEsistente(r.getName(), getCodFiscale())) {
                             System.out.println("Hai già recensito questo ristorante. Usa l'opzione 6 per modificarla.");
                             break;
                         }
@@ -348,7 +376,7 @@ public class Cliente extends Utente {
      * @param ristorante ristorante da aggiungere
      */
 
-    public void aggiungiPreferito(Ristorante ristorante) {
+    private void aggiungiPreferito(Ristorante ristorante) {
         if (!preferiti.contains(ristorante.getName())) {
             preferiti.add(ristorante.getName());
             salvaPreferiti();
@@ -365,7 +393,7 @@ public class Cliente extends Utente {
      * @param nome nome del ristorante da rimuovere
      */
 
-    public void rimuoviPreferito(String nome) {
+    private void rimuoviPreferito(String nome) {
         if (preferiti.remove(nome)) {
             salvaPreferiti();
             System.out.println("Rimosso dai preferiti.");
@@ -374,10 +402,15 @@ public class Cliente extends Utente {
         }
     }
 
-	/*Visualizza la lista dei ristoranti preferiti dell'utente.
-                    * Se la lista è vuota, notifica che non sono presenti preferiti.*/
-
-    public void visualizzaPreferiti() {
+    /**
+     * Visualizza la lista dei ristoranti preferiti dell'utente.
+     * <p>
+     * Se la lista {@code preferiti} è vuota, stampa un messaggio informativo
+     * indicando che non sono presenti ristoranti preferiti. 
+     * Altrimenti, stampa ciascun ristorante presente nella lista.
+     * </p>
+     */
+    private void visualizzaPreferiti() {
         if (preferiti.isEmpty()) {
             System.out.println("Nessun preferito.");
         } else {
@@ -393,7 +426,7 @@ public class Cliente extends Utente {
      * mostrando anche eventuali risposte dei ristoratori.
      */
 
-public void visualizzaRecensioniPersonali() {
+private void visualizzaRecensioniPersonali() {
     this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
 
     if (recensioni.isEmpty()) {
@@ -427,6 +460,14 @@ public void visualizzaRecensioniPersonali() {
     }
 }
 
+/**
+ * Aggiorna la lista delle recensioni personali dell'utente.
+ * <p>
+ * Recupera tutte le recensioni associate al codice fiscale dell'utente
+ * tramite il metodo {@link Recensione#cercaPerCliente(String)} e aggiorna
+ * l'attributo {@code recensioni}.
+ * </p>
+ */
     private void aggiornaRecensioniPersonali() {
         this.recensioni = Recensione.cercaPerCliente(getCodFiscale());
     }
@@ -461,27 +502,6 @@ public void visualizzaRecensioniPersonali() {
             System.err.println("Errore nel salvataggio dei preferiti: " + e.getMessage());
         }
     }
-
-	/**
-     * Permette al cliente di aggiungere una recensione a un ristorante,
-     * verificando che non ne esista già una.
-     *
-     * @param gestioneRecensioni gestore delle recensioni
-     * @param nomeRistorante nome del ristorante da recensire
-     * @param testo testo della recensione (opzionale)
-     * @param stelle voto in stelle (1–5)
-     */
-    
-    public void aggiungiRecensione(GestioneRecensioni gestioneRecensioni, String nomeRistorante, String testo, double stelle) {
-    if (gestioneRecensioni.recensioneEsistente(nomeRistorante, getCodFiscale())) {
-        System.out.println("Hai già recensito questo ristorante. Puoi solo modificare la tua recensione.");
-        return; // Non permettere l'aggiunta di una nuova recensione
-    }
-
-    Recensione rec = new Recensione(nomeRistorante, getCodFiscale(), testo, stelle, java.time.LocalDate.now().toString(), null);
-    gestioneRecensioni.aggiungiRecensione(rec);
-    System.out.println("Recensione aggiunta con successo.");
-}
 
 }
 

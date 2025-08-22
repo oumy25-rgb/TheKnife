@@ -255,7 +255,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
      * @return true se la recensione esiste già, false altrimenti
      */
 	
-    public boolean recensioneEsistente(String nomeRistorante, String codiceFiscale) {
+    public static boolean recensioneEsistente(String nomeRistorante, String codiceFiscale) {
     ArrayList<Recensione> tutteRecensioni = leggiTutteLeRecensioni();
     for (Recensione rec : tutteRecensioni) {
         if (rec.getNomeRistorante().equalsIgnoreCase(nomeRistorante) && 

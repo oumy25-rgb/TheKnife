@@ -55,7 +55,7 @@ public class Ristoratore extends Utente {
     
     String nomeRistorante = GestioneFile.cercaRistoranteDaProprietario("src/dati/proprietari.csv", this.getCodFiscale());
     if (nomeRistorante != null) {
-        Ristorante r = gestioneRistoranti.cercaRistorantePerNome(nomeRistorante);
+        Ristorante r = GestioneRistoranti.cercaRistorantePerNome(nomeRistorante);
         if (r != null) {
             this.ristorante = r;
         }
@@ -69,7 +69,7 @@ public class Ristoratore extends Utente {
      * @return lista dei nomi dei ristoranti
      */
     
-    public ArrayList<String> visualizzaNomeMieiRistoranti(String cf) {
+    private static ArrayList<String> visualizzaNomeMieiRistoranti(String cf) {
     	
     	ArrayList<String> lista = new ArrayList<String>();
     	
@@ -169,7 +169,7 @@ public class Ristoratore extends Utente {
         		
         				System.out.println("");
         				
-        				if(GestioneFile.rimuoviRistorante("src/dati/ristoranti.csv", gestioneRistoranti.cercaRistorantePerNome(lista.get(scegli - 1)))) 
+        				if(GestioneFile.rimuoviRistorante("src/dati/ristoranti.csv", GestioneRistoranti.cercaRistorantePerNome(lista.get(scegli - 1)))) 
         					if(GestioneFile.rimuoviRistorante("src/dati/proprietari.csv",this.getCodFiscale(),lista.get(scegli - 1)))
         						if(GestioneFile.eliminaMenu("src/dati", (lista.get(scegli - 1)+"Menu.csv")))
         							System.out.println("Rimozione avvenuta con successo!");
@@ -444,7 +444,7 @@ public class Ristoratore extends Utente {
 				
 				Piatto nuovoPiatto = new Piatto(nomePiatto, descrizionePiatto, prezzoPiatto);
 				
-				gestioneRistoranti.aggiungiPiattoAlMenu(listaMenu.get(scegli - 1),nuovoPiatto);  
+				GestioneRistoranti.aggiungiPiattoAlMenu(listaMenu.get(scegli - 1),nuovoPiatto);  
 				
 		   	}else {
 		   		System.out.println("Nessun Menù trovato.");
@@ -504,7 +504,7 @@ public class Ristoratore extends Utente {
 						    }
 						} while (!controllo);
 						
-						gestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
+						GestioneRistoranti.rimuoviPiattoDalMenu(listaMenu.get(scegli - 1),listaPiatti.get(scegliPiatto - 1));
 					}
 					}else {
 						System.out.println("Nessun Menù trovato.");
@@ -605,7 +605,7 @@ public class Ristoratore extends Utente {
     * @param cf <code>codFiscale</code> del ristoratore
     */
    
-   private void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
+   private static void aggiungiRistorante(GestioneRistoranti gestioneRistoranti,String cf) {
     // Aggiungi il ristorante al sistema
     gestioneRistoranti.aggiungiRistorante(menuAggiuntaRistorante(gestioneRistoranti), cf);
     System.out.println("Ristorante aggiunto e associato con successo!");
@@ -617,7 +617,7 @@ public class Ristoratore extends Utente {
     * @param nomeMenu nome del menu
     * @return lista dei nomi dei piatti
     */
-   public ArrayList<String> visualizzaPiattiMenu(String nomeMenu){
+   private static ArrayList<String> visualizzaPiattiMenu(String nomeMenu){
 	   
 	   String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
 	   
@@ -647,7 +647,7 @@ public class Ristoratore extends Utente {
     * @param cf <code>codFiscale</code> del ristoratore
     * @return lista dei nomi dei menu
     */  
-  public  ArrayList<String> visualizzaNomeMenu(String cf){
+  private  static ArrayList<String> visualizzaNomeMenu(String cf){
 	   
 	  File cartella = new File("src/dati");
 	  
@@ -726,7 +726,7 @@ public class Ristoratore extends Utente {
         			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
         			controllo = false;
         		}else {
-			    	if(gestioneRistoranti.verificaEsistenzaRistorante(nome)) {
+			    	if(GestioneRistoranti.verificaEsistenzaRistorante(nome)) {
 			    		controllo=false;
 			    		System.out.println("il ristorante '"+nome+"' esiste già, riprova.");
 			    	}
@@ -854,7 +854,7 @@ public class Ristoratore extends Utente {
      * @param gestioneRecensioni istanza di {@link GestioneRecensioni}
      * @param ristorante nome del ristorante
      */
-    private void rispondiARecensione(GestioneRecensioni gestioneRecensioni,String ristorante) {
+    private static void rispondiARecensione(GestioneRecensioni gestioneRecensioni,String ristorante) {
     	
         ArrayList<Recensione> recensioni = Recensione.cercaPerRistorante(ristorante);
 

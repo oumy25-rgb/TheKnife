@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 
@@ -97,7 +96,7 @@ public class GestioneRistoranti {
      * @param citta città in cui cercare
      * @return lista di ristoranti che corrispondono ai criteri
      */ 
-    public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
+    private static ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
     	
     	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
     	
@@ -133,7 +132,7 @@ public class GestioneRistoranti {
      * @param delivery true se richiede delivery, false altrimenti
      * @return lista dei ristoranti che rispettano i criteri
      */
-	public ArrayList<Ristorante> cercaRistoranti(String citta,boolean delivery) {
+	private static ArrayList<Ristorante> cercaRistoranti(String citta,boolean delivery) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
 	    	
@@ -169,7 +168,7 @@ public class GestioneRistoranti {
      * @param citta città in cui cercare
      * @return lista di ristoranti che rispettano i criteri
      */  
-	public ArrayList<Ristorante> cercaRistoranti(boolean prenotazione,String citta) {
+	private static ArrayList<Ristorante> cercaRistoranti(boolean prenotazione,String citta) {
     	
 		ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
     	
@@ -205,7 +204,7 @@ public class GestioneRistoranti {
      * @param citta città in cui cercare
      * @return lista di ristoranti trovati
      */    
-	public ArrayList<Ristorante> cercaRistoranti(String citta) {
+	public static ArrayList<Ristorante> cercaRistoranti(String citta) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<>();
 	    	
@@ -243,7 +242,7 @@ public class GestioneRistoranti {
      * @param fasciaPrezzoMax prezzo massimo
      * @return lista dei ristoranti trovati
      */
-	public ArrayList<Ristorante> cercaRistoranti(String citta,double fasciaPrezzoMin,double fasciaPrezzoMax) {
+	private static ArrayList<Ristorante> cercaRistoranti(String citta,double fasciaPrezzoMin,double fasciaPrezzoMax) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<>();
 	    	
@@ -280,7 +279,7 @@ public class GestioneRistoranti {
      * @param media media stelle richiesta
      * @return lista dei ristoranti trovati
      */
-	public ArrayList<Ristorante> cercaRistoranti(String citta,double media) {
+	private static ArrayList<Ristorante> cercaRistoranti(String citta,double media) {
     	
     	ArrayList<Ristorante> lista = new ArrayList<>();
     	
@@ -295,7 +294,7 @@ public class GestioneRistoranti {
                         riga[0], riga[1], riga[2], riga[4], riga[3],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
-                    if(r.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {
+                    if(Ristorante.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {
                     
                     	lista.add(r);
                     }
@@ -326,7 +325,7 @@ public class GestioneRistoranti {
      * @return lista dei ristoranti trovati
      */	
 	
-public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fasciaPrezzoMin,double fasciaPrezzoMax,boolean delivery,boolean prenotazione,double media) {
+private static ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fasciaPrezzoMin,double fasciaPrezzoMax,boolean delivery,boolean prenotazione,double media) {
     	
     	ArrayList<Ristorante> lista = new ArrayList<>();
     	
@@ -342,7 +341,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
                         riga[0], riga[1], riga[2], riga[4], riga[3],riga[5], Double.parseDouble(riga[6]), Double.parseDouble(riga[7]), Boolean.parseBoolean(riga[8]),Boolean.parseBoolean(riga[9]), null
                     );
                     
-                    if(r.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {
+                    if(Ristorante.calcoloMediaStelle(r.getName(),r.getCity(),r.getAddress())==media) {
                     
                     	lista.add(r);
                     }
@@ -445,7 +444,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      * @param nome nome del ristorante
      * @return ristorante corrispondente o null se non trovato
      */
-   public Ristorante cercaRistorantePerNome(String nome) {
+   public static Ristorante cercaRistorantePerNome(String nome) {
     try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
         String[] riga;
         while ((riga = reader.readNext()) != null) {
@@ -474,7 +473,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      * @param piatto piatto da aggiungere
      * @return true se aggiunto correttamente, false altrimenti
      */	
-   public boolean aggiungiPiattoAlMenu(String nomeMenu, Piatto piatto) {
+   public static boolean aggiungiPiattoAlMenu(String nomeMenu, Piatto piatto) {
 	   
 	   
 	// aggiunge .csv al nome del menu (solo per il nome, non per usare CSV)
@@ -516,7 +515,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      * @param nomeMenu nome del file menù
      * @return true se il piatto esiste, false altrimenti
      */
-   public boolean cercaPiatto(String piatto,String nomeMenu) {
+   private static boolean cercaPiatto(String piatto,String nomeMenu) {
 	   
 	   try (CSVReader reader = new CSVReader(new FileReader("src/dati/"+nomeMenu))) {
 	        String[] riga;
@@ -540,7 +539,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      * @param nomeMenu nome del menù
      * @param nomePiatto piatto da rimuovere
      */
-    public void rimuoviPiattoDalMenu(String nomeMenu, String nomePiatto) {
+    public static void rimuoviPiattoDalMenu(String nomeMenu, String nomePiatto) {
     	
     	String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
     	File file = new File("src/dati", nomeFile);
@@ -585,7 +584,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      *
      * @param listaRistorantiTrovati lista di ristoranti trovati
      */
-	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
+	private void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
 	    	String miniMenu;
 	    	int scegli = 0,i=1;
 	    	boolean controllo;
@@ -711,45 +710,6 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	    	
 	    }
 
-    /**
-     * Carica tutti i ristoranti dal file CSV <code>ristoranti.csv</code>.
-     */ 
-    public void caricaRistoranti() {
-    try (BufferedReader br = new BufferedReader(new FileReader("src/dati/ristoranti.csv"))) {
-        br.readLine(); // Salta intestazione
-
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] dati = line.split(",");
-
-            if (dati.length >= 10) {
-                String name = dati[0].replaceAll("^\"|\"$", ""); // Rimuove virgolette se presenti
-                String address = dati[1].replaceAll("^\"|\"$", "");
-                String city = dati[2].trim();
-                String nation = dati[3].trim();
-                String price = dati[4].replaceAll("^\"|\"$", "");
-                String cuisine = dati[5].replaceAll("^\"|\"$", "");
-                double longitude = Double.parseDouble(dati[6]);
-                double latitude = Double.parseDouble(dati[7]);
-                boolean delivery = Boolean.parseBoolean(dati[8]);
-                boolean reservation = Boolean.parseBoolean(dati[9]);
-
-                Ristorante ristorante = new Ristorante(
-                    name, address, city, price, nation, cuisine,
-                    longitude, latitude, delivery, reservation, new ArrayList<>()
-                );
-
-                ristoranti.add(ristorante);
-            } else {
-                System.out.println("Riga non valida nel file CSV: " + line);
-            }
-        }
-    } catch (IOException e) {
-        System.err.println("Errore durante il caricamento dei ristoranti: " + e.getMessage());
-    } catch (NumberFormatException e) {
-        System.err.println("Errore nel parsing di un numero: " + e.getMessage());
-    }
-}
 
 /**
      * Fornisce un menù interattivo per cercare i ristoranti in base a criteri scelti dall’utente.
@@ -1017,7 +977,7 @@ public void menuCercaRistoranti(String citta) {
      * @param nomeRistorante nome del ristorante
      * @return true se esiste, false altrimenti
      */
-	public boolean verificaEsistenzaRistorante(String nomeRistorante) {
+	public static boolean verificaEsistenzaRistorante(String nomeRistorante) {
 		
 		try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
             String[] riga;

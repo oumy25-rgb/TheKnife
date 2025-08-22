@@ -59,42 +59,7 @@ public class GestioneUtenti {
         System.out.println("Registrazione avvenuta con successo!");
     }
 
-    /**
-     * Effettua il login di un utente verificando le credenziali
-     * (username e password) con i dati memorizzati nel file CSV.
-     *
-     * @param username username inserito
-     * @param password password inserita
-     * @return oggetto <code>Utente</code> se le credenziali sono corrette,
-     *         altrimenti <code>null</code>
-     */
     
-    public Utente login(String username, String password) {
-    ArrayList<String> dati = gf.leggiDaFile("src/dati/utente.csv");
-
-    for (String s : dati) {
-        // Controlla se la riga è vuota
-        if (s.trim().isEmpty()) {
-            continue; // Salta le righe vuote
-        }
-
-        StringTokenizer st = new StringTokenizer(s, ",");
-        
-        // Assicurati che ci siano abbastanza token
-        if (st.countTokens() < 8) { // Assumendo che ci siano 8 campi
-            continue; // Salta questa riga se i dati sono incompleti
-        }
-
-        // Crea un nuovo oggetto Utente
-        Utente u = new Utente(st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken(), st.nextToken()) {};
-
-        // Controlla le credenziali
-        if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
-            return u; // Login riuscito
-        }
-    }
-    return null; // Login fallito
-}
     /**
      * Cifra una password utilizzando una semplice cifratura a scorrimento
      * con chiave fissa (+5 posizioni ASCII).

@@ -52,7 +52,6 @@ public class TheKnife {
      * 
      * @param args Argomenti della riga di comando (non utilizzati).
      * @throws NumberFormatException Se l'input numerico dell'utente non è valido.
-     * @throws Exception Per qualsiasi errore imprevisto durante l'esecuzione.
      */
     
     public static void main(String[] args) {
@@ -74,10 +73,7 @@ public class TheKnife {
          */
         GestioneUtenti gestioneUtenti = new GestioneUtenti();
         
-        /**
-         * <code>gf</code> istanza per la gestione della lettura e scrittura dei file.
-         */
-        GestioneFile gf = new GestioneFile();
+        
         
         /**
          * <code>nuovoUtente</code> variabile temporanea che mantiene l'utente appena creato.
@@ -246,11 +242,11 @@ public class TheKnife {
 
                             // Salva ristorante e associazione
                             GestioneFile.scriviRistorante("src/dati/ristoranti.csv", nuovoRistorante);
-                            gf.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), nuovoRistorante);
+                            GestioneFile.salvaAssociazioneProprietarioRistorante("proprietari.csv", nuovoUtente.getCodFiscale(), nuovoRistorante);
                         }
 
                         // Scrittura dell'utente su file
-                        gf.scriviUtente("utente.csv", nuovoUtente);
+                        GestioneFile.scriviUtente("utente.csv", nuovoUtente);
                         gestioneUtenti.registraUtente(nuovoUtente);
                         System.out.println("\nComplimenti " + ruolo + "! Registrazione completata con successo!");
                         break;
@@ -282,11 +278,11 @@ public class TheKnife {
                         pass = GestioneUtenti.cifraPassword(pass);
                         GestioneRecensioni gestioneRecensioni = new GestioneRecensioni();
 
-                        ArrayList<String> utenti = gf.leggiDaFile("src/dati/utente.csv");
+                        ArrayList<String> utenti = GestioneFile.leggiDaFile("src/dati/utente.csv");
                         Utente loggedUser = null;
 
                         for (String line : utenti) {
-                            String[] dati = gf.dividereCsv(line);
+                            String[] dati = GestioneFile.dividereCsv(line);
                             if (dati.length >= 8 && dati[3].equals(user) && dati[4].equals(pass)) {
                                 String ruoloUtente = dati[7];
                                 if (ruoloUtente.equals("cliente")) {

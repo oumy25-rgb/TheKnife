@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import theknife.Preferiti;
 import theknife.Recensione;
 import theknife.Ristorante;
 import theknife.Utente;
@@ -48,7 +47,7 @@ public class GestioneFile {
      * @return array di stringhe con i valori della riga
      */
 
-    public String[] dividereCsv(String linea) {
+    public static String[] dividereCsv(String linea) {
         //System.out.println("Nel metodo ricevo la linea: "+linea);
         // Definisci il delimitatore
         String delimitatore = ","; // Nuovo delimitatore (?=([^\"]*\"[^\"]*\")[^\"]*$)
@@ -69,56 +68,6 @@ public class GestioneFile {
         return colonne; // Restituisce l'array di stringhe
     }
     
-	 /**
-     * Verifica se esiste un utente con uno specifico username nel file.
-     *
-     * @param nomeFile file CSV degli utenti
-     * @param username username da cercare
-     * @return true se esiste, false altrimenti
-     */
-	
-    //il metodo per controllare se l'utente esiste o no 
-    public boolean utenteEsiste(String nomeFile, String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/" + nomeFile))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                String[] parti = dividereCsv(linea);
-                // Assumendo che l'username sia alla posizione 3 (index 3)
-                if (parti.length > 3 && parti[3].equalsIgnoreCase(username)) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Errore durante la lettura del file: " + e.getMessage());
-        }
-        return false;
-    }
-    
-    // Metodo per la scrittura su file
-	 /**
-     * Scrive un insieme di righe su file.
-     *
-     * @param nomeFile percorso del file
-     * @param dati dati da scrivere
-     * @param method true per appendere, false per sovrascrivere
-     */
-    public void scriviSuFile(String nomeFile, ArrayList<String> dati, boolean method) {
-
-        if (dati == null || dati.isEmpty()) {
-            System.err.println("Nessun dato da scrivere sul file.");
-            return;
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile,method))) {
-            for (String linea : dati) {
-                writer.write(linea);
-                writer.newLine(); // Aggiungi una nuova riga dopo ogni scrittura
-            }
-            System.out.println("Scrittura completata con successo.");
-        } catch (IOException e) {
-            System.err.println("Si è verificato un errore durante la scrittura: " + e.getMessage());
-        }
-    }
 
     // Metodo per la lettura da un file che va bene per leggere tutte le recensioni
 	 /**
@@ -127,7 +76,7 @@ public class GestioneFile {
      * @param nomeFile percorso del file
      * @return lista di righe lette
      */
-    public ArrayList<String> leggiDaFile(String nomeFile) {
+    public static ArrayList<String> leggiDaFile(String nomeFile) {
         ArrayList<String> dati = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
             String linea;
@@ -139,31 +88,20 @@ public class GestioneFile {
         }
         return dati; // Restituisci la lista di dati letti
     }
-/**
-     * Cerca una stringa all’interno di un file CSV e restituisce la riga trovata.
+
+    /**
+     * Scrive i dati di un ristorante su un file CSV.
+     * <p>
+     * Se il file non esiste, viene creato e viene scritta anche l'intestazione delle colonne.
+     * Se il file esiste già, i dati vengono aggiunti in coda.
+     * </p>
      *
-     * @param nomeFile percorso del file
-     * @param ricerca valore da cercare
-     * @return array con i campi della riga, oppure null se non trovato
+     * @param filePath il percorso del file CSV su cui scrivere i dati
+     * @param ristorante l'oggetto {@link Ristorante} contenente i dati del ristorante da scrivere
+     *
+     * @throws NullPointerException se {@code filePath} o {@code ristorante} sono null
      */
-	
-    public String[] cercaNelFile(String nomeFile, String ricerca) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                String[] arr=dividereCsv(linea);// Passo la linea al metodo dividiCSV
-                for(String el:arr){
-                    if(el.equalsIgnoreCase(ricerca)){
-                        return arr; //se uno degli elementi dell'array corrisponde a ciò che cerco ritorno l'array
-                    }
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Si è verificato un errore durante la lettura: " + e.getMessage());
-        }
-        return null; // Se non c'è corrispondenza ritorno null
-    }
- /** Scrive un ristorante su file CSV. */
+    
 public static void scriviRistorante(String filePath, Ristorante ristorante) {
     try {
         // Verifica se il file esiste già
@@ -187,52 +125,19 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
         System.err.println("Errore durante la scrittura del file: " + e.getMessage());
     }
 }
-
-    /** Scrive un preferito (utente, ristorante) su file CSV. */
-    public void scriviPreferiti(String nomeFile, Preferiti f) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter("src/dati/" + nomeFile, true);
-        } catch (IOException ex) {
-            System.err.println("Errore in apertura del file " + ex);
-        }
-        BufferedWriter writeF = new BufferedWriter(fw);
-        try {
-            //Cambiare i dati da scrivere
-            writeF.write(f.getNomeUtente() + ",");
-            writeF.write(f.getNomeRistorante() + "\n");
-        } catch (IOException ex) {
-            System.err.println("Errore in fase di scrittura: " + ex);
-        }
-        try {
-            writeF.flush();
-        } catch (IOException ex) {
-            System.err.println("Errore durante lo svuotamento del buffer " + ex);
-        }
-    }
     
-        public void scriviPiatto(String nomeFile, Piatto piatto) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter("src/dati/" + nomeFile, true);
-        } catch (IOException ex) {
-            System.err.println("Errore in apertura del file " + ex);
-        }
-        BufferedWriter writeF = new BufferedWriter(fw);
-        try {
-            //Cambiare i dati da scrivere
-            writeF.write(piatto + "\n");
-        } catch (IOException ex) {
-            System.err.println("Errore in fase di scrittura: " + ex);
-        }
-        try {
-            writeF.flush();
-        } catch (IOException ex) {
-            System.err.println("Errore durante lo svuotamento del buffer " + ex);
-        }
-    }
-    
-        public void scriviUtente(String nomeFile, Utente u) {
+/**
+ * Scrive i dati di un utente su un file CSV.
+ * <p>
+ * I dati dell'utente vengono aggiunti in coda al file. 
+ * Il metodo gestisce internamente eventuali errori di apertura o scrittura del file, 
+ * stampando messaggi di errore sulla console.
+ * </p>
+ *
+ * @param nomeFile il nome del file CSV all'interno della cartella "src/dati/" in cui scrivere i dati
+ * @param u l'oggetto {@link Utente} contenente i dati dell'utente da scrivere
+ */ 
+        public static void scriviUtente(String nomeFile, Utente u) {
         FileWriter fw = null;
         try {
             fw = new FileWriter("src/dati/" + nomeFile, true);
@@ -260,33 +165,23 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
         }
     }
         
-        public void scriviRecensione(String nomeFile, Recensione r) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter("src/dati/" + nomeFile, true);
-        } catch (IOException ex) {
-            System.err.println("Errore in apertura del file " + ex);
-        }
-        BufferedWriter writeF = new BufferedWriter(fw);
-        try {
-            //Cambiare i dati da scrivere
-            writeF.write(r.getRistorante()+ ",");
-            writeF.write(r.getCliente() + ",");
-            writeF.write(r.getData() + ",");
-            writeF.write(r.getTestoRecensione() + ",");
-            writeF.write(r.getStelle() + "\n");
-        } catch (IOException ex) {
-            System.err.println("Errore in fase di scrittura: " + ex);
-        }
-        try {
-            writeF.flush();
-        } catch (IOException ex) {
-            System.err.println("Errore durante lo svuotamento del buffer " + ex);
-        }
-    }
         
-	/** Salva l’associazione tra un proprietario (codice fiscale) e il suo ristorante. */
-    public void salvaAssociazioneProprietarioRistorante(String nomeFile, String proprietario, Ristorante ristorante) {
+        /**
+         * Salva l'associazione tra un proprietario e il suo ristorante su un file CSV.
+         * <p>
+         * L'associazione viene salvata nel formato "codiceFiscaleProprietario,NomeRistorante" 
+         * e aggiunta in coda al file specificato nella cartella "src/dati/". 
+         * Se il ristorante passato è nullo, il metodo stampa un messaggio di errore e non scrive nulla.
+         * Le eccezioni durante l'apertura o la scrittura del file vengono gestite internamente 
+         * e riportate sulla console.
+         * </p>
+         *
+         * @param nomeFile il nome del file CSV in cui salvare l'associazione
+         * @param proprietario il codice fiscale del proprietario del ristorante
+         * @param ristorante l'oggetto {@link Ristorante} associato al proprietario; se nullo, non viene salvata alcuna associazione
+         */
+        
+    public static void salvaAssociazioneProprietarioRistorante(String nomeFile, String proprietario, Ristorante ristorante) {
         FileWriter fw = null;
         try {
             fw = new FileWriter("src/dati/" + nomeFile, true);
@@ -310,17 +205,7 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
             System.err.println("Errore durante lo svuotamento del buffer " + ex);
         }
     }
-     /** Salva la segnalazione di un nuovo ristorante proposto da un utente. */
-     public void salvaSegnalazioneRistorante(String nomeFile, String nome, String indirizzo, String locazione, String cucina) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile, true))) {
-            String riga = String.format("%s,%s,%s,%s", nome, indirizzo, locazione, cucina);
-            writer.write(riga);
-            writer.newLine();
-            System.out.println("Segnalazione ristorante salvata con successo.");
-        } catch (IOException e) {
-            System.out.println("Errore durante il salvataggio della segnalazione: " + e.getMessage());
-        }
-    }
+     
  /**
      * Legge tutte le recensioni dal file delle recensioni.
      *
@@ -360,19 +245,48 @@ public static void scriviRistorante(String filePath, Ristorante ristorante) {
     return recensioni;
 }
 
-/** Trova il nome del ristorante dato il codice fiscale del proprietario. */
+  /**
+   * Cerca il nome del ristorante associato a un proprietario, dato il suo codice fiscale.
+   * <p>
+   * Legge il file CSV specificato da {@code filePath}, dove ogni riga rappresenta un'associazione
+   * nel formato "codiceFiscaleProprietario,NomeRistorante". 
+   * Se trova una riga con codice fiscale corrispondente a {@code codFiscale}, 
+   * restituisce il nome del ristorante associato.
+   * </p>
+   *
+   * @param filePath il percorso del file CSV contenente le associazioni proprietario-ristorante
+   * @param codFiscale il codice fiscale del proprietario da cercare
+   * @return il nome del ristorante associato al proprietario se trovato; {@code null} se non trovato
+   */
+  
 public static String cercaRistoranteDaProprietario(String filePath, String codFiscale) {
-        GestioneFile gf = new GestioneFile();
-        ArrayList<String> righe = gf.leggiDaFile(filePath);
+        ArrayList<String> righe = GestioneFile.leggiDaFile(filePath);
         for (String riga : righe) {
-            String[] tokens = gf.dividereCsv(riga);
+            String[] tokens = GestioneFile.dividereCsv(riga);
             if (tokens.length >= 2 && tokens[0].equalsIgnoreCase(codFiscale)) {
                 return tokens[1];
             }
         }
         return null;
     }
-    /** Trova il nome di un utente dato il suo codice fiscale. */
+  
+/**
+ * Trova il nome di un utente dato il suo codice fiscale leggendo un file CSV.
+ * <p>
+ * Il file CSV specificato da {@code filePath} deve avere ogni riga nel formato:
+ * "Nome,Cognome,CodiceFiscale,...". Il metodo confronta il terzo campo (codice fiscale)
+ * con il valore passato in {@code codFiscale}. Se trova una corrispondenza, restituisce il nome dell'utente.
+ * </p>
+ *
+ * <p>
+ * Se il codice fiscale non viene trovato, viene restituito lo stesso valore di {@code codFiscale}.
+ * Eventuali errori di lettura del file vengono gestiti internamente stampando un messaggio sulla console.
+ * </p>
+ *
+ * @param filePath il percorso del file CSV contenente i dati degli utenti
+ * @param codFiscale il codice fiscale dell'utente da cercare
+ * @return il nome dell'utente se trovato; altrimenti restituisce il codice fiscale passato
+ */
     public static String getNomeDaCodFiscale(String filePath, String codFiscale) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         String line;
@@ -387,7 +301,19 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
     }
     return codFiscale; // Se non trovato ritorna comunque il codice fiscale
 }
-     /** Aggiunge un’associazione tra codice fiscale e nome del ristorante. */
+    /**
+     * Aggiunge un'associazione tra il codice fiscale di un proprietario e il nome del suo ristorante
+     * su un file CSV.
+     * <p>
+     * La nuova associazione viene aggiunta in coda al file specificato da {@code filePath} 
+     * nel formato "codiceFiscale,NomeRistorante". Eventuali errori durante la scrittura
+     * vengono gestiti internamente e stampati sulla console.
+     * </p>
+     *
+     * @param filePath il percorso del file CSV in cui aggiungere l'associazione
+     * @param codFiscale il codice fiscale del proprietario del ristorante
+     * @param nomeRistorante il nome del ristorante da associare al proprietario
+     */
     public static void aggiungiRistoranteProprietario(String filePath, String codFiscale, String nomeRistorante) {
     try (FileWriter writer = new FileWriter(filePath, true);
          BufferedWriter bw = new BufferedWriter(writer);
@@ -397,7 +323,20 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         System.err.println("Errore durante la scrittura nel file: " + e.getMessage());
     }
 }
-    /** Rimuove un ristorante da un file di associazioni. */
+    /**
+     * Rimuove un'associazione tra un proprietario e un ristorante da un file CSV.
+     * <p>
+     * Legge tutte le righe del file specificato da {@code percorso} e rimuove la riga
+     * che corrisponde esattamente all'associazione "{@code codFiscale},{@code nomeRistorante}".
+     * Il file viene poi sovrascritto con le righe filtrate. 
+     * Eventuali errori di I/O vengono gestiti internamente e stampati sulla console.
+     * </p>
+     *
+     * @param percorso il percorso del file CSV contenente le associazioni
+     * @param codFiscale il codice fiscale del proprietario del ristorante
+     * @param nomeRistorante il nome del ristorante da rimuovere
+     * @return {@code true} se l'operazione di rimozione e riscrittura del file è andata a buon fine, {@code false} in caso di errore
+     */
     public static boolean rimuoviRistorante(String percorso, String codFiscale, String nomeRistorante) {
         try {
             File file = new File(percorso);
@@ -419,7 +358,19 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
         }
         return true;
     }
-    /*** Rimuove un ristorante direttamente dal file dei ristoranti. */
+    /**
+     * Rimuove un ristorante dal file CSV dei ristoranti.
+     * <p>
+     * Legge tutte le righe del file specificato da {@code percorso} e rimuove 
+     * la riga corrispondente ai dati del ristorante passato tramite {@code ristorante.toCSV()}.
+     * Il file viene poi sovrascritto con le righe filtrate. 
+     * Eventuali errori di I/O vengono gestiti internamente e stampati sulla console.
+     * </p>
+     *
+     * @param percorso il percorso del file CSV contenente i dati dei ristoranti
+     * @param ristorante l'oggetto {@link Ristorante} da rimuovere dal file
+     * @return {@code true} se l'operazione di rimozione e riscrittura del file è andata a buon fine, {@code false} in caso di errore
+     */
     public static boolean rimuoviRistorante(String percorso, Ristorante ristorante) {
         try {
             File file = new File(percorso);
@@ -443,7 +394,20 @@ public static String cercaRistoranteDaProprietario(String filePath, String codFi
             return false;
         }
     }
-    /** Elimina un menu (file) dalla cartella dei menu. */           
+    
+    /**
+     * Elimina un menu (file) dalla cartella dei menu.
+     * <p>
+     * Controlla se la cartella specificata da {@code percorsoCartella} esiste e se è valida.
+     * Se il file con nome {@code nomeMenu} esiste all'interno della cartella, tenta di eliminarlo.
+     * Eventuali errori o impossibilità di eliminazione vengono stampati sulla console.
+     * </p>
+     *
+     * @param percorsoCartella il percorso della cartella contenente i file dei menu
+     * @param nomeMenu il nome del file del menu da eliminare
+     * @return {@code true} se il file è stato eliminato correttamente o se il file non esiste, 
+     *         {@code false} se la cartella non esiste o se non è stato possibile eliminare il file
+     */      
     public static boolean eliminaMenu(String percorsoCartella, String nomeMenu) {
         File cartella = new File(percorsoCartella);
         if (!cartella.exists() || !cartella.isDirectory()) {
