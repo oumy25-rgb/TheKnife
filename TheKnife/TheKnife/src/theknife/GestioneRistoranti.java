@@ -16,15 +16,45 @@ import java.io.File;
 import resources.GestioneFile;
 import resources.Piatto;
 
+/**
+ * La classe <strong>GestioneRistoranti</strong> gestisce tutte le operazioni relative ai ristoranti 
+ * della piattaforma <em>TheKnife</em>.
+ * <p>
+ * Le principali funzionalità sono:
+ * <ul>
+ *   <li>Registrazione e memorizzazione dei ristoranti</li>
+ *   <li>Ricerca dei ristoranti secondo diversi criteri (città, cucina, prezzo, delivery, prenotazione, recensioni)</li>
+ *   <li>Gestione dei menù associati ai ristoranti (creazione, aggiunta e rimozione piatti)</li>
+ *   <li>Caricamento e visualizzazione dei dati dai file CSV</li>
+ * </ul>
+ * I dati vengono salvati in file CSV per garantire persistenza.
+ * </p>
+ * 
+ * @see Ristorante
+ * @see Piatto
+ * @see resources.GestioneFile
+ * 
+ * @author Giuseppina Salvati
+ * @author omema gharsellaoui
+ */
+
 public class GestioneRistoranti {
+	/** Lista di ristoranti caricati o registrati nel sistema. */
     private ArrayList<Ristorante> ristoranti;
     Scanner scanner = new Scanner(System.in);
-    
+    /**
+     * Costruttore: inizializza la lista dei ristoranti.
+     */
     public GestioneRistoranti() {
         ristoranti = new ArrayList<>();
         new GestioneFile();
     }
-
+    /**
+     * Aggiunge un ristorante al sistema e aggiorna i file CSV dei proprietari e dei ristoranti.
+     *
+     * @param ristorante ristorante da aggiungere
+     * @param codFiscale codice fiscale del proprietario
+     */
     public void aggiungiRistorante(Ristorante ristorante, String codFiscale) {
     if (ristorante != null) {
         ristoranti.add(ristorante);
@@ -37,7 +67,12 @@ public class GestioneRistoranti {
         System.out.println("Errore: il ristorante non può essere nullo.");
     }
 }
-    
+     /**
+     * Visualizza una lista generica di stringhe con indice numerato.
+     *
+     * @param lista lista di stringhe da visualizzare
+     * @return true se la lista contiene elementi, false se vuota
+     */
     
     public static boolean visualizzaLista(ArrayList<String> lista) {
     	
@@ -54,7 +89,14 @@ public class GestioneRistoranti {
     	}
     	return true;
     }
-    
+
+	/**
+     * Cerca ristoranti in base a città e tipo di cucina.
+     *
+     * @param tipo tipo di cucina (es. Italiano, Giapponese)
+     * @param citta città in cui cercare
+     * @return lista di ristoranti che corrispondono ai criteri
+     */ 
     public ArrayList<Ristorante> cercaRistoranti(String tipo,String citta) {
     	
     	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
@@ -84,7 +126,13 @@ public class GestioneRistoranti {
         return lista;
     }
     
-    
+    /**
+     * Cerca ristoranti in base a città e disponibilità di servizio delivery.
+     *
+     * @param citta città in cui cercare
+     * @param delivery true se richiede delivery, false altrimenti
+     * @return lista dei ristoranti che rispettano i criteri
+     */
 	public ArrayList<Ristorante> cercaRistoranti(String citta,boolean delivery) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
@@ -114,7 +162,13 @@ public class GestioneRistoranti {
 	
 	        return lista;
 	    }
-	    
+	/**
+     * Cerca ristoranti in base a città e disponibilità di prenotazione online.
+     *
+     * @param prenotazione true se richiede prenotazione, false altrimenti
+     * @param citta città in cui cercare
+     * @return lista di ristoranti che rispettano i criteri
+     */  
 	public ArrayList<Ristorante> cercaRistoranti(boolean prenotazione,String citta) {
     	
 		ArrayList<Ristorante> lista = new ArrayList<Ristorante>();
@@ -145,7 +199,12 @@ public class GestioneRistoranti {
         return lista;
     }
 	    
-	    
+	 /**
+     * Cerca ristoranti in base alla sola città.
+     *
+     * @param citta città in cui cercare
+     * @return lista di ristoranti trovati
+     */    
 	public ArrayList<Ristorante> cercaRistoranti(String citta) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<>();
@@ -176,7 +235,14 @@ public class GestioneRistoranti {
 	        return lista;
 	    }
 
-
+     /**
+     * Cerca ristoranti in base a città e fascia di prezzo.
+     *
+     * @param citta città in cui cercare
+     * @param fasciaPrezzoMin prezzo minimo
+     * @param fasciaPrezzoMax prezzo massimo
+     * @return lista dei ristoranti trovati
+     */
 	public ArrayList<Ristorante> cercaRistoranti(String citta,double fasciaPrezzoMin,double fasciaPrezzoMax) {
 	    	
 	    	ArrayList<Ristorante> lista = new ArrayList<>();
@@ -207,7 +273,13 @@ public class GestioneRistoranti {
 	        return lista;
 	    }
 	
-	
+	 /**
+     * Cerca ristoranti in base a città e media delle recensioni.
+     *
+     * @param citta città in cui cercare
+     * @param media media stelle richiesta
+     * @return lista dei ristoranti trovati
+     */
 	public ArrayList<Ristorante> cercaRistoranti(String citta,double media) {
     	
     	ArrayList<Ristorante> lista = new ArrayList<>();
@@ -240,9 +312,19 @@ public class GestioneRistoranti {
 
         return lista;
     }
-	
-	
-	
+
+/**
+     * Cerca ristoranti combinando tutti i criteri di ricerca.
+     *
+     * @param citta città in cui cercare
+     * @param tipo tipo di cucina
+     * @param fasciaPrezzoMin prezzo minimo
+     * @param fasciaPrezzoMax prezzo massimo
+     * @param delivery true se richiede delivery
+     * @param prenotazione true se richiede prenotazione
+     * @param media media stelle richiesta
+     * @return lista dei ristoranti trovati
+     */	
 	
 public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fasciaPrezzoMin,double fasciaPrezzoMax,boolean delivery,boolean prenotazione,double media) {
     	
@@ -277,7 +359,11 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 
         return lista;
     }
-    
+ /**
+     * Crea un nuovo file CSV per il menù di un ristorante e consente l'inserimento dei piatti.
+     *
+     * @param nomeRistorante nome del ristorante
+     */  
  public void creaEMenuRistorante(String nomeRistorante) {
    
     String risposta;
@@ -336,7 +422,12 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 
     System.out.println("Menu completato e salvato con successo.");
 }
-	
+    /**
+     * Cerca un ristorante per nome.
+     *
+     * @param nome nome del ristorante
+     * @return ristorante corrispondente o null se non trovato
+     */
    public Ristorante cercaRistorantePerNome(String nome) {
     try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
         String[] riga;
@@ -359,7 +450,13 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     return null; 
 }
 
-	
+   /**
+     * Aggiunge un piatto al menù di un ristorante salvandolo su file CSV.
+     *
+     * @param nomeMenu nome del file menù
+     * @param piatto piatto da aggiungere
+     * @return true se aggiunto correttamente, false altrimenti
+     */	
    public boolean aggiungiPiattoAlMenu(String nomeMenu, Piatto piatto) {
 	   
 	   
@@ -395,7 +492,13 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	        return false;
 	    }
 	}
-   
+    /**
+     * Verifica se un piatto esiste già in un menù.
+     *
+     * @param piatto nome del piatto
+     * @param nomeMenu nome del file menù
+     * @return true se il piatto esiste, false altrimenti
+     */
    public boolean cercaPiatto(String piatto,String nomeMenu) {
 	   
 	   try (CSVReader reader = new CSVReader(new FileReader("src/dati/"+nomeMenu))) {
@@ -414,7 +517,12 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
    }
    
 
-    // Nuovo metodo per rimuovere un piatto dal menu
+    /**
+     * Rimuove un piatto da un menù aggiornando il file CSV.
+     *
+     * @param nomeMenu nome del menù
+     * @param nomePiatto piatto da rimuovere
+     */
     public void rimuoviPiattoDalMenu(String nomeMenu, String nomePiatto) {
     	
     	String nomeFile = nomeMenu.endsWith(".csv") ? nomeMenu : nomeMenu + ".csv";
@@ -450,7 +558,16 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     	 System.out.println("Piatto rimosso con successo!");
     	
     }
-    
+     /**
+     * Stampa la lista dei ristoranti trovati con possibilità di azioni aggiuntive:
+     * <ul>
+     *   <li>Visualizzare informazioni</li>
+     *   <li>Visualizzare recensioni</li>
+     *   <li>Visualizzare menù</li>
+     * </ul>
+     *
+     * @param listaRistorantiTrovati lista di ristoranti trovati
+     */
 	public void stampaListaRicerca(ArrayList<Ristorante> listaRistorantiTrovati) {
 	    	String miniMenu;
 	    	int scegli = 0,i=1;
@@ -575,7 +692,9 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 	    	
 	    }
 
-     
+    /**
+     * Carica tutti i ristoranti dal file CSV <code>ristoranti.csv</code>.
+     */ 
     public void caricaRistoranti() {
     try (BufferedReader br = new BufferedReader(new FileReader("src/dati/ristoranti.csv"))) {
         br.readLine(); // Salta intestazione
@@ -613,7 +732,11 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     }
 }
 
-
+/**
+     * Fornisce un menù interattivo per cercare i ristoranti in base a criteri scelti dall’utente.
+     *
+     * @param citta città su cui effettuare la ricerca
+     */
 public void menuCercaRistoranti(String citta) {
 	
 	int sceltaCriterio = 0;
@@ -865,7 +988,12 @@ public void menuCercaRistoranti(String citta) {
 	
 }
 
-
+    /**
+     * Verifica l'esistenza di un ristorante in base al nome.
+     *
+     * @param nomeRistorante nome del ristorante
+     * @return true se esiste, false altrimenti
+     */
 	public boolean verificaEsistenzaRistorante(String nomeRistorante) {
 		
 		try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
@@ -890,6 +1018,7 @@ public void menuCercaRistoranti(String citta) {
 	}
    
 }
+
 
 
 
