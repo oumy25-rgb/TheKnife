@@ -4,17 +4,14 @@ package theknife;
 import java.util.Scanner;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import resources.GestioneFile;
-import resources.GestioneMenu;
-import resources.Piatto;
-
 /**
- * Rappresenta un ristoratore, utente proprietario di uno o più ristoranti.
+ * La classe <strong>Ristoratore</strong> rappresenta un Ristoratore, utente proprietario di uno o più ristoranti.
  * Estende la classe {@link Utente}.
  * @author Giuseppina Salvati
  * @author Omema Gharsellaoui

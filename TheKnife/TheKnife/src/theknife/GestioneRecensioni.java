@@ -1,18 +1,19 @@
 
 package theknife;
 
+import static theknife.GestioneFile.leggiTutteLeRecensioni;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-import static resources.GestioneFile.leggiTutteLeRecensioni;
 
 /**
  * La classe <strong>GestioneRecensioni</strong> gestisce tutte le operazioni
  * relative alle recensioni lasciate dai clienti sui ristoranti.
- * <p>
+ * 
  * Le principali funzionalità sono:
  * <ul>
  *   <li>Aggiungere nuove recensioni</li>
@@ -22,11 +23,11 @@ import static resources.GestioneFile.leggiTutteLeRecensioni;
  *   <li>Verificare se una recensione esiste già</li>
  * </ul>
  * I dati vengono salvati nel file CSV <code>recensioni.csv</code>.
- * </p>
+ * 
  *
  * @see Recensione
  * @see Cliente
- * @see resources.GestioneFile
+ * @see theknife.GestioneFile
  * 
  * @author omema gharsellaoui
  * @author Giuseppina Salvati
@@ -52,13 +53,13 @@ public class GestioneRecensioni {
 
  /**
      * Permette a un cliente di modificare una delle proprie recensioni.
-     * <p>
+     * 
      * Viene mostrata la lista dei ristoranti recensiti e l’utente può:
      * <ul>
      *   <li>modificare il testo della recensione</li>
      *   <li>cambiare il voto (da 1 a 5 stelle)</li>
      * </ul>
-     * </p>
+     * 
      *
      * @param cliente cliente che vuole modificare la recensione
      * @param scanner oggetto per la lettura da console
@@ -213,7 +214,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
      * @param risposta testo della risposta
      */
  public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
-    ArrayList<Recensione> tutte = resources.GestioneFile.leggiTutteLeRecensioni(); // leggi TUTTE
+    ArrayList<Recensione> tutte = theknife.GestioneFile.leggiTutteLeRecensioni(); // leggi TUTTE
     boolean found = false;
     for (Recensione rec : tutte) {
         if (rec.getNomeRistorante().equalsIgnoreCase(nomeRistorante) &&

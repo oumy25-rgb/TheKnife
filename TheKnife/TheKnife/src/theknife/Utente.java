@@ -1,7 +1,7 @@
 
 package theknife;
 /**
- * Classe astratta che rappresenta un utente del sistema TheKnife.
+ * la classe astratta <strong>Utente</strong> rappresenta un utente del sistema TheKnife.
  * <p>
  * Ogni utente possiede dati anagrafici, credenziali e informazioni di contatto.
  * La classe viene estesa da specifiche tipologie di utenti, come Cliente o Ristoratore.

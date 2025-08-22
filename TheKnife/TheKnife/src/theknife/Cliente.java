@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * La classe <strong>Cliente</strong> rappresenta un utente registrato della piattaforma
  * <em>TheKnife</em> con ruolo di cliente.
- * <p>
+ * 
  * Un cliente può:
  * <ul>
  *   <li>Gestire una lista di ristoranti preferiti (aggiungere, rimuovere, visualizzare)</li>
@@ -21,7 +21,7 @@ import java.io.File;
  * </ul>
  * La persistenza dei dati relativi ai preferiti viene gestita tramite file CSV,
  * identificato dal codice fiscale del cliente.
- * </p>
+ * 
  * @author omema gharsellaoui
  * @author Giuseppina Salvati
  */
@@ -67,7 +67,7 @@ public class Cliente extends Utente {
 
     /**
      * Mostra il menu principale per un cliente e gestisce le interazioni con l'utente.
-     * <p>
+     * 
      * Il menu permette di:
      * <ul>
      *   <li>Visualizzare i ristoranti preferiti</li>
@@ -78,7 +78,7 @@ public class Cliente extends Utente {
      * </ul>
      * Il metodo gestisce l'input dell'utente tramite {@link Scanner} e convalida le scelte, 
      * ripetendo la richiesta in caso di input non valido.
-     * </p>
+     * 
      *
      * @param gestioneRistoranti l'oggetto {@link GestioneRistoranti} utilizzato per le operazioni sui ristoranti
      * @param gestioneRecensioni l'oggetto {@link GestioneRecensioni} utilizzato per le operazioni sulle recensioni

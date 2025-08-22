@@ -3,10 +3,9 @@ package theknife;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import resources.GestioneFile;
 
 /**
- * Classe principale dell'applicazione TheKnife.
+ * Classe principale dell'applicazione <strong>TheKnife</strong>.
  * <p>
  * Gestisce il menu iniziale e coordina le funzionalità principali:
  * registrazione, login, login come guest e uscita dal programma.
@@ -39,7 +38,7 @@ public class TheKnife {
     public static Scanner scanner = new Scanner(System.in);
     /**
      * Metodo principale che avvia l'applicazione.
-     * <p>
+     * 
      * Mostra il menu iniziale con le seguenti opzioni:
      * <ul>
      *     <li>Registrazione utente</li>
@@ -48,7 +47,7 @@ public class TheKnife {
      *     <li>Uscita dall'applicazione</li>
      * </ul>
      * Per ogni scelta viene gestita la logica corrispondente.
-     * </p>
+     * 
      * 
      * @param args Argomenti della riga di comando (non utilizzati).
      * @throws NumberFormatException Se l'input numerico dell'utente non è valido.

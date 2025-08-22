@@ -12,7 +12,7 @@ import java.util.Locale;
 /**
  * La classe <strong>Recensione</strong> rappresenta una recensione scritta da un cliente
  * su un ristorante all’interno della piattaforma <em>TheKnife</em>.
- * <p>
+ * 
  * Ogni recensione contiene:
  * <ul>
  *   <li>Il nome del ristorante recensito</li>
@@ -23,7 +23,7 @@ import java.util.Locale;
  *   <li>Un’eventuale risposta del ristoratore</li>
  * </ul>
  * Le recensioni sono persistenti e vengono salvate/lette da file CSV.
- *</p>
+ *
  * @author omema gharsellaoui
    @author Giuseppina Salvati
  */

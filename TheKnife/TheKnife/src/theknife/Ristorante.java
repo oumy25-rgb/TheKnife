@@ -5,23 +5,20 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 import com.opencsv.CSVReader;
-import resources.GestioneFile;
-import resources.GestioneMenu;
-import resources.Piatto;
 /**
- * La classe {@code Ristorante} rappresenta un ristorante registrato nella piattaforma <em>TheKnife</em>.
- * <p>
+ * La classe <strong>Ristorante</strong> rappresenta un ristorante registrato nella piattaforma <em>TheKnife</em>.
+ * 
  * Ogni ristorante contiene informazioni anagrafiche (nome, indirizzo, città, nazione),
  * caratteristiche (tipo di cucina, fascia di prezzo, coordinate geografiche),
  * servizi disponibili (delivery e prenotazione online) e dati dinamici
  * come il menu e le recensioni degli utenti.
- * </p>
- * <p>
+ * 
+ * 
  * I metodi offrono funzionalità di consultazione, gestione del menu,
  * calcolo della valutazione media e riepilogo delle recensioni.
- * </p>
  * 
- * <p>
+ * 
+ * 
  * Attributi principali:
  * <ul>
  *   <li>{@code name}: nome del ristorante</li>
@@ -36,7 +33,7 @@ import resources.Piatto;
  *   <li>{@code menu}: lista dei piatti disponibili</li>
  *   <li>{@code recensioni}: lista delle recensioni degli utenti</li>
  * </ul>
- * </p>
+ * 
  *
  * Costruttori:
  * <ul>

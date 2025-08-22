@@ -7,12 +7,10 @@ import java.util.StringTokenizer;
 
 import com.opencsv.CSVReader;
 
-import resources.GestioneFile;
-
 /**
  * La classe <strong>GestioneUtenti</strong> fornisce i metodi
  * per gestire gli utenti della piattaforma <em>TheKnife</em>.
- * <p>
+ * 
  * Le principali funzionalità includono:
  * <ul>
  *   <li>Registrazione di un nuovo utente</li>
@@ -22,7 +20,7 @@ import resources.GestioneFile;
  *   <li>Controllo dell’esistenza di codice fiscale o username già registrati</li>
  * </ul>
  * Gli utenti vengono memorizzati in un file CSV (<code>src/dati/utente.csv</code>).
- *</p>
+ *
  * @author Giuseppina Salvati
  * @author omema Gharsellaoui
  */

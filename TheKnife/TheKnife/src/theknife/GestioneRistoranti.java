@@ -9,16 +9,14 @@ import java.util.Scanner;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.BufferedWriter;
 import java.io.File;
-
-import resources.GestioneFile;
-import resources.Piatto;
 
 /**
  * La classe <strong>GestioneRistoranti</strong> gestisce tutte le operazioni relative ai ristoranti 
  * della piattaforma <em>TheKnife</em>.
- * <p>
+ * 
  * Le principali funzionalità sono:
  * <ul>
  *   <li>Registrazione e memorizzazione dei ristoranti</li>
@@ -27,11 +25,11 @@ import resources.Piatto;
  *   <li>Caricamento e visualizzazione dei dati dai file CSV</li>
  * </ul>
  * I dati vengono salvati in file CSV per garantire persistenza.
- * </p>
+ * 
  * 
  * @see Ristorante
  * @see Piatto
- * @see resources.GestioneFile
+ * @see theknife.GestioneFile
  * 
  * @author Giuseppina Salvati
  * @author omema gharsellaoui
