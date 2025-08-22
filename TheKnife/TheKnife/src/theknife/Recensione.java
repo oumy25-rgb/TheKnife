@@ -9,6 +9,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * La classe <strong>Recensione</strong> rappresenta una recensione scritta da un cliente
+ * su un ristorante all’interno della piattaforma <em>TheKnife</em>.
+ * <p>
+ * Ogni recensione contiene:
+ * <ul>
+ *   <li>Il nome del ristorante recensito</li>
+ *   <li>Il codice fiscale del cliente autore</li>
+ *   <li>Un testo opzionale</li>
+ *   <li>Un voto in stelle (1–5)</li>
+ *   <li>La data della recensione</li>
+ *   <li>Un’eventuale risposta del ristoratore</li>
+ * </ul>
+ * Le recensioni sono persistenti e vengono salvate/lette da file CSV.
+ *
+ * @author omema gharsellaoui
+   @author Giuseppina Salvati
+ */
+
 public class Recensione {
     private String nomeRistorante;
     private String codiceFiscale;
@@ -20,6 +39,16 @@ public class Recensione {
     private String risposta; // NUOVO CAMPO
 
     // Costruttore completo
+    /**
+     * Costruttore completo della classe <code>Recensione</code>.
+     *
+     * @param nomeRistorante nome del ristorante recensito
+     * @param codiceFiscale codice fiscale del cliente autore
+     * @param testoRecensione testo della recensione
+     * @param stelle voto in stelle
+     * @param data data della recensione
+     * @param risposta eventuale risposta del ristoratore
+     */
     public Recensione(String nomeRistorante, String codiceFiscale, String testoRecensione, 
                      double stelle, String data, String risposta) {
         this.nomeRistorante = nomeRistorante;
@@ -54,7 +83,11 @@ public class Recensione {
 
     public String getRisposta() { return risposta; } // NUOVO GETTER
     public void setRisposta(String risposta) { this.risposta = risposta; } // NUOVO SETTER
-    
+
+    /**
+     * Restituisce il cliente autore della recensione (codice fiscale).
+     * @return codice fiscale del cliente
+     */
     public String getCliente() {
     return getCodiceFiscale(); // già presente
 }
@@ -63,6 +96,13 @@ public class Recensione {
         return getNomeRistorante(); // già presente
     }
 
+    /**
+     * Converte la recensione in formato CSV.
+     * <p>
+     * Campi salvati: ristorante, codice fiscale, testo recensione, stelle, data, risposta.
+     *
+     * @return stringa CSV rappresentante la recensione
+     */
     public String toCSV() {
     return String.format(Locale.US, "%s,%s,%s,%.1f,%s,%s",
         nomeRistorante != null ? nomeRistorante : "",
@@ -74,7 +114,9 @@ public class Recensione {
     );
 }
 
-
+     /**
+     * Scrive la recensione corrente nel file CSV <code>recensioni.csv</code>.
+     */
 
     // Scrittura su file
     public void scriviSuFile() {
@@ -86,7 +128,11 @@ public class Recensione {
     }
 }
 
-
+     /**
+     * Legge tutte le recensioni dal file CSV <code>recensioni.csv</code>.
+     *
+     * @return lista di oggetti <code>Recensione</code>
+     */
 
     public static ArrayList<Recensione> leggiTutteLeRecensioni() {
     ArrayList<Recensione> recensioni = new ArrayList<>();
@@ -123,7 +169,12 @@ public class Recensione {
     }
     return recensioni;
 }
-
+     /**
+     * Cerca tutte le recensioni associate a un determinato ristorante.
+     *
+     * @param nomeRistorante nome del ristorante
+     * @return lista di recensioni per quel ristorante
+     */
 
     public static ArrayList<Recensione> cercaPerRistorante(String nomeRistorante) {
         ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
@@ -137,6 +188,13 @@ public class Recensione {
         return filtrate;
     }
 
+     /**
+     * Cerca tutte le recensioni scritte da un determinato cliente.
+     *
+     * @param codFiscale codice fiscale del cliente
+     * @return lista di recensioni del cliente
+     */
+
     public static ArrayList<Recensione> cercaPerCliente(String codFiscale) {
         ArrayList<Recensione> tutte = leggiTutteLeRecensioni();
         ArrayList<Recensione> filtrate = new ArrayList<>();
@@ -149,6 +207,12 @@ public class Recensione {
         return filtrate;
     }
 
+    /**
+     * Sovrascrive il file CSV con la lista di recensioni fornita.
+     *
+     * @param recensioni lista di recensioni da salvare
+     */
+
     public static void riscriviRecensioni(ArrayList<Recensione> recensioni) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/dati/recensioni.csv"))) {
             for (Recensione r : recensioni) {
@@ -159,6 +223,13 @@ public class Recensione {
             System.err.println("Errore nella riscrittura delle recensioni: " + e.getMessage());
         }
     }
+
+    /**
+     * Restituisce una rappresentazione leggibile della recensione
+     * per la visualizzazione lato cliente.
+     *
+     * @return stringa con dettagli della recensione e risposta (se presente)
+     */
 
     // Visualizzazione per cliente
       public String visualizzaPerCliente() {
@@ -172,6 +243,13 @@ public class Recensione {
         return base;
     }
 
+    /**
+     * Restituisce una rappresentazione leggibile della recensione
+     * per la visualizzazione lato ristoratore.
+     *
+     * @return stringa con dettagli della recensione e autore
+     */
+
     // Visualizzazione per ristoratore
     public String visualizzaPerRistoratore() {
         return "Cliente: " + codiceFiscale +
@@ -181,10 +259,16 @@ public class Recensione {
                (risposta != null && !risposta.isEmpty() ? "\nRisposta: \"" + risposta + "\"" : "");
     }
 
+    /**
+     * Override di <code>toString()</code> per restituire la visualizzazione lato cliente.
+     * @return stringa rappresentativa della recensione
+     */
+
     @Override
     public String toString() {
         return visualizzaPerCliente();
     }
 }
+
 
 
