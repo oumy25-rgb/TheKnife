@@ -446,7 +446,7 @@ private static ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,do
     try (CSVReader reader = new CSVReader(new FileReader("src/dati/ristoranti.csv"))) {
         String[] riga;
         while ((riga = reader.readNext()) != null) {
-            // Assicurati che il nome sia confrontato correttamente
+           
             if (riga.length > 0 && nome.equalsIgnoreCase(riga[0].trim())) {
                 return new Ristorante(
                     riga[0], riga[1], riga[2], riga[4], riga[3],
