@@ -94,29 +94,42 @@ public void modificaRecensione(Cliente cliente, Scanner scanner) {
 		} while (!controllo);
 		
 		Recensione r = mie.get(scegli - 1);
-    
+		String nuovoTesto;
+		
     for (Recensione rec : tutteRecensioni) {
         if (rec.getCliente().equalsIgnoreCase(cliente.getCodFiscale()) &&
             rec.getRistorante().equalsIgnoreCase(r.getNomeRistorante())) {
         	
-            System.out.print("Nuovo testo recensione (opzionale) : ");
-            String nuovoTesto = scanner.nextLine();
+        	do {
+        		controllo = true;
+	            System.out.print("Nuovo testo recensione (opzionale) : ");
+	            nuovoTesto = scanner.nextLine().trim();
+	            
+	            if(nuovoTesto.contains(",")) {
+        			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+        			controllo = false;
+        		}
+
+        	}while(!controllo);
+        	
             String s="";
             
             do {
             	controllo = true;
             
             	System.out.print("Nuovo voto (1-5): ");
-            	s = scanner.nextLine();
+            	s = scanner.nextLine().trim();
             	
             	if(GestioneUtenti.campoNonVuoto(s)) {
-            		if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
-                		controllo = false;
-                		System.out.println("Numero di stelle inserite non valido, riprova.");
-                	}
-            	}
-            	
-            }while(!GestioneUtenti.campoNonVuoto(s) || !controllo);
+            		
+	            		if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
+	                		controllo = false;
+	                		System.out.println("Numero di stelle inserite non valido, riprova.");
+	                	}
+            		
+            	}else
+            		controllo=false;
+            }while(!controllo);
             
             double nuoveStelle = Double.parseDouble(s);
             

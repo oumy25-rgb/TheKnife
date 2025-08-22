@@ -108,9 +108,11 @@ public class Cliente extends Utente {
                 	if(risp.equalsIgnoreCase("n")) {
                 	
 	                	do {
+
 	                		System.out.println("Inserire una città per continuare: ");
 	                		luogo = scanner.nextLine().trim();
-	                	}while(!GestioneUtenti.campoNonVuoto(luogo));
+	                		
+	                	}while(!GestioneUtenti.nominativoValido(luogo));
 	                	
 	                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(luogo);
 	                	
@@ -199,9 +201,11 @@ public class Cliente extends Utente {
                 	if(risp.equalsIgnoreCase("n")) {
                 	
 	                	do {
+
 	                		System.out.println("Inserire una città per continuare: ");
 	                		luogo = scanner.nextLine().trim();
-	                	}while(!GestioneUtenti.campoNonVuoto(luogo));
+	                		
+	                	}while(!GestioneUtenti.nominativoValido(luogo));
 	                	
 	                	listaRistorantiTrovati = gestioneRistoranti.cercaRistoranti(luogo);
 	                	
@@ -239,23 +243,34 @@ public class Cliente extends Utente {
                             break;
                         }
                         
-                        System.out.print("Testo recensione (opzionale) : "); 
-                        String testo = scanner.nextLine();
+                        String testo;
+                        do {
+                        	controllo = true;
+                        	System.out.print("Testo recensione (opzionale) : "); 
+                        	testo = scanner.nextLine().trim();
+                        	
+                        	if(testo.contains(",")) {
+	                			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+	                			controllo = false;
+	                		}
+
+                        }while(!controllo);
                         
                         String s ="";
-                        
                         
                         do {
                         	controllo = true;
                         
                         	System.out.print("Stelle (1-5): ");
-                        	s = scanner.nextLine();
+                        	s = scanner.nextLine().trim();
                         	
                         	if(GestioneUtenti.campoNonVuoto(s)) {
-	                        	if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
-	                        		controllo = false;
-	                        		System.out.println("Numero di stelle inserite non valido, riprova.");
-	                        	}
+                        		
+		                        	if(!s.equals("1") && !s.equals("2") && !s.equals("3") && !s.equals("4") && !s.equals("5")) {
+		                        		controllo = false;
+		                        		System.out.println("Numero di stelle inserite non valido, riprova.");
+		                        	}
+    	        
                         	}else
                         		controllo = false;
                         	
@@ -306,8 +321,9 @@ public class Cliente extends Utente {
                 	
 	                	do {
 	                		System.out.println("Inserire una città per continuare: ");
-	                		luogo = scanner.nextLine().trim();
-	                	}while(!GestioneUtenti.campoNonVuoto(luogo));
+	                		luogo = scanner.nextLine().trim();            	
+	                		
+	                	}while(!GestioneUtenti.nominativoValido(luogo));
 	                	
 	                	gestioneRistoranti.menuCercaRistoranti(luogo);
 	                	

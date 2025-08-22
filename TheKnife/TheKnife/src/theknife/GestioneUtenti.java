@@ -127,7 +127,7 @@ public class GestioneUtenti {
     }
 
     /**
-     * Verifica se un nominativo (nome/cognome) è valido:
+     * Verifica se un nominativo è valido:
      * non vuoto e composto solo da lettere o spazi.
      *
      * @param nominativo stringa da verificare

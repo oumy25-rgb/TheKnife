@@ -405,15 +405,29 @@ public class Ristoratore extends Utente {
 		       	
 		       	String nomePiatto = "";
 				do {
+					controllo = true;
 				    System.out.print("Nome del piatto: ");
 				    nomePiatto = scanner.nextLine().trim();
-				} while (!GestioneUtenti.campoNonVuoto(nomePiatto));
+				    
+				    if(nomePiatto.contains(",")) {
+            			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+            			controllo = false;
+            		}
+				    
+				} while (!GestioneUtenti.campoNonVuoto(nomePiatto) || !controllo);
 				
 				String descrizionePiatto = "";
 				do {
+					controllo = true;
 				    System.out.print("Descrizione del piatto: ");
 				    descrizionePiatto = scanner.nextLine().trim();
-				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto));
+				    
+				    if(descrizionePiatto.contains(",")) {
+            			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+            			controllo = false;
+            		}
+				    
+				} while (!GestioneUtenti.campoNonVuoto(descrizionePiatto) || !controllo);
 				
 				
 				double prezzoPiatto = 0.0;
@@ -421,7 +435,7 @@ public class Ristoratore extends Utente {
 				    try {
 				        controllo = true;
 				        System.out.print("Prezzo del piatto: ");
-				        prezzoPiatto = Double.parseDouble(scanner.nextLine().trim());
+				        prezzoPiatto = Double.parseDouble(scanner.nextLine().trim().replace(",", "."));
 				    } catch (NumberFormatException e) {
 				        System.out.println("Valore inserito non valido, riprova.");
 				        controllo = false;
@@ -708,33 +722,46 @@ public class Ristoratore extends Utente {
 	    	System.out.println("Inserisci il nome del ristorante:");
 	    	 nome = scanner.nextLine().trim();
 	    	if(GestioneUtenti.campoNonVuoto(nome)) {
-		    	if(gestioneRistoranti.verificaEsistenzaRistorante(nome)) {
-		    		controllo=false;
-		    		System.out.println("il ristorante '"+nome+"' esiste già, riprova.");
-		    	}
+	    		if(nome.contains(",")) {
+        			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+        			controllo = false;
+        		}else {
+			    	if(gestioneRistoranti.verificaEsistenzaRistorante(nome)) {
+			    		controllo=false;
+			    		System.out.println("il ristorante '"+nome+"' esiste già, riprova.");
+			    	}
+        		}
 	    	}else
 	    		controllo=false;
 	    }while(!controllo);
 	    
 	    String address="";
+	    
 	    do {
+	    	controllo = true;
 	    	System.out.print("Inserisci l'indirizzo del ristorante:");
 	    	address = scanner.nextLine().trim();
-	    }while(!GestioneUtenti.campoNonVuoto(address));
+	    	
+	    	if(address.contains(",")) {
+    			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+    			controllo = false;
+    		}
+	
+	    }while(!GestioneUtenti.campoNonVuoto(address) || !controllo);
 	    
 	    String city="";
 	    
 	    do {
 		    System.out.print("Inserisci città del ristorante:");
 		    city = scanner.nextLine().trim();
-	    }while(!GestioneUtenti.campoNonVuoto(address));
+	    }while(!GestioneUtenti.nominativoValido(city));
 	    
 	    String nation="";
 	    
 	    do {
 	    	System.out.print("Inserisci nazione del ristorante:");
 	    	nation = scanner.nextLine().trim();
-	    }while(!GestioneUtenti.campoNonVuoto(nation));
+	    }while(!GestioneUtenti.nominativoValido(nation));
 	    
 	    String price="";
 	    do {
@@ -759,7 +786,7 @@ public class Ristoratore extends Utente {
 	    do {
 	    	System.out.print("Inserisci il tipo di cucina del ristorante: ");
 	    	cuisine = scanner.nextLine().trim();
-	    }while(!GestioneUtenti.campoNonVuoto(cuisine));
+	    }while(!GestioneUtenti.nominativoValido(cuisine));
 	    
 	    String delivery;
 
@@ -879,20 +906,24 @@ public class Ristoratore extends Utente {
             		
             	}while(!controllo);
             	
+            	
             	if(s.equalsIgnoreCase("s")) {
+            		String risposta;
+            		do {
+            			System.out.println("\nRispondi al commento di " + nomeCliente + ":");
+            			risposta = scanner.nextLine().trim();
+            		}while(!GestioneUtenti.campoNonVuoto(risposta));
             		
-            		System.out.println("\nRispondi al commento di " + nomeCliente + ":");
-    	            String risposta = scanner.nextLine();
-    	
     	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
     	            System.out.println("Risposta inviata correttamente.");
             		
             	}
             }else {
-            
-	            System.out.println("\nRispondi al commento di " + nomeCliente + ":");
-	            String risposta = scanner.nextLine();
-	
+            	String risposta;
+            	do {
+            		System.out.println("\nRispondi al commento di " + nomeCliente + ":");
+            		risposta = scanner.nextLine();
+            	}while(!GestioneUtenti.campoNonVuoto(risposta));
 	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
 	            System.out.println("Risposta inviata correttamente.");
             }

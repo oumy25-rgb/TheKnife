@@ -365,7 +365,7 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
      * @param nomeRistorante nome del ristorante
      */  
  public void creaEMenuRistorante(String nomeRistorante) {
-   
+	 boolean controllo;
     String risposta;
     File file = new File("src/dati", nomeRistorante+"Menu.csv");
     
@@ -379,21 +379,38 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
     do {
         String nome;
         do {
+        	controllo = true;
             System.out.print("Nome del piatto: ");
             nome = scanner.nextLine().trim();
+            
             if (nome.isEmpty()) {
                 System.out.println("Il nome del piatto non può essere vuoto.");
+                controllo = false;
+            }else {
+            	
+            	if(nome.contains(",")) {
+        			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+        			controllo = false;
+        		}
             }
-        } while (nome.isEmpty());
+            
+        } while (!controllo);
 
         String descrizione;
         do {
+        	controllo = true;
             System.out.print("Descrizione del piatto: ");
             descrizione = scanner.nextLine().trim();
             if (descrizione.isEmpty()) {
                 System.out.println("La descrizione non può essere vuota.");
+                controllo = false;
+            }else {
+            	if(descrizione.contains(",")) {
+        			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+        			controllo = false;
+        		}
             }
-        } while (descrizione.isEmpty());
+        } while (!controllo);
 
         double prezzo = -1;
         do {
@@ -588,7 +605,9 @@ public ArrayList<Ristorante> cercaRistoranti(String citta,String tipo,double fas
 					System.out.println("c) Visualizza menù del ristorante");
 					System.out.println("d) Esci");
 					System.out.println("Scelta:");
-					miniMenu = scanner.nextLine().toLowerCase();
+					
+					
+					miniMenu = scanner.nextLine().toLowerCase().trim();
 					
 	    			switch(miniMenu) {
 	        			case "a":
@@ -772,9 +791,11 @@ public void menuCercaRistoranti(String citta) {
 	
 	case 1:
 		do {
+			
 			System.out.println("Inserisci il tipo di cucina: ");
-			tipo = scanner.nextLine();
-		}while(!GestioneUtenti.campoNonVuoto(tipo));
+			tipo = scanner.nextLine().trim();
+			
+		}while(!GestioneUtenti.nominativoValido(tipo));
 		
 		listaRistorantiTrovati = cercaRistoranti(tipo,citta);
 		
@@ -798,7 +819,7 @@ public void menuCercaRistoranti(String citta) {
             System.out.println("Inserisci fascia di prezzo minima:");
 
             try {
-                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 controllo = true;
             } catch (NumberFormatException e) {
                 System.out.println("Hai inserito un valore non valido, riprova.");
@@ -810,7 +831,7 @@ public void menuCercaRistoranti(String citta) {
             controllo = false;
             System.out.println("Inserisci fascia di prezzo massima:");
             try {
-                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 controllo = true;
             } catch (NumberFormatException e) {
                 System.out.println("Hai inserito un valore non valido, riprova.");
@@ -830,7 +851,7 @@ public void menuCercaRistoranti(String citta) {
  		do {
         	controllo=false;
             System.out.println("Richiedi servizio di delivery? (true/false):");
-                delivery = scanner.nextLine();
+                delivery = scanner.nextLine().trim();
                 if(GestioneUtenti.campoNonVuoto(delivery)) {
 	                if(delivery.equalsIgnoreCase("true") || delivery.equalsIgnoreCase("false"))
 	                	controllo = true;
@@ -851,7 +872,7 @@ public void menuCercaRistoranti(String citta) {
  		do {
         	controllo=false;
             System.out.println("Richiedi servizio di prenotazione online? (true/false):");
-                prenotazione = scanner.nextLine();
+                prenotazione = scanner.nextLine().trim();
                 
                 if(GestioneUtenti.campoNonVuoto(prenotazione)) {
 	                if(prenotazione.equalsIgnoreCase("true") || prenotazione.equalsIgnoreCase("false"))
@@ -876,7 +897,7 @@ public void menuCercaRistoranti(String citta) {
         	controllo = false;
             System.out.println("Inserisci media delle stelle:");
             try {
-                mediaStelle = Double.parseDouble(scanner.nextLine());
+                mediaStelle = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 if (mediaStelle >= 1 && mediaStelle <= 5) {
                     controllo = true;
                 } else {
@@ -901,16 +922,18 @@ public void menuCercaRistoranti(String citta) {
 		 fasciaPrezzoMax=0;
  		
 		 do {
+
 			 System.out.println("Inserisci il tipo di cucina: ");
-			 tipo = scanner.nextLine();
-		 }while(!GestioneUtenti.campoNonVuoto(tipo));
+			 tipo = scanner.nextLine().trim();
+			 
+		 }while(!GestioneUtenti.nominativoValido(tipo));
 		 
   		do {
         	controllo=false;
             System.out.println("Inserisci fascia di prezzo minima:");
 
             try {
-                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine());
+                fasciaPrezzoMin = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 controllo = true;
             } catch (NumberFormatException e) {
                 System.out.println("Hai inserito un valore non valido, riprova.");
@@ -922,7 +945,7 @@ public void menuCercaRistoranti(String citta) {
             controllo = false;
             System.out.println("Inserisci fascia di prezzo massima:");
             try {
-                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine());
+                fasciaPrezzoMax = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 controllo = true;
             } catch (NumberFormatException e) {
                 System.out.println("Hai inserito un valore non valido, riprova.");
@@ -933,7 +956,7 @@ public void menuCercaRistoranti(String citta) {
         do {
         	controllo=false;
             System.out.println("Richiedi servizio di delivery? (true/false):");
-                del = scanner.nextLine();
+                del = scanner.nextLine().trim();
                 if(GestioneUtenti.campoNonVuoto(del)) {
                 	if(del.equalsIgnoreCase("true") || del.equalsIgnoreCase("false"))
                 		controllo = true;
@@ -947,7 +970,7 @@ public void menuCercaRistoranti(String citta) {
         do {
         	controllo=false;
             System.out.println("Richiedi servizio di prenotazione online? (true/false):");
-                pren = scanner.nextLine();
+                pren = scanner.nextLine().trim();
                 
                 if(GestioneUtenti.campoNonVuoto(pren)) {
 	                if(pren.equalsIgnoreCase("true") || pren.equalsIgnoreCase("false"))
@@ -961,7 +984,7 @@ public void menuCercaRistoranti(String citta) {
         	controllo = false;
             System.out.println("Inserisci media delle stelle:");
             try {
-                mediaStelle = Double.parseDouble(scanner.nextLine());
+                mediaStelle = Double.parseDouble(scanner.nextLine().replace(",", "."));
                 if (mediaStelle >= 1 && mediaStelle <= 5) {
                     controllo = true;
                 } else {

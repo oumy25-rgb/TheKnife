@@ -167,18 +167,30 @@ public class TheKnife {
                         
                         String username = "";
                         do {
+                        	controllo = true;
                         	System.out.println("Inserisci un username:");
                         	username = scanner.nextLine().trim();
-                        }while(!GestioneUtenti.campoNonVuoto(username) || GestioneUtenti.userEsiste(username));
+                        	
+                        	if(username.contains(",")) {
+	                			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+	                			controllo = false;
+	                		}
+
+                        }while(!GestioneUtenti.campoNonVuoto(username) || GestioneUtenti.userEsiste(username) || !controllo);
                         
                         
                         String password="";
                         
                         do {
+                        	controllo = true;
                         	System.out.println("Inserisci una password:");
-                        	 password = scanner.nextLine();
-                        	password = GestioneUtenti.cifraPassword(password);
-                        }while(!GestioneUtenti.campoNonVuoto(password));	
+                        	 password = scanner.nextLine().trim();
+                        	 if(password.contains(",")) {
+ 	                			System.out.println("ATTENZIONE: Hai inserito il carattere \",\"  che non è consentito, riprova.");
+ 	                			controllo = false;
+ 	                		}else 
+ 	                			password = GestioneUtenti.cifraPassword(password);
+                        }while(!GestioneUtenti.campoNonVuoto(password) || !controllo);	
                         
                         String dataNascita="";
                         
@@ -202,7 +214,7 @@ public class TheKnife {
                         do {
                         	System.out.println("Inserisci il tuo luogo di domicilio:");
                         	luogoDomicilio = scanner.nextLine().trim();
-                        }while(!GestioneUtenti.campoNonVuoto(luogoDomicilio));
+                        }while(!GestioneUtenti.nominativoValido(luogoDomicilio));
                         
                         String ruolo ="";
                         
@@ -264,7 +276,7 @@ public class TheKnife {
                     	
                     	do {
                     		System.out.print("Password: ");
-                    		pass = scanner.nextLine();
+                    		pass = scanner.nextLine().trim();
                     	}while(!GestioneUtenti.campoNonVuoto(pass));
                     	
                         pass = GestioneUtenti.cifraPassword(pass);
@@ -311,7 +323,7 @@ public class TheKnife {
                     	do {
                     		System.out.println("Inserire una città per continuare: ");
                     		luogo = scanner.nextLine().trim();
-                    	}while(!GestioneUtenti.campoNonVuoto(luogo));
+                    	}while(!GestioneUtenti.nominativoValido(luogo));
                     	
                     	gestioneRistoranti.menuCercaRistoranti(luogo);
                     	
