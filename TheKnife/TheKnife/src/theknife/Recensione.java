@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import static theknife.GestioneFile.leggiTutteLeRecensioni;
 
 /**
  * La classe <strong>Recensione</strong> rappresenta una recensione scritta da un cliente
@@ -31,8 +32,6 @@ import java.util.Locale;
 public class Recensione {
     private String nomeRistorante;
     private String codiceFiscale;
-    private String indirizzo;
-    private String citta;
     private double stelle;
     private String testoRecensione;
     private String data;
@@ -65,12 +64,6 @@ public class Recensione {
 
     public String getCodiceFiscale() { return codiceFiscale; }
     public void setCodiceFiscale(String codiceFiscale) { this.codiceFiscale = codiceFiscale; }
-
-    public String getIndirizzo() { return indirizzo; }
-    public void setIndirizzo(String indirizzo) { this.indirizzo = indirizzo; }
-
-    public String getCitta() { return citta; }
-    public void setCitta(String citta) { this.citta = citta; }
 
     public double getStelle() { return stelle; }
     public void setStelle(double stelle) { this.stelle = stelle; }
@@ -115,48 +108,6 @@ public class Recensione {
     );
 }
 
-
-     /**
-     * Legge tutte le recensioni dal file CSV <code>recensioni.csv</code>.
-     *
-     * @return lista di oggetti <code>Recensione</code>
-     */
-
-    private static ArrayList<Recensione> leggiTutteLeRecensioni() {
-    ArrayList<Recensione> recensioni = new ArrayList<>();
-
-    try (BufferedReader reader = new BufferedReader(new FileReader("src/dati/recensioni.csv"))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            if (line.isEmpty()) continue;
-
-            String[] tokens = line.split(",", -1);  // -1 mantiene i valori vuoti
-            if (tokens.length >= 6) {
-                String nomeRistorante = tokens[0]; 
-                String codiceFiscale = tokens[1];
-                String testoRecensione = tokens[2];
-                
-                // Gestione valore stelle con eventuale 0 dopo
-                String stelleStr = tokens[3];
-                if (tokens.length > 5 && tokens[4].equals("0")) {
-                    stelleStr = tokens[3] + "." + tokens[4]; // Trasforma "4,0" in "4.0"
-                }
-                double stelle = Double.parseDouble(stelleStr.replace(',', '.')); 
-                
-                // Data sarà tokens[5] se c'è lo 0, altrimenti tokens[4]
-                String data = (tokens.length > 5 && tokens[4].equals("0")) ? tokens[5] : tokens[4];
-                
-                String risposta = tokens.length > 5 ? tokens[5] : "";
-
-                recensioni.add(new Recensione(nomeRistorante, codiceFiscale, testoRecensione, stelle, data, risposta));
-            }
-        }
-    } catch (Exception e) {
-        System.err.println("Errore lettura recensioni: " + e.getMessage());
-    }
-    return recensioni;
-}
      /**
      * Cerca tutte le recensioni associate a un determinato ristorante.
      *
@@ -241,6 +192,7 @@ public class Recensione {
         return visualizzaPerCliente();
     }
 }
+
 
 
 
