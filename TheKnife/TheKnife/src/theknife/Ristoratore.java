@@ -912,7 +912,7 @@ public class Ristoratore extends Utente {
             			risposta = scanner.nextLine().trim();
             		}while(!GestioneUtenti.campoNonVuoto(risposta));
             		
-    	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
+    	            gestioneRecensioni.scriviRispostaAllaRecensione(ristorante, selezionata.getCliente(), risposta);
     	            System.out.println("Risposta inviata correttamente.");
             		
             	}
@@ -922,9 +922,10 @@ public class Ristoratore extends Utente {
             		System.out.println("\nRispondi al commento di " + nomeCliente + ":");
             		risposta = scanner.nextLine();
             	}while(!GestioneUtenti.campoNonVuoto(risposta));
-	            gestioneRecensioni.rispondiARisposta(ristorante, selezionata.getCliente(), risposta);
+	            gestioneRecensioni.scriviRispostaAllaRecensione(ristorante, selezionata.getCliente(), risposta);
 	            System.out.println("Risposta inviata correttamente.");
             }
     }
 }
+
 
