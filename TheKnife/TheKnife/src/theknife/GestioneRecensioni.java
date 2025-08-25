@@ -213,7 +213,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
      * @param cliente codice fiscale del cliente che ha scritto la recensione
      * @param risposta testo della risposta
      */
- public void rispondiARisposta(String nomeRistorante, String cliente, String risposta) {
+ public void scriviRispostaAllaRecensione(String nomeRistorante, String cliente, String risposta) {
     ArrayList<Recensione> tutte = theknife.GestioneFile.leggiTutteLeRecensioni(); // leggi TUTTE
     boolean found = false;
     for (Recensione rec : tutte) {
@@ -269,6 +269,7 @@ public void eliminaRecensione(Cliente cliente, Scanner scanner) {
 
 
 }
+
 
 
 
